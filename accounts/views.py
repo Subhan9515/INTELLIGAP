@@ -2376,8 +2376,6 @@ def quiz_instructions(request, subject):
         "accounts/quiz_instructions.html",
         {
             "subject": subject,
-            "total_questions": 15,
-            "time_limit": 5,
         }
     )
 def process_quiz(request, subject, template_name, loader_function):

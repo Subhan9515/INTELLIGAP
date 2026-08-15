@@ -42,18 +42,9 @@
     </div>
 
     <br>
-
-    {% if subject == "Python" %}
-    <a href="{% url 'python_quiz' %}">
-{% elif subject == "Machine Learning" %}
-    <a href="{% url 'ml_quiz' %}">
-{% elif subject == "DBMS" %}
-    <a href="{% url 'dbms_quiz' %}">
-{% elif subject == "Java" %}
-    <a href="{% url 'java_quiz' %}">
-{% endif %}
-
+{% if subject == "Python" %}
 <button type="button"
+        onclick="window.location.href='{% url 'python_quiz' %}'"
         style="background:#2196F3;
                color:white;
                padding:14px 35px;
@@ -63,6 +54,62 @@
                cursor:pointer;">
     Start Quiz
 </button>
+
+{% elif subject == "Machine Learning" %}
+<button type="button"
+        onclick="window.location.href='{% url 'ml_quiz' %}'"
+        style="background:#2196F3;
+               color:white;
+               padding:14px 35px;
+               border:none;
+               border-radius:8px;
+               font-size:18px;
+               cursor:pointer;">
+    Start Quiz
+</button>
+
+{% elif subject == "DBMS" %}
+<button type="button"
+        onclick="window.location.href='{% url 'dbms_quiz' %}'"
+        style="background:#2196F3;
+               color:white;
+               padding:14px 35px;
+               border:none;
+               border-radius:8px;
+               font-size:18px;
+               cursor:pointer;">
+    Start Quiz
+</button>
+
+{% elif subject == "Java" %}
+<button type="button"
+        onclick="window.location.href='{% url 'java_quiz' %}'"
+        style="background:#2196F3;
+               color:white;
+               padding:14px 35px;
+               border:none;
+               border-radius:8px;
+               font-size:18px;
+               cursor:pointer;">
+    Start Quiz
+</button>
+{% endif %}
+<br><br>
+
+<a href="{% url 'python_quiz' %}">
+    <button type="button"
+        style="
+        background:#2196F3;
+        color:white;
+        padding:14px 35px;
+        border:none;
+        border-radius:8px;
+        font-size:18px;
+        cursor:pointer;
+        ">
+        Start Quiz
+    </button>
+</a>
 
 </a>
 </div>
