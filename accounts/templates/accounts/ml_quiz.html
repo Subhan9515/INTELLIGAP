@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machine Learning Quiz</title>
+</head>
+
+<body style="font-family:Arial;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);">
+
+<center>
+
+<div style="background:white;width:700px;padding:30px;margin-top:40px;border-radius:15px;">
+
+<h1 style="color:#2563eb;">Machine Learning Quiz</h1>
+
+<div style="background:#ffeb3b;
+padding:10px;
+font-size:22px;
+font-weight:bold;
+border-radius:8px;
+margin-bottom:20px;">
+
+⏰ Time Left:
+<span id="timer">5:00</span>
+
+</div>
+
+<form method="POST">
+
+{% csrf_token %}
+
+{% for q in questions %}
+
+<h3>{{ forloop.counter }}. {{ q.question }}</h3>
+
+{% if q.question_type == "MCQ" %}
+
+<label>
+<input type="radio" name="{{ q.id }}" value="{{ q.option1 }}">
+{{ q.option1 }}
+</label><br>
+
+<label>
+<input type="radio" name="{{ q.id }}" value="{{ q.option2 }}">
+{{ q.option2 }}
+</label><br>
+
+<label>
+<input type="radio" name="{{ q.id }}" value="{{ q.option3 }}">
+{{ q.option3 }}
+</label><br>
+
+<label>
+<input type="radio" name="{{ q.id }}" value="{{ q.option4 }}">
+{{ q.option4 }}
+</label><br><br>
+
+{% elif q.question_type == "FILL" %}
+
+<input type="text" name="{{ q.id }}" placeholder="Fill in the blank"><br><br>
+
+{% else %}
+
+<textarea name="{{ q.id }}" placeholder="Write your answer"></textarea><br><br>
+
+{% endif %}
+
+{% endfor %}
+
+<input type="submit"
+value="Submit Quiz"
+style="background:#2196F3;color:white;padding:12px 30px;border:none;border-radius:8px;font-size:18px;cursor:pointer;">
+
+</form>
+
+</div>
+
+</center>
+
+<script>
+
+let time = 5 * 60;
+
+let timer = document.getElementById("timer");
+
+let countdown = setInterval(function(){
+
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    if(seconds < 10){
+        seconds = "0" + seconds;
+    }
+
+    timer.innerHTML = minutes + ":" + seconds;
+
+    time--;
+
+    if(time < 0){
+
+        clearInterval(countdown);
+
+        alert("Time is over!");
+
+        document.forms[0].submit();
+
+    }
+
+},1000);
+
+</script>
+
+</body>
+</html>

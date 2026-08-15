@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Instructions</title>
+</head>
+
+<body style="font-family:Arial;
+             background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);
+             margin:0;
+             min-height:100vh;">
+
+<center>
+
+<div style="background:white;
+            width:600px;
+            padding:40px;
+            margin-top:80px;
+            border-radius:15px;">
+
+    <h1 style="color:#2563eb;">{{ subject }} Quiz</h1>
+
+    <h2>Quiz Instructions</h2>
+
+    <div style="text-align:left;
+                font-size:18px;
+                line-height:2;">
+
+        <p>📚 <b>Number of Questions: </b> {{ total_questions }}</p>
+
+        <p>⏰ <b> Time Limit:</b> {{ time_limit }}  Minutes</p>
+
+        <p>📝 <b>Marks:</b> 1 mark for each correct answer</p>
+
+        <p>✅ <b>Answer all questions</b></p>
+
+        <p>⚠️ <b>Do not refresh the page during the quiz</b></p>
+
+        <p>🔄 <b>Questions may change when you start a new quiz</b></p>
+
+        <p>⏱️ <b>Quiz will be submitted automatically when time ends</b></p>
+
+    </div>
+
+    <br>
+
+    {% if subject == "Python" %}
+    <a href="{% url 'python_quiz' %}">
+{% elif subject == "Machine Learning" %}
+    <a href="{% url 'ml_quiz' %}">
+{% elif subject == "DBMS" %}
+    <a href="{% url 'dbms_quiz' %}">
+{% elif subject == "Java" %}
+    <a href="{% url 'java_quiz' %}">
+{% endif %}
+
+<button type="button"
+        style="background:#2196F3;
+               color:white;
+               padding:14px 35px;
+               border:none;
+               border-radius:8px;
+               font-size:18px;
+               cursor:pointer;">
+    Start Quiz
+</button>
+
+</a>
+</div>
+
+</center>
+
+</body>
+</html>

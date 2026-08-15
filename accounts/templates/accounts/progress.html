@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress Analysis - IntelliGap</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e8f4ff, #f8e8ff);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #1769aa;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .wave-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .wave-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wave {
+            fill: none;
+            stroke: #1769aa;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .animated-wave {
+            fill: none;
+            stroke: #55a6e8;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 10 10;
+            animation: moveWave 1.5s linear infinite;
+        }
+
+        @keyframes moveWave {
+            from {
+                stroke-dashoffset: 0;
+            }
+
+            to {
+                stroke-dashoffset: -40;
+            }
+        }
+
+        .point {
+            fill: white;
+            stroke: #1769aa;
+            stroke-width: 3;
+        }
+
+        .score-label {
+            font-size: 14px;
+            font-weight: bold;
+            fill: #222;
+        }
+
+        .quiz-label {
+            font-size: 13px;
+            fill: #555;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 180px;
+            padding: 20px;
+            background: #f5f9ff;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1769aa;
+        }
+
+        .stat-name {
+            margin-top: 8px;
+            color: #555;
+        }
+
+        .message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .back {
+            display: block;
+            width: fit-content;
+            margin: 25px auto;
+            padding: 12px 25px;
+            background: #1769aa;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    IntelliGap
+</div>
+
+<div class="container">
+
+    <h1 class="title">Learning Progress Analysis</h1>
+
+    <p class="subtitle">
+        Your quiz performance over time
+    </p>
+
+    {% if progress_data %}
+
+    <div class="wave-card">
+
+        <div class="wave-container">
+
+            <svg
+                viewBox="0 0 1000 400"
+                preserveAspectRatio="none"
+            >
+
+                <!-- Horizontal reference lines -->
+
+                <line
+                    x1="60"
+                    y1="50"
+                    x2="950"
+                    y2="50"
+                    stroke="#ddd"
+                />
+
+                <line
+                    x1="60"
+                    y1="125"
+                    x2="950"
+                    y2="125"
+                    stroke="#ddd"
+                />
+
+                <line
+                    x1="60"
+                    y1="200"
+                    x2="950"
+                    y2="200"
+                    stroke="#ddd"
+                />
+
+                <line
+                    x1="60"
+                    y1="275"
+                    x2="950"
+                    y2="275"
+                    stroke="#ddd"
+                />
+
+                <line
+                    x1="60"
+                    y1="350"
+                    x2="950"
+                    y2="350"
+                    stroke="#ddd"
+                />
+
+                <!-- Percentage labels -->
+
+                <text x="10" y="55">100%</text>
+                <text x="20" y="130">75%</text>
+                <text x="20" y="205">50%</text>
+                <text x="20" y="280">25%</text>
+                <text x="30" y="355">0%</text>
+
+                <!-- Waveform -->
+
+                <polyline
+                    id="waveLine"
+                    class="wave"
+                    points=""
+                />
+
+                <!-- Animated overlay -->
+
+                <polyline
+                    id="animatedWave"
+                    class="animated-wave"
+                    points=""
+                />
+
+                <!-- Points -->
+
+                <g id="points"></g>
+
+            </svg>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    id="quizCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-name">
+                    Total Quizzes
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    id="averageScore"
+                >
+                    0%
+                </div>
+
+                <div class="stat-name">
+                    Average Score
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    id="latestScore"
+                >
+                    0%
+                </div>
+
+                <div class="stat-name">
+                    Latest Score
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div
+                    class="stat-number"
+                    id="trend"
+                >
+                    —
+                </div>
+
+                <div class="stat-name">
+                    Performance Trend
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="wave-card">
+
+        <div class="message">
+            No quiz results available yet.<br>
+            Complete your first quiz to see your progress.
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <a
+        href="/dashboard/"
+        class="back"
+    >
+        Back to Dashboard
+    </a>
+
+</div>
+
+
+{% if progress_data %}
+
+<script>
+
+const progressData = [
+    {% for item in progress_data %}
+    {
+        quiz: {{ item.quiz }},
+        score: {{ item.score }}
+    },
+    {% endfor %}
+];
+
+const waveLine = document.getElementById("waveLine");
+const animatedWave = document.getElementById("animatedWave");
+const pointsGroup = document.getElementById("points");
+
+const width = 1000;
+const height = 400;
+
+const left = 60;
+const right = 950;
+
+const top = 50;
+const bottom = 350;
+
+let points = [];
+
+if (progressData.length === 1) {
+
+    const x = (left + right) / 2;
+
+    const y =
+        bottom -
+        (progressData[0].score / 100) *
+        (bottom - top);
+
+    points.push(`${x},${y}`);
+
+} else {
+
+    progressData.forEach((item, index) => {
+
+        const x =
+            left +
+            index *
+            ((right - left) /
+            (progressData.length - 1));
+
+        const y =
+            bottom -
+            (item.score / 100) *
+            (bottom - top);
+
+        points.push(`${x},${y}`);
+
+    });
+
+}
+
+const pointString = points.join(" ");
+
+waveLine.setAttribute(
+    "points",
+    pointString
+);
+
+animatedWave.setAttribute(
+    "points",
+    pointString
+);
+
+
+// Create points and labels
+
+progressData.forEach((item, index) => {
+
+    const x =
+        progressData.length === 1
+        ? (left + right) / 2
+        : left +
+          index *
+          ((right - left) /
+          (progressData.length - 1));
+
+    const y =
+        bottom -
+        (item.score / 100) *
+        (bottom - top);
+
+    const circle =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+        );
+
+    circle.setAttribute("cx", x);
+    circle.setAttribute("cy", y);
+    circle.setAttribute("r", 7);
+    circle.setAttribute("class", "point");
+
+    pointsGroup.appendChild(circle);
+
+
+    const scoreText =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+
+    scoreText.setAttribute("x", x);
+    scoreText.setAttribute("y", y - 15);
+    scoreText.setAttribute("text-anchor", "middle");
+    scoreText.setAttribute("class", "score-label");
+
+    scoreText.textContent =
+        item.score + "%";
+
+    pointsGroup.appendChild(scoreText);
+
+
+    const quizText =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+
+    quizText.setAttribute("x", x);
+    quizText.setAttribute("y", 380);
+    quizText.setAttribute("text-anchor", "middle");
+    quizText.setAttribute("class", "quiz-label");
+
+    quizText.textContent =
+        "Quiz " + item.quiz;
+
+    pointsGroup.appendChild(quizText);
+
+});
+
+
+// Statistics
+
+const total =
+    progressData.length;
+
+const totalScore =
+    progressData.reduce(
+        (sum, item) =>
+        sum + item.score,
+        0
+    );
+
+const average =
+    Math.round(
+        totalScore / total
+    );
+
+const latest =
+    progressData[
+        progressData.length - 1
+    ].score;
+
+
+document.getElementById(
+    "quizCount"
+).textContent = total;
+
+
+document.getElementById(
+    "averageScore"
+).textContent =
+    average + "%";
+
+
+document.getElementById(
+    "latestScore"
+).textContent =
+    latest + "%";
+
+
+// Performance trend
+
+if (progressData.length >= 2) {
+
+    const first =
+        progressData[0].score;
+
+    if (latest > first) {
+
+        document.getElementById(
+            "trend"
+        ).textContent = "↑ Improving";
+
+    } else if (latest < first) {
+
+        document.getElementById(
+            "trend"
+        ).textContent = "↓ Decreasing";
+
+    } else {
+
+        document.getElementById(
+            "trend"
+        ).textContent = "→ Stable";
+
+    }
+
+} else {
+
+    document.getElementById(
+        "trend"
+    ).textContent = "—";
+
+}
+
+</script>
+
+{% endif %}
+
+</body>
+</html>
