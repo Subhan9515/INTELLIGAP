@@ -2371,11 +2371,23 @@ def subjects(request):
         "accounts/subjects.html"
     )
 def quiz_instructions(request, subject):
+
+    if subject.lower() == "python":
+        questions = load_python_questions() or []
+    elif subject.lower() == "machine learning":
+        questions = load_ml_questions() or []
+    elif subject.lower() == "dbms":
+        questions = load_dbms_questions() or []
+    else:
+        questions = []
+
     return render(
         request,
         "accounts/quiz_instructions.html",
         {
             "subject": subject,
+            "number_of_questions":15,
+            "time_limit": 5,
         }
     )
 def process_quiz(request, subject, template_name, loader_function):
