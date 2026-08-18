@@ -2218,54 +2218,327 @@ def load_python_questions():
 ]
     for q in questions:
         Question.objects.get_or_create(question=q["question"],defaults=q)
+def validate_password(password):
+    if len(password) != 7:
+        return "Password must contain exactly 7 characters."
+
+    if not re.search(r"[A-Z]", password):
+        return "Password must contain at least one uppercase letter."
+
+    numbers = re.findall(r"[0-9]", password)
+
+    if len(numbers) < 1:
+        return "Password must contain at least one number."
+
+    if len(numbers) > 2:
+        return "Password can contain maximum two numbers."
+
+    special_characters = re.findall(r"[^a-zA-Z0-9]", password)
+
+    if len(special_characters) != 1:
+        return "Password must contain exactly one special character."
+
+    return None        
 def register(request):
     if request.method == "POST":
-        full_name = request.POST.get("full_name")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
 
+        name = request.POST.get("name", "").strip()
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+        phone = request.POST.get("phone", "").strip()
+
+        # Password confirmation
         if password != confirm_password:
             return render(request, "accounts/register.html", {
                 "error": "Passwords do not match"
             })
 
+        # Email already exists
         if Student.objects.filter(email=email).exists():
             return render(request, "accounts/register.html", {
                 "error": "Email already exists"
             })
 
-        student=Student.objects.create(
-            full_name=full_name,
+        # Phone already exists
+        if phone and Student.objects.filter(phone=phone).exists():
+            return render(request, "accounts/register.html", {
+                "error": "Mobile number already exists"
+            })
+
+        # Create student
+        student = Student.objects.create(
+            name=name,
             email=email,
-            password=password
+            phone=phone,
+            password=make_password(password)
         )
-        request.session["student_id"]=student.id
+
+        # Save student information in session
+        request.session["student_id"] = student.id
+        request.session["student_name"] = student.name
+        request.session["student_email"] = student.email
 
         return redirect("/dashboard/")
 
     return render(request, "accounts/register.html")
-def login(request):
+import random
+import re
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+from django.contrib.auth.hashers import make_password, check_password
+
+from .models import Student
+
+
+# --------------------------------------------------
+# LOGIN PAGE
+# --------------------------------------------------
+
+def login_view(request):
+
     if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
 
-        student = Student.objects.filter(
-            email=email,
-            password=password
-        ).first()
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
 
-        if student:
-            request.session["student_id"] = student.id   # <-- Add this line
-            return redirect("/dashboard/")
+        # -------------------------------
+        # EMAIL VALIDATION
+        # -------------------------------
+
+        email_pattern = r"^[a-z0-9#]+@intell\.com$"
+
+        if not re.fullmatch(email_pattern, email):
+            return render(
+                request,
+                "accounts/login.html",
+                {
+                    "error":
+                    "Invalid email. Use lowercase letters, numbers or # and @intell.com"
+                }
+            )
+
+        # -------------------------------
+        # PASSWORD VALIDATION
+        # -------------------------------
+
+        password_error = validate_password(password)
+
+        if password_error:
+            return render(
+                request,
+                "accounts/login.html",
+                {
+                    "error": password_error,
+                    "email": email
+                }
+            )
+
+        # -------------------------------
+        # FIND STUDENT
+        # -------------------------------
+
+        try:
+            student = Student.objects.get(email=email)
+
+        except Student.DoesNotExist:
+
+            return render(
+                request,
+                "accounts/login.html",
+                {
+                    "error": "Email or password is incorrect."
+                }
+            )
+
+        # -------------------------------
+        # CHECK PASSWORD
+        # -------------------------------
+
+        if not check_password(password, student.password):
+
+            return render(
+                request,
+                "accounts/login.html",
+                {
+                    "error": "Email or password is incorrect."
+                }
+            )
+
+        # -------------------------------
+        # LOGIN SUCCESS
+        # -------------------------------
+
+        request.session["student_id"] = student.id
+        request.session["student_name"] = student.name
+        request.session["student_email"] = student.email
+
+        return redirect("/dashboard/")
+
+    return render(request, "accounts/login.html")
+
+
+# --------------------------------------------------
+# PASSWORD VALIDATION
+# --------------------------------------------------
+
+def validate_password(password):
+
+    # Exactly 7 characters
+    if len(password) != 7:
+        return "Password must contain exactly 7 characters."
+
+    # At least one uppercase
+    if not re.search(r"[A-Z]", password):
+        return "Password must contain at least one uppercase letter."
+
+    # Numbers
+    numbers = re.findall(r"[0-9]", password)
+
+    if len(numbers) < 1:
+        return "Password must contain at least one number."
+
+    if len(numbers) > 2:
+        return "Password can contain maximum two numbers."
+
+    # Special characters
+    special_characters = re.findall(
+        r"[^a-zA-Z0-9]",
+        password
+    )
+
+    if len(special_characters) != 1:
+        return "Password must contain exactly one special character."
+
+    return None
+
+
+# --------------------------------------------------
+# FORGOT PASSWORD PAGE
+# --------------------------------------------------
+
+def forgot_password(request):
+
+    if request.method == "POST":
+
+        phone = request.POST.get("phone", "").strip()
+
+        try:
+            student = Student.objects.get(phone=phone)
+
+        except Student.DoesNotExist:
+
+            return render(
+                request,
+                "accounts/forgot_password.html",
+                {
+                    "error":
+                    "This phone number is not registered."
+                }
+            )
+
+        # Generate 6 digit OTP
+        otp = str(random.randint(100000, 999999))
+
+        # Store OTP in session
+        request.session["reset_student_id"] = student.id
+        request.session["reset_otp"] = otp
+
+        # ------------------------------------------------
+        # DEVELOPMENT ONLY
+        # ------------------------------------------------
+        # This prints OTP in terminal.
+        # Later we will connect SMS service.
+        print("--------------------------------")
+        print("OTP:", otp)
+        print("--------------------------------")
+
+        return redirect("/verify-otp/")
+
+    return render(
+        request,
+        "accounts/forgot_password.html"
+    )
+
+
+# --------------------------------------------------
+# OTP VERIFICATION
+# --------------------------------------------------
+
+def verify_otp(request):
+
+    if "reset_student_id" not in request.session:
+        return redirect("/login/")
+
+    if request.method == "POST":
+
+        entered_otp = request.POST.get("otp", "").strip()
+
+        stored_otp = request.session.get("reset_otp")
+
+        if entered_otp == stored_otp:
+
+            student_id = request.session.get(
+                "reset_student_id"
+            )
+
+            request.session["verified_student_id"] = student_id
+
+            # Remove OTP
+            request.session.pop("reset_otp", None)
+
+            return redirect("/otp-success/")
+
         else:
-            return render(request, "accounts/login.html", {
-                "error": "Invalid Email or Password"
-            })
 
-    return render(request, "accounts/login.html")
+            return render(
+                request,
+                "accounts/verify_otp.html",
+                {
+                    "error": "Invalid OTP. Please try again."
+                }
+            )
 
-    return render(request, "accounts/login.html")
+    return render(
+        request,
+        "accounts/verify_otp.html"
+    )
+
+
+# --------------------------------------------------
+# OTP SUCCESS
+# --------------------------------------------------
+
+def otp_success(request):
+
+    student_id = request.session.get(
+        "verified_student_id"
+    )
+
+    if not student_id:
+        return redirect("/login/")
+
+    try:
+        student = Student.objects.get(
+            id=student_id
+        )
+
+    except Student.DoesNotExist:
+        return redirect("/login/")
+
+    # Open student's account
+    request.session["student_id"] = student.id
+    request.session["student_name"] = student.name
+    request.session["student_email"] = student.email
+
+    request.session.pop(
+        "verified_student_id",
+        None
+    )
+
+    return redirect("/dashboard/")
 from collections import Counter
 
 def dashboard(request):

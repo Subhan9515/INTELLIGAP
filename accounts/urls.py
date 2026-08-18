@@ -11,7 +11,10 @@ urlpatterns = [
     path("dbms-quiz/", views.dbms_quiz, name="dbms_quiz"),
     path("java-quiz/", views.java_quiz, name="java_quiz"),
 
-    path("register/", views.register, name="register"),
-    path("login/", views.login, name="login"),
-    path("progress/", views.progress_analysis, name="progress_analysis"),
+path("register/", views.register, name="register"),
+path("login/", views.login_view, name="login"),
+path("progress/", views.progress_analysis, name="progress_analysis"),
+path("forgot-password/", views.forgot_password, name="forgot_password"),
+path("verify-otp/", views.verify_otp, name="verify_otp"),
+path("otp-success/", views.otp_success, name="otp_success"),
 ]
