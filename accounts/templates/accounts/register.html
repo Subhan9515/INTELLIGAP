@@ -558,8 +558,8 @@ document.getElementById("registerForm").addEventListener("submit", function(even
 
     /* EMAIL */
 
-    const emailPattern =
-        /^[a-z0-9#]+@intell\.com$/;
+   const emailPattern =
+    /^[a-z0-9]+(?:#[a-z0-9]+)?@intell\.com$/;
 
     if (!emailPattern.test(email)) {
 
@@ -667,12 +667,12 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     /* MOBILE */
 
     const phonePattern =
-        /^[6-9][0-9]{10}$/;
+        /^[6-9][0-9]{9}$/;
 
     if (!phonePattern.test(phone)) {
 
         alert(
-            "Mobile number must contain exactly 10 digits."
+            "Mobile number must contain exactly 10 digits.and start with 6,7,8,9 only"
         );
 
         event.preventDefault();

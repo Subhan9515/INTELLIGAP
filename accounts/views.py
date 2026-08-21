@@ -2261,6 +2261,12 @@ def register(request):
                 "error": "Email already exists"
             })
 
+        # Check phone number
+        if not re.fullmatch(r"[6-9][0-9]{9}", phone):
+            return render(request, "accounts/register.html", {
+                "error": "Mobile number must contain exactly 10 digits and start with 6, 7, 8, or 9."
+            })
+
         # Create student
         student = Student.objects.create(
             name=name,
@@ -2413,7 +2419,8 @@ def validate_password(password):
 # --------------------------------------------------
 # FORGOT PASSWORD PAGE
 # --------------------------------------------------
-
+import random
+from .models import Student
 def forgot_password(request):
 
     if request.method == "POST":
@@ -2464,44 +2471,48 @@ def forgot_password(request):
 
 def verify_otp(request):
 
-    if "reset_student_id" not in request.session:
-        return redirect("/login/")
-
     if request.method == "POST":
 
         entered_otp = request.POST.get("otp", "").strip()
 
-        stored_otp = request.session.get("reset_otp")
+        # Check OTP length
+        if len(entered_otp) != 6 or not entered_otp.isdigit():
+            return render(request, "accounts/verify_otp.html", {
+                "error": "OTP must contain exactly 6 digits."
+            })
 
-        if entered_otp == stored_otp:
+        # Get OTP from session
+        saved_otp = request.session.get("reset_otp")
 
-            student_id = request.session.get(
-                "reset_student_id"
-            )
+        if not saved_otp:
+            return render(request, "accounts/verify_otp.html", {
+                "error": "OTP expired or invalid. Please request a new OTP."
+            })
 
-            request.session["verified_student_id"] = student_id
+        # Check OTP
+        if entered_otp != saved_otp:
+            return render(request, "accounts/verify_otp.html", {
+                "error": "Invalid OTP. Please try again."
+            })
 
-            # Remove OTP
-            request.session.pop("reset_otp", None)
+        # OTP correct
+        student_id = request.session.get("reset_student_id")
 
-            return redirect("/otp-success/")
+        if not student_id:
+            return render(request, "accounts/verify_otp.html", {
+                "error": "Session expired. Please request a new OTP."
+            })
 
-        else:
+        # Store verified student
+        request.session["verified_student_id"] = student_id
 
-            return render(
-                request,
-                "accounts/verify_otp.html",
-                {
-                    "error": "Invalid OTP. Please try again."
-                }
-            )
+        # Remove OTP so it cannot be reused
+        request.session.pop("reset_otp", None)
+        request.session.pop("reset_student_id", None)
 
-    return render(
-        request,
-        "accounts/verify_otp.html"
-    )
+        return redirect("/otp-success/")
 
-
+    return render(request, "accounts/verify_otp.html")
 # --------------------------------------------------
 # OTP SUCCESS
 # --------------------------------------------------
