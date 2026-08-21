@@ -6,6 +6,7 @@ class Student(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
     password = models.CharField(max_length=128)
+    year = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -53,7 +54,7 @@ class QuizResult(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.student.full_name} - {self.subject}"
+        return f"{self.student.name} - {self.subject}"
 class WrongAnswer(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

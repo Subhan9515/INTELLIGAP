@@ -2247,6 +2247,7 @@ def register(request):
         password = request.POST.get("password", "")
         confirm_password = request.POST.get("confirm_password", "")
         phone = request.POST.get("phone", "").strip()
+        year = request.POST.get("btech_year", "")
 
         # Password confirmation
         if password != confirm_password:
@@ -2254,16 +2255,10 @@ def register(request):
                 "error": "Passwords do not match"
             })
 
-        # Email already exists
+        # Check email already exists
         if Student.objects.filter(email=email).exists():
             return render(request, "accounts/register.html", {
                 "error": "Email already exists"
-            })
-
-        # Phone already exists
-        if phone and Student.objects.filter(phone=phone).exists():
-            return render(request, "accounts/register.html", {
-                "error": "Mobile number already exists"
             })
 
         # Create student
@@ -2271,10 +2266,11 @@ def register(request):
             name=name,
             email=email,
             phone=phone,
-            password=make_password(password)
+            password=password,
+            year=year
         )
 
-        # Save student information in session
+        # Store login information in session
         request.session["student_id"] = student.id
         request.session["student_name"] = student.name
         request.session["student_email"] = student.email
@@ -2357,8 +2353,7 @@ def login_view(request):
         # CHECK PASSWORD
         # -------------------------------
 
-        if not check_password(password, student.password):
-
+        if password != student.password:
             return render(
                 request,
                 "accounts/login.html",
