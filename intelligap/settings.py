@@ -123,3 +123,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MSG91_AUTHKEY = "YOUR_MSG91_AUTHKEY"
+MSG91_TEMPLATE_ID = "YOUR_TEMPLATE_ID"

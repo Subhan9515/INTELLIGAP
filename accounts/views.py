@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from collections import Counter
 from .models import Student
 from .models import Question
-import random
 from .models import QuizResult,WrongAnswer
-
+import requests
+import random
+from django.conf import settings
+from django.shortcuts import render, redirect
 
 def dashboard(request):
     latest = QuizResult.objects.order_by("-id").first()
@@ -2284,7 +2286,6 @@ def register(request):
         return redirect("/dashboard/")
 
     return render(request, "accounts/register.html")
-import random
 import re
 
 from django.shortcuts import render, redirect
@@ -2419,7 +2420,6 @@ def validate_password(password):
 # --------------------------------------------------
 # FORGOT PASSWORD PAGE
 # --------------------------------------------------
-import random
 from .models import Student
 def forgot_password(request):
 
@@ -2427,6 +2427,27 @@ def forgot_password(request):
 
         phone = request.POST.get("phone", "").strip()
 
+        # Check phone number format
+        if not phone.isdigit() or len(phone) != 10:
+            return render(
+                request,
+                "accounts/forgot_password.html",
+                {
+                    "error": "Enter a valid 10-digit mobile number."
+                }
+            )
+
+        # Mobile number must start with 6, 7, 8 or 9
+        if phone[0] not in "6789":
+            return render(
+                request,
+                "accounts/forgot_password.html",
+                {
+                    "error": "Mobile number must start with 6, 7, 8 or 9."
+                }
+            )
+
+        # Check whether phone is registered
         try:
             student = Student.objects.get(phone=phone)
 
@@ -2441,30 +2462,92 @@ def forgot_password(request):
                 }
             )
 
-        # Generate 6 digit OTP
+        # Generate 6-digit OTP
         otp = str(random.randint(100000, 999999))
 
-        # Store OTP in session
+        # Store information in session
         request.session["reset_student_id"] = student.id
+        request.session["reset_phone"] = phone
         request.session["reset_otp"] = otp
 
-        # ------------------------------------------------
-        # DEVELOPMENT ONLY
-        # ------------------------------------------------
-        # This prints OTP in terminal.
-        # Later we will connect SMS service.
-        print("--------------------------------")
-        print("OTP:", otp)
-        print("--------------------------------")
+        # Convert Indian number to international format
+        mobile = "91" + phone
 
+        # MSG91 API
+        url = "https://control.msg91.com/api/v5/otp"
+
+        params = {
+            "template_id": settings.MSG91_TEMPLATE_ID,
+            "mobile": mobile,
+            "authkey": settings.MSG91_AUTHKEY
+        }
+
+        data = {
+            "OTP": otp
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        try:
+
+            response = requests.post(
+                url,
+                params=params,
+                json=data,
+                headers=headers,
+                timeout=10
+            )
+
+            result = response.json()
+
+            print("MSG91 RESPONSE:", result)
+
+            # Check MSG91 response
+            if result.get("type") != "success":
+
+                request.session.pop("reset_otp", None)
+                request.session.pop("reset_student_id", None)
+                request.session.pop("reset_phone", None)
+
+                return render(
+                    request,
+                    "accounts/forgot_password.html",
+                    {
+                        "error":
+                        "Unable to send OTP. Please try again."
+                    }
+                )
+
+        except requests.RequestException as e:
+
+            print("SMS ERROR:", e)
+
+            request.session.pop("reset_otp", None)
+            request.session.pop("reset_student_id", None)
+            request.session.pop("reset_phone", None)
+
+            return render(
+                request,
+                "accounts/forgot_password.html",
+                {
+                    "error":
+                    "SMS service is unavailable. Please try again."
+                }
+            )
+
+        # Do NOT print OTP in production  
+        print("-----------------------")
+        print("OTP:",otp)
+        print("OTP SMS sent to:", phone)
+        print("------------------------")
         return redirect("/verify-otp/")
 
     return render(
         request,
         "accounts/forgot_password.html"
     )
-
-
 # --------------------------------------------------
 # OTP VERIFICATION
 # --------------------------------------------------
@@ -2475,45 +2558,85 @@ def verify_otp(request):
 
         entered_otp = request.POST.get("otp", "").strip()
 
-        # Check OTP length
+        # OTP must contain exactly 6 digits
         if len(entered_otp) != 6 or not entered_otp.isdigit():
-            return render(request, "accounts/verify_otp.html", {
-                "error": "OTP must contain exactly 6 digits."
-            })
 
-        # Get OTP from session
+            return render(
+                request,
+                "accounts/verify_otp.html",
+                {
+                    "error":
+                    "OTP must contain exactly 6 digits."
+                }
+            )
+
+        # Get saved OTP
         saved_otp = request.session.get("reset_otp")
 
         if not saved_otp:
-            return render(request, "accounts/verify_otp.html", {
-                "error": "OTP expired or invalid. Please request a new OTP."
-            })
 
-        # Check OTP
+            return render(
+                request,
+                "accounts/verify_otp.html",
+                {
+                    "error":
+                    "OTP expired or invalid. Please request a new OTP."
+                }
+            )
+
+        # Compare OTP
         if entered_otp != saved_otp:
-            return render(request, "accounts/verify_otp.html", {
-                "error": "Invalid OTP. Please try again."
-            })
 
-        # OTP correct
-        student_id = request.session.get("reset_student_id")
+            return render(
+                request,
+                "accounts/verify_otp.html",
+                {
+                    "error":
+                    "Invalid OTP. Please try again."
+                }
+            )
+
+        # Get student ID
+        student_id = request.session.get(
+            "reset_student_id"
+        )
 
         if not student_id:
-            return render(request, "accounts/verify_otp.html", {
-                "error": "Session expired. Please request a new OTP."
-            })
 
-        # Store verified student
+            return render(
+                request,
+                "accounts/verify_otp.html",
+                {
+                    "error":
+                    "Session expired. Please request a new OTP."
+                }
+            )
+
+        # OTP verified
         request.session["verified_student_id"] = student_id
 
         # Remove OTP so it cannot be reused
-        request.session.pop("reset_otp", None)
-        request.session.pop("reset_student_id", None)
+        request.session.pop(
+            "reset_otp",
+            None
+        )
+
+        request.session.pop(
+            "reset_student_id",
+            None
+        )
+
+        request.session.pop(
+            "reset_phone",
+            None
+        )
 
         return redirect("/otp-success/")
 
-    return render(request, "accounts/verify_otp.html")
-# --------------------------------------------------
+    return render(
+        request,
+        "accounts/verify_otp.html")
+#-------------------------------------------------
 # OTP SUCCESS
 # --------------------------------------------------
 
@@ -2527,14 +2650,16 @@ def otp_success(request):
         return redirect("/login/")
 
     try:
+
         student = Student.objects.get(
             id=student_id
         )
 
     except Student.DoesNotExist:
+
         return redirect("/login/")
 
-    # Open student's account
+    # Login the verified student
     request.session["student_id"] = student.id
     request.session["student_name"] = student.name
     request.session["student_email"] = student.email
