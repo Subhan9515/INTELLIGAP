@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Quiz History - IntelliGap</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+        }
+
+        .navbar {
+            background: #2563eb;
+            color: white;
+            padding: 18px 30px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title h1 {
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #64748b;
+        }
+
+        .history-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        .history-card h2 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+
+        .date {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .score {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .correct {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .wrong {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .details-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+        }
+
+        .details-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="navbar">
+
+    <h2>IntelliGap Dashboard</h2>
+
+</div>
+
+
+<div class="container">
+
+
+    <a href="{% url 'dashboard' %}" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+
+    <div class="title">
+
+        <h1>📚 Quiz History</h1>
+
+        <p>
+            View your previous quiz attempts and detailed answers.
+        </p>
+
+    </div>
+
+
+    {% if history %}
+
+
+        {% for result in history %}
+
+            <div class="history-card">
+
+                <h2>
+                    {{ result.subject }} Quiz
+                </h2>
+
+
+                <div class="date">
+
+                    📅
+                    {{ result.created_at|date:"d-m-Y" }}
+
+                    &nbsp;&nbsp;
+
+                    🕐
+                    {{ result.created_at|date:"h:i A" }}
+
+                </div>
+
+
+                <div class="stats">
+
+                    <div class="stat score">
+
+                        Score:
+                        {{ result.score }}/{{ result.total_questions }}
+
+                    </div>
+
+
+                    <div class="stat correct">
+
+                        ✓ Correct:
+                        {{ result.correct_answers }}
+
+                    </div>
+
+
+                    <div class="stat wrong">
+
+                        ✕ Wrong:
+                        {{ result.wrong_answers }}
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="{% url 'quiz_history_detail' result.id %}"
+                    class="details-btn"
+                >
+                    View Details →
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <div class="empty">
+
+            <h2>No Quiz History</h2>
+
+            <p>
+                You have not attempted any quizzes yet.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+</html>

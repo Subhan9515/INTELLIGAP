@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from collections import Counter
 from .models import Student
 from .models import Question
-from .models import QuizResult,WrongAnswer
+from .models import Student, Question, QuizResult, WrongAnswer, QuizAnswer
 import requests
 import random
 from django.conf import settings
@@ -2778,10 +2778,16 @@ def quiz_instructions(request, subject):
 
     if subject.lower() == "python":
         questions = load_python_questions() or []
-    elif subject.lower() == "machine learning":
+
+    elif subject.lower() == "ml":
         questions = load_ml_questions() or []
+
     elif subject.lower() == "dbms":
         questions = load_dbms_questions() or []
+
+    elif subject.lower() == "java":
+        questions = load_java_questions() or []
+
     else:
         questions = []
 
@@ -2790,7 +2796,7 @@ def quiz_instructions(request, subject):
         "accounts/quiz_instructions.html",
         {
             "subject": subject,
-            "number_of_questions":15,
+            "number_of_questions": 15,
             "time_limit": 5,
         }
     )
@@ -2823,7 +2829,8 @@ def process_quiz(request, subject, template_name, loader_function):
     else:
 
         question_ids = request.session.get(
-            "last_quiz_question_ids", []
+            "last_quiz_question_ids",
+            []
         )
 
         questions = list(
@@ -2837,6 +2844,14 @@ def process_quiz(request, subject, template_name, loader_function):
 
         score = 0
 
+        # Create one result for this quiz attempt
+        quiz_result = QuizResult.objects.create(
+            student=student,
+            subject=subject,
+            total_questions=len(questions)
+        )
+
+        # Save every question and answer
         for q in questions:
 
             user_answer = request.POST.get(
@@ -2846,8 +2861,13 @@ def process_quiz(request, subject, template_name, loader_function):
 
             correct_answer = q.answer.strip()
 
-            if user_answer.lower() == correct_answer.lower():
+            is_correct = (
+                user_answer.lower() == correct_answer.lower()
+            )
+
+            if is_correct:
                 score += 1
+
             else:
                 WrongAnswer.objects.create(
                     student=student,
@@ -2857,14 +2877,20 @@ def process_quiz(request, subject, template_name, loader_function):
                     topic=q.topic
                 )
 
-        QuizResult.objects.create(
-            student=student,
-            subject=subject,
-            score=score,
-            total_questions=len(questions),
-            correct_answers=score,
-            wrong_answers=len(questions) - score
-        )
+            # Save ALL answers for History
+            QuizAnswer.objects.create(
+                quiz_result=quiz_result,
+                question=q,
+                user_answer=user_answer,
+                correct_answer=correct_answer,
+                is_correct=is_correct
+            )
+
+        # Update final result
+        quiz_result.score = score
+        quiz_result.correct_answers = score
+        quiz_result.wrong_answers = len(questions) - score
+        quiz_result.save()
 
         return redirect("/dashboard/")
 
@@ -2875,7 +2901,6 @@ def process_quiz(request, subject, template_name, loader_function):
             "questions": questions
         }
     )
-
 def python_quiz(request):
     return process_quiz(
         request,
@@ -3025,3 +3050,58 @@ def progress_analysis(request):
             "progress_data": progress_data,
         }
     )
+def quiz_history(request):
+    student_id = request.session.get("student_id")
+
+    if not student_id:
+        return redirect("/login/")
+
+    try:
+        student = Student.objects.get(id=student_id)
+    except Student.DoesNotExist:
+        request.session.flush()
+        return redirect("/login/")
+
+    history = QuizResult.objects.filter(
+        student=student
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "accounts/quiz_history.html",
+        {
+            "history": history
+        }
+    )  
+def quiz_history_detail(request, result_id):
+    student_id = request.session.get("student_id")
+
+    if not student_id:
+        return redirect("/login/")
+
+    try:
+        student = Student.objects.get(id=student_id)
+    except Student.DoesNotExist:
+        request.session.flush()
+        return redirect("/login/")
+
+    try:
+        result = QuizResult.objects.get(
+            id=result_id,
+            student=student
+        )
+    except QuizResult.DoesNotExist:
+        return redirect("/history/")
+
+    answers = QuizAnswer.objects.filter(
+        quiz_result=result
+    ).select_related("question")
+
+    return render(
+        request,
+        "accounts/quiz_history_detail.html",
+        {
+            "result": result,
+            "answers": answers,
+        }
+    )  
