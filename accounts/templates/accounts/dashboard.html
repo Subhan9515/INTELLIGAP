@@ -1,288 +1,775 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>IntelliGap Dashboard</title>
 
     <style>
 
-    body{
-        margin:0;
-        font-family:Arial;
-        background:#f4f7fc;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    .navbar{
-        background:#2563eb;
-        color:white;
-        padding:18px;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-    }
+        body {
+            background: #f5f7fb;
+            color: #123b70;
+            padding-bottom: 90px;
+        }
 
-    .navbar h2{
-        margin:0;
-    }
 
-    .logout{
-        background:red;
-        color:white;
-        padding:10px 18px;
-        text-decoration:none;
-        border-radius:6px;
-    }
+        /* =========================
+           HEADER
+        ========================= */
 
-    .container{
-        width:90%;
-        margin:auto;
-        margin-top:30px;
-    }
+        .header {
+            background: #123b70;
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .welcome{
-        background:white;
-        padding:25px;
-        border-radius:12px;
-        box-shadow:0 0 10px lightgray;
-    }
+        .profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-    .cards{
-        display:flex;
-        gap:20px;
-        margin-top:30px;
-        flex-wrap:wrap;
-    }
+.profile-icon {
+    width: 55px;
+    height: 55px;
 
-    .card{
-        flex:1;
-        min-width:220px;
-        background:white;
-        padding:25px;
-        border-radius:12px;
-        box-shadow:0 0 10px lightgray;
-        text-align:center;
-    }
+    border-radius: 50%;
 
-    .card h1{
-        color:#2563eb;
-        margin:0;
-    }
+    background: white;
+    color: #123b70;
 
-    .card p{
-        color:gray;
-        font-size:18px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .quiz{
-        text-align:center;
-        margin-top:40px;
-        margin-bottom:40px;
-    }
+    font-size: 22px;
+    font-weight: bold;
 
-    .quiz button{
-        background:#2563eb;
-        color:white;
-        border:none;
-        padding:15px 40px;
-        font-size:18px;
-        border-radius:8px;
-        cursor:pointer;
-    }
+    border: 3px solid white;
+}
 
-    .quiz button:hover{
-        background:#1d4ed8;
-    }
+.student-details {
+    color: white;
+}
 
-    .history{
-        text-align:center;
-        margin-top:25px;
-    }
+.student-details h3 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
 
-    .history-button{
-        display:inline-block;
-        background:#7c3aed;
-        color:white;
-        text-decoration:none;
-        padding:15px 40px;
-        font-size:18px;
-        border-radius:8px;
-    }
+.student-details p {
+    font-size: 13px;
+    margin: 3px 0;
+    opacity: 0.9;
+}
 
-    .history-button:hover{
-        background:#6d28d9;
-    }
+        .logo {
+            text-align: center;
+        }
+
+        .logo h1 {
+            font-size: 25px;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #f58220;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .header-actions a {
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+       .welcome {
+    background: white;
+    border-radius: 22px;
+
+    padding: 30px 40px;
+
+    min-height: 230px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+    margin-bottom: 35px;
+
+    overflow: hidden;
+}
+
+.welcome-text {
+    width: 55%;
+}
+
+.welcome small {
+    color: #f58220;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.welcome h1 {
+    color: #123b70;
+    font-size: 38px;
+    margin: 8px 0 12px;
+}
+
+.welcome p {
+    color: #5f6673;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+
+/* RIGHT ILLUSTRATION */
+
+.welcome-illustration {
+    width: 40%;
+    height: 190px;
+
+    background: #f5f8ff;
+
+    border-radius: 20px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.welcome-illustration img {
+    width: 100%;
+    height: 95%;
+    object-fit: contain;
+}
+
+.student-emoji {
+    font-size: 90px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.book {
+    position: absolute;
+
+    right: 35px;
+    bottom: 20px;
+
+    font-size: 35px;
+}
+
+.chart {
+    position: absolute;
+
+    top: 25px;
+    left: 30px;
+
+    color: #5b8def;
+
+    font-size: 28px;
+}
+
+        /* =========================
+           MODULE TITLE
+        ========================= */
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .title h2 {
+            color: #123b70;
+            font-size: 25px;
+        }
+
+        .title p {
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MODULE GRID
+        ========================= */
+
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .module {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            min-height: 190px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            text-decoration: none;
+            color: inherit;
+            transition: 0.2s;
+            border: 1px solid #edf0f5;
+        }
+
+        .module:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .module-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        .orange {
+            background: #fff0e5;
+        }
+
+        .blue {
+            background: #e8f0ff;
+        }
+
+        .green {
+            background: #e7f8f0;
+        }
+
+        .purple {
+            background: #f0e9ff;
+        }
+
+        .yellow {
+            background: #fff7db;
+        }
+
+        .red {
+            background: #ffeaea;
+        }
+
+        .module h3 {
+            color: #123b70;
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .module p {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           QUIZ SUMMARY
+        ========================= */
+
+        .summary {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+        }
+
+        .summary h2 {
+            color: #123b70;
+            margin-bottom: 18px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .summary-item {
+            background: #f7f9fc;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .summary-item h2 {
+            color: #f58220;
+            margin-bottom: 5px;
+        }
+
+        .summary-item p {
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            height: 75px;
+
+            background: white;
+
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            box-shadow: 0 -4px 18px rgba(0,0,0,0.12);
+
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #777;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .nav-item span {
+            display: block;
+            font-size: 23px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: #f58220;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .modules {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .welcome-icon {
+                width: 90px;
+                height: 90px;
+                font-size: 40px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .logo h1 {
+                font-size: 20px;
+            }
+
+            .profile h3 {
+                font-size: 14px;
+            }
+
+            .profile p {
+                font-size: 10px;
+            }
+
+            .profile-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 20px;
+            }
+
+            .welcome {
+                padding: 22px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+
+            .welcome-icon {
+                display: none;
+            }
+
+            .title {
+                display: block;
+            }
+
+            .title p {
+                margin-top: 5px;
+            }
+
+            .modules {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
 
     </style>
 
 </head>
 
+
 <body>
 
-<div class="navbar">
 
-    <h2>IntelliGap Dashboard</h2>
+<!-- =========================
+     HEADER
+========================= -->
 
-    <a href="/login/" class="logout">Logout</a>
+<header class="header">
+
+
+  <div class="profile">
+
+    <div class="profile-icon">
+
+        {% if student.name %}
+            {{ student.name|first|upper }}
+        {% else %}
+            S
+        {% endif %}
+
+    </div>
+
+    <div class="student-details">
+
+        <h3>
+            {{ student.name }}
+        </h3>
+
+        <p>
+            {{ student.email }}
+        </p>
+
+        {% if student.year %}
+            <p>
+                {{ student.year }}
+            </p>
+        {% endif %}
+
+    </div>
 
 </div>
 
 
-<div class="container">
+    <div class="logo">
 
-    <div class="welcome">
+        <h1>
+            INTELLI<span>GAP</span>
+        </h1>
 
-        <h2>Welcome {{ student.full_name }} 👋</h2>
+    </div>
+
+
+    <div class="header-actions">
+
+        <a href="#" title="Notifications">
+            🔔
+        </a>
+
+        <a href="/login/" title="Logout">
+            ⇥
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<main class="container">
+
+
+    <!-- WELCOME -->
+
+   <div class="welcome">
+
+    <div class="welcome-text">
+
+        <small>
+            WELCOME BACK
+        </small>
+
+        <h1>
+            {{ student.name }} 👋
+        </h1>
 
         <p>
-            Welcome to IntelliGap - Student Knowledge Gap Analyzer.
+            Let's continue your learning journey
+            and achieve your goals.
+        </p>
+
+    </div>
+
+    <div class="welcome-illustration">
+    <img src="/static/images/ai-dashboard.jpeg"
+             alt="AI Learning Assistant">
+            
+        </div>
+
+    </div>
+
+</div>
+
+    </section>
+
+
+
+    <!-- MODULE TITLE -->
+
+    <div class="title">
+
+        <h2>
+            Features
+        </h2>
+
+        <p>
+            Explore & Improve ✨
         </p>
 
     </div>
 
 
-    <h2>Student Dashboard</h2>
+
+    <!-- =========================
+         MAIN MODULES
+    ========================= -->
+
+    <section class="modules">
 
 
-    <div style="background:white;padding:20px;border-radius:10px;margin:20px;">
+        <!-- QUIZ -->
 
-        <h2>Latest Quiz Result</h2>
+        <a href="/subjects/" class="module">
 
-        {% if latest %}
-
-            <h3>
-                Subject: {{ latest.subject }}
-            </h3>
-
-            <h3>
-                Score: {{ latest.score }}/15
-            </h3>
-
-            <h3>
-                Percentage:
-                {% widthratio latest.score 15 100 %}%
-            </h3>
-
-        {% else %}
+            <div class="module-icon orange">
+                📝
+            </div>
 
             <h3>
-                No quiz attempted yet.
+                Quiz Management
             </h3>
 
-        {% endif %}
-
-    </div>
-
-
-    <div style="display:flex; justify-content:space-around; margin-top:30px; flex-wrap:wrap;">
-
-        <div class="card" style="background:#2563eb; color:white;">
-
-            <h1 style="color:white;">
-                {{ total_quizzes }}
-            </h1>
-
-            <p style="color:white;">
-                Total Quizzes
+            <p>
+                Select a subject, attempt quizzes
+                and test your knowledge.
             </p>
 
-        </div>
+        </a>
 
 
-        <div class="card" style="background:#10b981; color:white;">
 
-            <h1 style="color:white;">
-                {{ overall_score }}%
-            </h1>
+        <!-- KNOWLEDGE GAP -->
 
-            <p style="color:white;">
-                Overall Score
+        <a href="#" class="module">
+
+            <div class="module-icon blue">
+                🧠
+            </div>
+
+            <h3>
+                AI Knowledge Gap Analysis
+            </h3>
+
+            <p>
+                Identify weak topics and understand
+                where you need improvement.
             </p>
 
-        </div>
+        </a>
 
 
-        <div class="card" style="background:#ef4444;color:white;">
 
-            <h3>
-                Weak Topics
-            </h3>
+        <!-- RECOMMENDATION -->
 
-            {% if weak_topics %}
+        <a href="#" class="module">
 
-                <ul>
-
-                    {% for topic in weak_topics %}
-
-                        <li>
-                            {{ topic }}
-                        </li>
-
-                    {% endfor %}
-
-                </ul>
-
-            {% else %}
-
-                <p>
-                    No weak topics yet
-                </p>
-
-            {% endif %}
-
-        </div>
-
-
-        <div class="card" style="background:#f59e0b; color:black;">
+            <div class="module-icon green">
+                📚
+            </div>
 
             <h3>
-                Strong Topics
+                AI Study Recommendation
             </h3>
 
-            <ul>
+            <p>
+                Get personalized study suggestions
+                based on your performance.
+            </p>
 
-                {% for topic in strong_topics %}
-
-                    <li>
-                        {{ topic }}
-                    </li>
-
-                {% endfor %}
-
-            </ul>
-
-        </div>
-
-    </div>
-
-</div>
+        </a>
 
 
-<!-- Select Subject -->
 
-<div class="quiz">
+        <!-- HISTORY -->
 
-    <a href="/subjects/">
+        <a href="{% url 'quiz_history' %}" class="module">
 
-        <button>
-            Select Subject
-        </button>
+            <div class="module-icon purple">
+                🕒
+            </div>
+
+            <h3>
+                Quiz History
+            </h3>
+
+            <p>
+                View your previous quizzes,
+                scores and performance.
+            </p>
+
+        </a>
+
+
+
+        <!-- AI ASSISTANT -->
+
+        <a href="#" class="module">
+
+            <div class="module-icon yellow">
+                🤖
+            </div>
+
+            <h3>
+                AI Chat Assistant
+            </h3>
+
+            <p>
+                Ask questions and get help with
+                your learning.
+            </p>
+
+        </a>
+
+
+
+        <!-- PROGRESS -->
+
+        <a href="#" class="module">
+
+            <div class="module-icon red">
+                📊
+            </div>
+
+            <h3>
+                My Progress
+            </h3>
+
+            <p>
+                Track your learning progress,
+                scores and improvement.
+            </p>
+
+        </a>
+
+
+    </section>
+
+</main>
+<nav class="bottom-nav">
+
+
+    <a href="#" class="nav-item active">
+
+        <span>🏠</span>
+
+        Home
 
     </a>
 
-</div>
 
+    <a href="/subjects/" class="nav-item">
 
-<!-- Quiz History -->
+        <span>🔎</span>
 
-<div class="history">
-
-    <a href="{% url 'quiz_history' %}" class="history-button">
-
-        📚 Quiz History
+        Explore
 
     </a>
 
-</div>
+
+    <a href="#" class="nav-item">
+
+        <span>🏆</span>
+
+        Leaderboard
+
+    </a>
+
+
+    <a href="#" class="nav-item">
+
+        <span>👤</span>
+
+        Profile
+
+    </a>
+
+
+</nav>
 
 
 </body>
+
 </html>

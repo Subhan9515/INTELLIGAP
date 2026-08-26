@@ -2560,13 +2560,11 @@ def verify_otp(request):
 
         # OTP must contain exactly 6 digits
         if len(entered_otp) != 6 or not entered_otp.isdigit():
-
             return render(
                 request,
                 "accounts/verify_otp.html",
                 {
-                    "error":
-                    "OTP must contain exactly 6 digits."
+                    "error": "OTP must contain exactly 6 digits."
                 }
             )
 
@@ -2574,41 +2572,33 @@ def verify_otp(request):
         saved_otp = request.session.get("reset_otp")
 
         if not saved_otp:
-
             return render(
                 request,
                 "accounts/verify_otp.html",
                 {
-                    "error":
-                    "OTP expired or invalid. Please request a new OTP."
+                    "error": "OTP expired or invalid. Please request a new OTP."
                 }
             )
 
         # Compare OTP
         if entered_otp != saved_otp:
-
             return render(
                 request,
                 "accounts/verify_otp.html",
                 {
-                    "error":
-                    "Invalid OTP. Please try again."
+                    "error": "Invalid OTP. Please try again."
                 }
             )
 
         # Get student ID
-        student_id = request.session.get(
-            "reset_student_id"
-        )
+        student_id = request.session.get("reset_student_id")
 
         if not student_id:
-
             return render(
                 request,
                 "accounts/verify_otp.html",
                 {
-                    "error":
-                    "Session expired. Please request a new OTP."
+                    "error": "Session expired. Please request a new OTP."
                 }
             )
 
@@ -2616,26 +2606,78 @@ def verify_otp(request):
         request.session["verified_student_id"] = student_id
 
         # Remove OTP so it cannot be reused
-        request.session.pop(
-            "reset_otp",
-            None
-        )
+        request.session.pop("reset_otp", None)
+        request.session.pop("reset_student_id", None)
+        request.session.pop("reset_phone", None)
 
-        request.session.pop(
-            "reset_student_id",
-            None
-        )
-
-        request.session.pop(
-            "reset_phone",
-            None
-        )
-
-        return redirect("/otp-success/")
+        # Go to Set New Password page
+        return redirect("/reset-password/")
 
     return render(
         request,
-        "accounts/verify_otp.html")
+        "accounts/verify_otp.html"
+    )
+def reset_password(request):
+
+    student_id = request.session.get("verified_student_id")
+
+    if not student_id:
+        return redirect("/login/")
+
+    try:
+        student = Student.objects.get(id=student_id)
+
+    except Student.DoesNotExist:
+        return redirect("/login/")
+
+    if request.method == "POST":
+
+        new_password = request.POST.get("password", "").strip()
+        confirm_password = request.POST.get("confirm_password", "").strip()
+
+        # Check passwords match
+        if new_password != confirm_password:
+            return render(request, "accounts/reset_password.html", {
+                "error": "Passwords do not match."
+            })
+        # Exactly 7 characters
+        if len(new_password) != 7:
+            return render(request, "accounts/reset_password.html", {
+                "error": "Password must contain exactly 7 characters."
+            })
+
+        # At least one uppercase
+        if not any(c.isupper() for c in new_password):
+            return render(request, "accounts/reset_password.html", {
+                "error": "Password must contain at least one uppercase letter."
+            })
+
+        # 1 or 2 numbers
+        numbers = sum(c.isdigit() for c in new_password)
+
+        if numbers < 1 or numbers > 2:
+            return render(request, "accounts/reset_password.html", {
+                "error": "Password must contain 1 or 2 numbers."
+            })
+
+        # Exactly one special character
+        special = sum(not c.isalnum() for c in new_password)
+
+        if special != 1:
+            return render(request, "accounts/reset_password.html", {
+                "error": "Password must contain exactly one special character."
+            })
+
+        # Save password
+        student.password = new_password
+        student.save()
+
+        # Clear reset session
+        request.session.pop("verified_student_id", None)
+
+        return redirect("/login/")
+
+    return render(request, "accounts/reset_password.html")
 #-------------------------------------------------
 # OTP SUCCESS
 # --------------------------------------------------
