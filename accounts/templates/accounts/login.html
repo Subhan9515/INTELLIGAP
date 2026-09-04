@@ -8,7 +8,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>IntelliGap - Student Login</title>
+    <title>IntelliGap - Login</title>
+
 
     <style>
 
@@ -18,8 +19,11 @@
             padding: 0;
         }
 
+
         body {
+
             min-height: 100vh;
+
             font-family: Arial, sans-serif;
 
             background:
@@ -34,60 +38,85 @@
                 );
 
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
 
             padding: 30px 20px;
+
         }
+
 
         /* ---------------- HEADER ---------------- */
 
         .college-header {
+
             width: 100%;
+
             max-width: 1150px;
 
             display: flex;
+
             align-items: center;
 
             margin-bottom: 30px;
+
         }
 
+
         .college-logo {
+
             width: 180px;
+
             height: 180px;
 
             object-fit: contain;
 
             margin-right: 25px;
+
         }
 
+
         .college-info h1 {
+
             color: #0b2d5c;
 
             font-size: 38px;
+
             font-weight: 800;
 
             line-height: 1.05;
+
         }
 
+
         .college-info .autonomous {
+
             color: #f36c21;
 
             font-size: 22px;
+
             font-weight: bold;
 
             margin-top: 5px;
+
         }
 
+
         .college-info .address {
+
             color: #0b2d5c;
 
             font-size: 18px;
 
             margin-top: 6px;
+
         }
 
+
         .college-line {
+
             height: 2px;
 
             background: #dddddd;
@@ -95,22 +124,29 @@
             margin-top: 15px;
 
             width: 740px;
+
         }
 
+
         .college-tagline {
+
             color: #f36c21;
 
             font-size: 19px;
+
             font-weight: bold;
 
             margin-top: 12px;
+
         }
+
 
         /* ---------------- LOGIN CARD ---------------- */
 
         .login-card {
 
             width: 100%;
+
             max-width: 1080px;
 
             min-height: 560px;
@@ -125,22 +161,28 @@
             display: flex;
 
             overflow: hidden;
+
         }
 
-        /* LEFT */
+
+        /* ---------------- LEFT ---------------- */
 
         .left-section {
 
             width: 50%;
 
             display: flex;
+
             flex-direction: column;
 
             align-items: center;
+
             justify-content: center;
 
             padding: 50px;
+
         }
+
 
         .brain-icon {
 
@@ -149,7 +191,9 @@
             color: #f36c21;
 
             margin-bottom: 25px;
+
         }
+
 
         .brand {
 
@@ -158,12 +202,16 @@
             font-weight: 800;
 
             color: #0b2d5c;
+
         }
+
 
         .brand span {
 
             color: #f36c21;
+
         }
+
 
         .brand-line {
 
@@ -174,7 +222,9 @@
             gap: 15px;
 
             margin-top: 20px;
+
         }
+
 
         .brand-line span {
 
@@ -183,14 +233,18 @@
             height: 2px;
 
             background: #f36c21;
+
         }
+
 
         .brand-line b {
 
             color: #f36c21;
 
             font-size: 22px;
+
         }
+
 
         .description {
 
@@ -203,9 +257,11 @@
             line-height: 1.6;
 
             margin-top: 25px;
+
         }
 
-        /* RIGHT */
+
+        /* ---------------- RIGHT ---------------- */
 
         .right-section {
 
@@ -218,7 +274,9 @@
             flex-direction: column;
 
             justify-content: center;
+
         }
+
 
         .welcome {
 
@@ -229,7 +287,9 @@
             font-weight: 800;
 
             margin-bottom: 8px;
+
         }
+
 
         .sign-in {
 
@@ -237,8 +297,86 @@
 
             font-size: 19px;
 
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+
         }
+
+
+        /* ---------------- STUDENT / TEACHER ---------------- */
+
+        .role-selector {
+
+            display: flex;
+
+            width: 100%;
+
+            margin-bottom: 28px;
+
+            border: 1px solid #d6d6d6;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            background: #f5f7fb;
+
+        }
+
+
+        .role-button {
+
+            flex: 1;
+
+            padding: 13px;
+
+            border: none;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .student-role {
+
+            background: #f36c21;
+
+            color: white;
+
+        }
+
+
+        .teacher-role {
+
+            background: #0b2d5c;
+
+            color: white;
+
+        }
+
+
+        .inactive-role {
+
+            background: #f5f7fb;
+
+            color: #0b2d5c;
+
+        }
+
+
+        .inactive-role:hover {
+
+            background: #e9edf4;
+
+        }
+
+
+        /* ---------------- LABEL ---------------- */
 
         label {
 
@@ -252,18 +390,23 @@
 
         }
 
+
+        /* ---------------- INPUT ---------------- */
+
         .input-box {
 
             position: relative;
 
             margin-bottom: 22px;
+
         }
+
 
         .input-box input {
 
             width: 100%;
 
-            padding: 16px 45px 16px 18px;
+            padding: 16px 18px;
 
             border: 1px solid #cccccc;
 
@@ -272,7 +415,9 @@
             font-size: 16px;
 
             outline: none;
+
         }
+
 
         .input-box input:focus {
 
@@ -280,7 +425,11 @@
 
             box-shadow:
                 0 0 0 2px rgba(243,108,33,0.15);
+
         }
+
+
+        /* ---------------- FORGOT PASSWORD ---------------- */
 
         .forgot {
 
@@ -289,7 +438,9 @@
             margin-top: -10px;
 
             margin-bottom: 25px;
+
         }
+
 
         .forgot a {
 
@@ -298,7 +449,11 @@
             font-weight: bold;
 
             text-decoration: none;
+
         }
+
+
+        /* ---------------- LOGIN BUTTON ---------------- */
 
         .login-button {
 
@@ -319,12 +474,18 @@
             font-weight: bold;
 
             cursor: pointer;
+
         }
+
 
         .login-button:hover {
 
             background: #d95712;
+
         }
+
+
+        /* ---------------- OR ---------------- */
 
         .or {
 
@@ -333,7 +494,11 @@
             margin: 25px 0;
 
             color: #777;
+
         }
+
+
+        /* ---------------- REGISTER ---------------- */
 
         .register {
 
@@ -342,7 +507,9 @@
             color: #555;
 
             font-size: 17px;
+
         }
+
 
         .register a {
 
@@ -351,7 +518,11 @@
             font-weight: bold;
 
             text-decoration: none;
+
         }
+
+
+        /* ---------------- ERROR ---------------- */
 
         .error {
 
@@ -366,7 +537,9 @@
             margin-bottom: 18px;
 
             text-align: center;
+
         }
+
 
         /* ---------------- MOBILE ---------------- */
 
@@ -377,50 +550,68 @@
                 flex-direction: column;
 
                 text-align: center;
+
             }
+
 
             .college-logo {
 
                 margin-right: 0;
 
                 margin-bottom: 15px;
+
             }
+
 
             .college-info h1 {
 
                 font-size: 25px;
+
             }
+
 
             .college-line {
 
                 width: 100%;
+
             }
+
 
             .login-card {
 
                 flex-direction: column;
+
             }
+
 
             .left-section,
             .right-section {
 
                 width: 100%;
+
             }
+
 
             .left-section {
 
                 padding: 35px;
+
             }
+
 
             .right-section {
 
                 padding: 35px;
+
             }
+
 
             .brand {
 
                 font-size: 40px;
+
             }
+
         }
 
     </style>
@@ -435,12 +626,15 @@
 
 <div class="college-header">
 
-    <!-- CHANGE THIS TO YOUR LOGO FILE -->
+
+    <!-- RGM LOGO -->
+
     <img
         src="/static/images/rgm_logo.jpg"
         class="college-logo"
         alt="RGM College Logo"
     >
+
 
     <div class="college-info">
 
@@ -449,16 +643,20 @@
             ENGINEERING & TECHNOLOGY
         </h1>
 
+
         <div class="autonomous">
             (Autonomous)
         </div>
+
 
         <div class="address">
             NANDYAL - 518 501, KURNOOL (Dist.),
             ANDHRA PRADESH, INDIA
         </div>
 
+
         <div class="college-line"></div>
+
 
         <div class="college-tagline">
             COMMITTED TO EXCELLENCE IN TECHNICAL EDUCATION
@@ -469,22 +667,26 @@
 </div>
 
 
+
 <!-- ================= LOGIN CARD ================= -->
 
 <div class="login-card">
 
 
-    <!-- LEFT SIDE -->
+    <!-- ================= LEFT SIDE ================= -->
 
     <div class="left-section">
+
 
         <div class="brain-icon">
             🧠
         </div>
 
+
         <div class="brand">
             INTELLI<span>GAP</span>
         </div>
+
 
         <div class="brand-line">
 
@@ -495,6 +697,7 @@
             <span></span>
 
         </div>
+
 
         <div class="description">
 
@@ -507,36 +710,87 @@
     </div>
 
 
-    <!-- RIGHT SIDE -->
+
+    <!-- ================= RIGHT SIDE ================= -->
 
     <div class="right-section">
 
-        <div class="welcome">
+
+        <div
+            class="welcome"
+            id="welcomeTitle"
+        >
             WELCOME BACK!
         </div>
+
 
         <div class="sign-in">
             Sign in to continue
         </div>
 
 
+
+        <!-- ================= ROLE SELECTOR ================= -->
+
+        <div class="role-selector">
+
+
+            <button
+                type="button"
+                id="studentButton"
+                class="role-button student-role"
+                onclick="showStudentLogin()"
+            >
+                Student
+            </button>
+
+
+            <button
+                type="button"
+                id="teacherButton"
+                class="role-button inactive-role"
+                onclick="showTeacherLogin()"
+            >
+                Teacher
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ================= ERROR ================= -->
+
         {% if error %}
 
         <div class="error">
+
             {{ error }}
+
         </div>
 
         {% endif %}
 
 
-        <form method="POST">
+
+        <!-- ================= LOGIN FORM ================= -->
+
+        <form
+            method="POST"
+            id="loginForm"
+            action="/login/"
+        >
 
             {% csrf_token %}
 
 
+
+            <!-- EMAIL -->
+
             <label>
                 EMAIL
             </label>
+
 
             <div class="input-box">
 
@@ -551,9 +805,13 @@
             </div>
 
 
+
+            <!-- PASSWORD -->
+
             <label>
                 PASSWORD
             </label>
+
 
             <div class="input-box">
 
@@ -567,7 +825,13 @@
             </div>
 
 
-            <div class="forgot">
+
+            <!-- FORGOT PASSWORD -->
+
+            <div
+                class="forgot"
+                id="forgotSection"
+            >
 
                 <a href="{% url 'forgot_password' %}">
                     Forgot Password?
@@ -576,23 +840,36 @@
             </div>
 
 
+
+            <!-- LOGIN BUTTON -->
+
             <button
                 type="submit"
-                class="login-button">
-
+                class="login-button"
+                id="loginButton"
+            >
                 ⇥ &nbsp; LOGIN
-
             </button>
+
 
         </form>
 
+
+
+        <!-- ================= OR ================= -->
 
         <div class="or">
             ───────── &nbsp; OR &nbsp; ─────────
         </div>
 
 
-        <div class="register">
+
+        <!-- ================= REGISTER ================= -->
+
+        <div
+            class="register"
+            id="registerSection"
+        >
 
             Don't have an account?
 
@@ -602,9 +879,102 @@
 
         </div>
 
+
     </div>
 
 </div>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+
+function showStudentLogin() {
+
+
+    /* Form goes to student login */
+
+    document.getElementById("loginForm").action =
+        "/login/";
+
+
+    /* Title */
+
+    document.getElementById("welcomeTitle").innerText =
+        "WELCOME BACK!";
+
+
+    /* Student active */
+
+    document.getElementById("studentButton").className =
+        "role-button student-role";
+
+
+    /* Teacher inactive */
+
+    document.getElementById("teacherButton").className =
+        "role-button inactive-role";
+
+
+    /* Forgot password visible */
+
+    document.getElementById("forgotSection").style.display =
+        "block";
+
+
+    /* Register text */
+
+    document.getElementById("registerSection").innerHTML =
+        'Don\'t have an account? <a href="/register/">Register</a>';
+
+}
+
+
+
+function showTeacherLogin() {
+
+
+    /* Form goes to teacher login */
+
+    document.getElementById("loginForm").action =
+        "/teacher/login/";
+
+
+    /* Title */
+
+    document.getElementById("welcomeTitle").innerText =
+        "TEACHER LOGIN";
+
+
+    /* Teacher active */
+
+    document.getElementById("teacherButton").className =
+        "role-button teacher-role";
+
+
+    /* Student inactive */
+
+    document.getElementById("studentButton").className =
+        "role-button inactive-role";
+
+
+    /* Hide student forgot password */
+
+    document.getElementById("forgotSection").style.display =
+        "none";
+
+
+    /* Teacher registration */
+
+    document.getElementById("registerSection").innerHTML =
+        'Don\'t have a teacher account? <a href="/teacher/register/">Register here</a>';
+
+}
+
+
+</script>
 
 
 </body>

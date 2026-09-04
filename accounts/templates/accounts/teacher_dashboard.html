@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Teacher Dashboard - IntelliGap</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto 50px;
+        }
+
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+
+            color: white;
+
+            padding: 30px 35px;
+
+            border-radius: 18px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(37, 99, 235, 0.18);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 25px;
+        }
+
+        .header-left h1 {
+            margin: 0 0 8px;
+
+            font-size: 32px;
+        }
+
+        .header-left p {
+            margin: 0;
+
+            font-size: 16px;
+
+            opacity: 0.9;
+        }
+
+        .teacher-profile {
+            background: rgba(255,255,255,0.15);
+
+            padding: 16px 22px;
+
+            border-radius: 12px;
+
+            min-width: 230px;
+        }
+
+        .teacher-profile .name {
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+        }
+
+        .teacher-profile .email {
+            font-size: 14px;
+
+            opacity: 0.9;
+
+            word-break: break-word;
+        }
+
+
+        /* ================================
+           SECTION
+        ================================= */
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 25px;
+
+            font-weight: bold;
+
+            color: #111827;
+
+            margin: 0 0 8px;
+        }
+
+        .section-description {
+            color: #6b7280;
+
+            font-size: 15px;
+
+            margin: 0 0 20px;
+        }
+
+
+        /* ================================
+           MANAGEMENT CARDS
+        ================================= */
+
+        .management-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .management-card {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 16px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.06);
+
+            transition: 0.2s;
+        }
+
+        .management-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 22px
+                rgba(0,0,0,0.09);
+        }
+
+        .management-card h3 {
+            margin: 0 0 10px;
+
+            font-size: 21px;
+
+            color: #111827;
+        }
+
+        .management-card p {
+            margin: 0 0 22px;
+
+            color: #6b7280;
+
+            line-height: 1.5;
+        }
+
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .button {
+            display: inline-block;
+
+            text-decoration: none;
+
+            border: none;
+
+            padding: 12px 22px;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .button-blue {
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .button-blue:hover {
+            background: #1d4ed8;
+        }
+
+        .button-green {
+            background: #16a34a;
+
+            color: white;
+        }
+
+        .button-green:hover {
+            background: #15803d;
+        }
+
+        .button-purple {
+            background: #7c3aed;
+
+            color: white;
+        }
+
+        .button-purple:hover {
+            background: #6d28d9;
+        }
+
+
+        /* ================================
+           QUIZ MANAGEMENT
+        ================================= */
+
+        .quiz-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.06);
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #374151;
+
+            margin-bottom: 8px;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 2px solid #dbe3f0;
+
+            border-radius: 9px;
+
+            background: white;
+
+            font-size: 15px;
+
+            color: #1f2937;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37,99,235,0.10);
+        }
+
+        .quiz-buttons {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .quiz-buttons .button {
+            width: 100%;
+
+            text-align: center;
+
+            padding: 14px;
+        }
+
+
+        /* ================================
+           LOGOUT
+        ================================= */
+
+        .logout-section {
+            text-align: center;
+
+            margin-top: 40px;
+        }
+
+        .logout-button {
+            display: inline-block;
+
+            background: #dc2626;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 28px;
+
+            border-radius: 9px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .logout-button:hover {
+            background: #b91c1c;
+        }
+
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+            margin-top: 25px;
+        }
+
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 800px) {
+
+            .container {
+                width: 94%;
+
+                margin-top: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                padding: 25px;
+            }
+
+            .teacher-profile {
+                width: 100%;
+            }
+
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-buttons {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =================================
+         HEADER
+    ================================== -->
+
+    <div class="header">
+
+        <div class="header-left">
+
+            <h1>
+                Teacher Dashboard
+            </h1>
+
+            <p>
+                IntelliGap Teacher Portal
+            </p>
+
+        </div>
+
+
+        <div class="teacher-profile">
+
+            <div class="name">
+                {{ teacher.name }}
+            </div>
+
+            <div class="email">
+                {{ teacher.email }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         QUESTION MANAGEMENT
+    ================================== -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            Question Management
+        </h2>
+
+        <p class="section-description">
+            Create and manage questions in the IntelliGap question bank.
+        </p>
+
+
+        <div class="management-grid">
+
+
+            <!-- ADD QUESTION -->
+
+            <div class="management-card">
+
+                <h3>
+                    Add Question
+                </h3>
+
+                <p>
+                    Create a new MCQ, Fill in the Blank,
+                    or One Line Answer question.
+                </p>
+
+                <a
+                    href="{% url 'add_question' %}"
+                    class="button button-green"
+                >
+                    Add Question
+                </a>
+
+            </div>
+
+
+
+            <!-- QUESTION BANK -->
+
+            <div class="management-card">
+
+                <h3>
+                    Question Bank
+                </h3>
+
+                <p>
+                    View, search, modify and delete
+                    existing questions.
+                </p>
+
+                <a
+                    href="{% url 'question_bank' %}"
+                    class="button button-blue"
+                >
+                    Open Question Bank
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         QUIZ MANAGEMENT
+    ================================== -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            Quiz Management
+        </h2>
+
+        <p class="section-description">
+            Select the branch, subject, year and topic
+            for managing quiz questions.
+        </p>
+
+
+        <div class="quiz-card">
+
+
+            <div class="form-grid">
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <select name="subject">
+
+                        <option value="">
+                            Select Subject
+                        </option>
+
+                        <option value="Python">
+                            Python
+                        </option>
+
+                        <option value="Machine Learning">
+                            Machine Learning
+                        </option>
+
+                        <option value="DBMS">
+                            DBMS
+                        </option>
+
+                        <option value="Java">
+                            Java
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BRANCH -->
+
+                <div class="form-group">
+
+                    <label>
+                        Branch
+                    </label>
+
+                    <select name="branch">
+
+                        <option value="">
+                            Select Branch
+                        </option>
+
+                        <option value="CSE">
+                            CSE
+                        </option>
+
+                        <option value="CSE-AIML">
+                            CSE-AIML
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- YEAR -->
+
+                <div class="form-group">
+
+                    <label>
+                        Year
+                    </label>
+
+                    <select name="year">
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <option value="1">
+                            1st Year
+                        </option>
+
+                        <option value="2">
+                            2nd Year
+                        </option>
+
+                        <option value="3">
+                            3rd Year
+                        </option>
+
+                        <option value="4">
+                            4th Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- TOPIC -->
+
+                <div class="form-group">
+
+                    <label>
+                        Topic / Concept
+                    </label>
+
+                    <input
+                        type="text"
+                        name="topic"
+                        placeholder="Enter topic or concept"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="quiz-buttons">
+
+
+                <a
+                    href="{% url 'question_bank' %}"
+                    class="button button-purple"
+                >
+                    Manage Questions
+                </a>
+
+
+                <a
+                    href="{% url 'add_question' %}"
+                    class="button button-green"
+                >
+                    Create Question
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         LOGOUT
+    ================================== -->
+
+    <div class="logout-section">
+
+        <a
+            href="{% url 'teacher_logout' %}"
+            class="logout-button"
+        >
+            Logout
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <div class="footer">
+
+        IntelliGap • Teacher Portal
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

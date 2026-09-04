@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Modify Question</title>
+
+</head>
+
+<body>
+
+    <h1>Modify Question</h1>
+
+    <hr>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <label>Subject</label>
+
+        <br>
+
+        <select name="subject" required>
+
+            <option value="Python"
+                {% if question.subject == "Python" %}selected{% endif %}>
+                Python
+            </option>
+
+            <option value="Machine Learning"
+                {% if question.subject == "Machine Learning" %}selected{% endif %}>
+                Machine Learning
+            </option>
+
+            <option value="DBMS"
+                {% if question.subject == "DBMS" %}selected{% endif %}>
+                DBMS
+            </option>
+
+            <option value="Java"
+                {% if question.subject == "Java" %}selected{% endif %}>
+                Java
+            </option>
+
+        </select>
+
+
+        <br>
+        <br>
+
+
+        <label>Topic / Concept</label>
+
+        <br>
+
+        <input
+            type="text"
+            name="topic"
+            value="{{ question.topic }}"
+            required
+        >
+
+
+        <br>
+        <br>
+
+
+        <label>Question Type</label>
+
+        <br>
+
+        <select name="question_type" required>
+
+            <option value="MCQ"
+                {% if question.question_type == "MCQ" %}selected{% endif %}>
+                Multiple Choice Question
+            </option>
+
+            <option value="FILL"
+                {% if question.question_type == "FILL" %}selected{% endif %}>
+                Fill in the Blank
+            </option>
+
+            <option value="TEXT"
+                {% if question.question_type == "TEXT" %}selected{% endif %}>
+                One Line Answer
+            </option>
+
+        </select>
+
+
+        <br>
+        <br>
+
+
+        <label>Question</label>
+
+        <br>
+
+        <textarea
+            name="question"
+            rows="4"
+            cols="60"
+            required
+        >{{ question.question }}</textarea>
+
+
+        <br>
+        <br>
+
+
+        <h3>Options</h3>
+
+
+        <input
+            type="text"
+            name="option1"
+            value="{{ question.option1 }}"
+            placeholder="Option 1"
+        >
+
+        <br>
+        <br>
+
+
+        <input
+            type="text"
+            name="option2"
+            value="{{ question.option2 }}"
+            placeholder="Option 2"
+        >
+
+        <br>
+        <br>
+
+
+        <input
+            type="text"
+            name="option3"
+            value="{{ question.option3 }}"
+            placeholder="Option 3"
+        >
+
+        <br>
+        <br>
+
+
+        <input
+            type="text"
+            name="option4"
+            value="{{ question.option4 }}"
+            placeholder="Option 4"
+        >
+
+        <br>
+        <br>
+
+
+        <label>Correct Answer</label>
+
+        <br>
+
+        <input
+            type="text"
+            name="answer"
+            value="{{ question.answer }}"
+            required
+        >
+
+
+        <br>
+        <br>
+
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+
+    <br>
+
+
+    <a href="{% url 'question_bank' %}">
+        Back to Question Bank
+    </a>
+
+
+</body>
+
+</html>

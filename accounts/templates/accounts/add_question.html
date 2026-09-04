@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Add Question - IntelliGap</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 40px auto 60px;
+        }
+
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+
+            color: white;
+
+            padding: 28px 32px;
+
+            border-radius: 16px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(37, 99, 235, 0.18);
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 0;
+
+            font-size: 15px;
+
+            opacity: 0.9;
+        }
+
+
+        /* ================================
+           FORM CARD
+        ================================= */
+
+        .form-card {
+            background: white;
+
+            padding: 32px;
+
+            border-radius: 16px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 4px 18px
+                rgba(0, 0, 0, 0.06);
+        }
+
+
+        /* ================================
+           FORM GRID
+        ================================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+
+        /* ================================
+           LABELS
+        ================================= */
+
+        label {
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #374151;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ================================
+           INPUTS
+        ================================= */
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 2px solid #dbe3f0;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: #1f2937;
+
+            font-size: 15px;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.10);
+        }
+
+        textarea {
+            min-height: 120px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #9ca3af;
+        }
+
+
+        /* ================================
+           OPTIONS SECTION
+        ================================= */
+
+        .options-section {
+            margin-top: 28px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .options-title {
+            margin: 0 0 18px;
+
+            font-size: 19px;
+
+            color: #111827;
+        }
+
+        .options-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+
+        /* ================================
+           ANSWER
+        ================================= */
+
+        .answer-section {
+            margin-top: 28px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .answer-input {
+            border-color: #bbf7d0;
+
+            background: #f0fdf4;
+        }
+
+        .answer-input:focus {
+            border-color: #16a34a;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(22, 163, 74, 0.10);
+        }
+
+
+        /* ================================
+           SUBMIT
+        ================================= */
+
+        .submit-section {
+            margin-top: 30px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .submit-button {
+            width: 100%;
+
+            border: none;
+
+            background: #16a34a;
+
+            color: white;
+
+            padding: 14px 20px;
+
+            border-radius: 9px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .submit-button:hover {
+            background: #15803d;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================================
+           NAVIGATION
+        ================================= */
+
+        .navigation {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-top: 22px;
+        }
+
+        .nav-button {
+            flex: 1;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            padding: 12px 18px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .dashboard-button {
+            background: #374151;
+
+            color: white;
+        }
+
+        .dashboard-button:hover {
+            background: #1f2937;
+        }
+
+        .bank-button {
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .bank-button:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+            margin-top: 25px;
+        }
+
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 94%;
+
+                margin-top: 20px;
+            }
+
+            .header {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ================================
+         HEADER
+    ================================= -->
+
+    <div class="header">
+
+        <h1>
+            Add Question
+        </h1>
+
+        <p>
+            Create a new question for the IntelliGap question bank.
+        </p>
+
+    </div>
+
+
+
+    <!-- ================================
+         FORM
+    ================================= -->
+
+    <div class="form-card">
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-grid">
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <select
+                        name="subject"
+                        required
+                    >
+
+                        <option value="">
+                            Select Subject
+                        </option>
+
+                        <option value="Python">
+                            Python
+                        </option>
+
+                        <option value="Machine Learning">
+                            Machine Learning
+                        </option>
+
+                        <option value="DBMS">
+                            DBMS
+                        </option>
+
+                        <option value="Java">
+                            Java
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- TOPIC -->
+
+                <div class="form-group">
+
+                    <label>
+                        Topic / Concept
+                    </label>
+
+                    <input
+                        type="text"
+                        name="topic"
+                        placeholder="Enter topic or concept"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- QUESTION TYPE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Question Type
+                    </label>
+
+                    <select
+                        name="question_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select Question Type
+                        </option>
+
+                        <option value="MCQ">
+                            Multiple Choice Question
+                        </option>
+
+                        <option value="FILL">
+                            Fill in the Blank
+                        </option>
+
+                        <option value="TEXT">
+                            One Line Answer
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- QUESTION -->
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Question
+                    </label>
+
+                    <textarea
+                        name="question"
+                        placeholder="Enter the question"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ================================
+                 OPTIONS
+            ================================= -->
+
+            <div class="options-section">
+
+                <h2 class="options-title">
+                    Answer Options
+                </h2>
+
+
+                <div class="options-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Option 1
+                        </label>
+
+                        <input
+                            type="text"
+                            name="option1"
+                            placeholder="Enter option 1"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Option 2
+                        </label>
+
+                        <input
+                            type="text"
+                            name="option2"
+                            placeholder="Enter option 2"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Option 3
+                        </label>
+
+                        <input
+                            type="text"
+                            name="option3"
+                            placeholder="Enter option 3"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Option 4
+                        </label>
+
+                        <input
+                            type="text"
+                            name="option4"
+                            placeholder="Enter option 4"
+                        >
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================
+                 CORRECT ANSWER
+            ================================= -->
+
+            <div class="answer-section">
+
+                <div class="form-group">
+
+                    <label>
+                        Correct Answer
+                    </label>
+
+                    <input
+                        type="text"
+                        name="answer"
+                        class="answer-input"
+                        placeholder="Enter the correct answer"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================
+                 SUBMIT
+            ================================= -->
+
+            <div class="submit-section">
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Add Question
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <!-- ================================
+             NAVIGATION
+        ================================= -->
+
+        <div class="navigation">
+
+            <a
+                href="{% url 'teacher_dashboard' %}"
+                class="nav-button dashboard-button"
+            >
+                Back to Dashboard
+            </a>
+
+
+            <a
+                href="{% url 'question_bank' %}"
+                class="nav-button bank-button"
+            >
+                View Question Bank
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="footer">
+
+        IntelliGap • Teacher Portal
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

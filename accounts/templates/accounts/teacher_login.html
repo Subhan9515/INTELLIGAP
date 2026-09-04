@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Teacher Login - IntelliGap</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7fb;
+
+            color: #1f2937;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        /* ================================
+           MAIN CONTAINER
+        ================================= */
+
+        .login-container {
+            width: 92%;
+
+            max-width: 430px;
+        }
+
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+
+            color: white;
+
+            text-align: center;
+
+            padding: 28px 25px;
+
+            border-radius: 16px 16px 0 0;
+
+            box-shadow:
+                0 8px 25px
+                rgba(37, 99, 235, 0.15);
+        }
+
+
+        /* ================================
+           RGM LOGO
+        ================================= */
+
+        .rgm-logo {
+            width: 78px;
+
+            height: 78px;
+
+            object-fit: contain;
+
+            background: white;
+
+            padding: 6px;
+
+            border-radius: 50%;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.15);
+        }
+
+
+        .header h1 {
+            margin: 0 0 8px;
+
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+
+            font-size: 14px;
+
+            opacity: 0.9;
+        }
+
+
+        /* ================================
+           LOGIN CARD
+        ================================= */
+
+        .login-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 0 0 16px 16px;
+
+            border: 1px solid #e5e7eb;
+
+            border-top: none;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0, 0, 0, 0.07);
+        }
+
+
+        /* ================================
+           ERROR MESSAGE
+        ================================= */
+
+        .error-message {
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #dc2626;
+
+            padding: 12px 14px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+            text-align: center;
+        }
+
+
+        /* ================================
+           FORM
+        ================================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #374151;
+
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 2px solid #dbe3f0;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            color: #1f2937;
+
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.10);
+        }
+
+        .form-group input::placeholder {
+            color: #9ca3af;
+        }
+
+
+        /* ================================
+           LOGIN BUTTON
+        ================================= */
+
+        .login-button {
+            width: 100%;
+
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 9px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================================
+           REGISTER
+        ================================= */
+
+        .register-section {
+            text-align: center;
+
+            margin-top: 22px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e5e7eb;
+
+            font-size: 14px;
+
+            color: #6b7280;
+        }
+
+        .register-section a {
+            color: #2563eb;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .register-section a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+            margin-top: 18px;
+        }
+
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 500px) {
+
+            .login-container {
+                width: 94%;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .login-card {
+                padding: 24px 20px;
+            }
+
+            .rgm-logo {
+                width: 70px;
+
+                height: 70px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+    <!-- ================================
+         HEADER
+    ================================= -->
+
+    <div class="header">
+
+
+        <!-- RGM LOGO -->
+
+        <img
+            src="/static/images/rgm_logo.jpg"
+            alt="RGM Logo"
+            class="rgm-logo"
+        >
+
+
+        <h1>
+            Teacher Login
+        </h1>
+
+
+        <p>
+            Sign in to IntelliGap Teacher Portal
+        </p>
+
+
+    </div>
+
+
+
+    <!-- ================================
+         LOGIN CARD
+    ================================= -->
+
+    <div class="login-card">
+
+
+        {% if error %}
+
+            <div class="error-message">
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+
+        </form>
+
+
+
+        <!-- REGISTER -->
+
+        <div class="register-section">
+
+            Don't have a teacher account?
+
+            <a href="{% url 'teacher_register' %}">
+                Register here
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        IntelliGap • Teacher Portal
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
