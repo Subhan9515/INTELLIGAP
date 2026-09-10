@@ -65,7 +65,7 @@ def teacher_login(request):
 
             return render(
                 request,
-                "accounts/student_login.html",
+                "accounts/login.html",
                 {
                     "error": "Invalid teacher email or password.",
                     "email": email

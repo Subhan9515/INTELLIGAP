@@ -2,13 +2,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Student Registration - IntelliGap</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,12 +21,15 @@
             font-family: Arial, sans-serif;
         }
 
+
         body {
             background: #f5f5f5;
             min-height: 100vh;
         }
 
+
         /* TOP HEADER */
+
         .top-header {
             height: 90px;
             background: white;
@@ -31,19 +39,23 @@
             border-bottom: 3px solid #f58220;
         }
 
+
         .logo {
             height: 65px;
             width: auto;
         }
 
+
         .college-name {
             margin-left: 20px;
         }
+
 
         .college-name h1 {
             color: #123b70;
             font-size: 24px;
         }
+
 
         .college-name p {
             color: #555;
@@ -51,13 +63,20 @@
             margin-top: 4px;
         }
 
+
         /* MAIN SECTION */
+
         .main-section {
             min-height: calc(100vh - 90px);
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             padding: 40px 20px;
+
             background:
                 linear-gradient(
                     135deg,
@@ -68,165 +87,292 @@
                 );
         }
 
+
         /* CARD */
+
         .register-card {
             width: 950px;
+
             max-width: 100%;
+
             min-height: 560px;
+
             background: white;
+
             border-radius: 18px;
+
             overflow: hidden;
+
             display: flex;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+
+            box-shadow:
+                0 10px 35px
+                rgba(0, 0, 0, 0.25);
         }
 
+
         /* LEFT SIDE */
+
         .left-side {
             width: 42%;
+
             background: #123b70;
+
             color: white;
+
             display: flex;
+
             flex-direction: column;
+
             justify-content: center;
+
             align-items: center;
+
             padding: 40px;
+
             text-align: center;
         }
 
+
         .left-side h2 {
             font-size: 38px;
+
             margin-bottom: 15px;
+
             color: #f58220;
         }
 
+
         .left-side h3 {
             font-size: 24px;
+
             margin-bottom: 15px;
         }
 
+
         .left-side p {
             font-size: 15px;
+
             line-height: 1.6;
+
             color: #e8e8e8;
         }
 
+
         /* RIGHT SIDE */
+
         .right-side {
             width: 58%;
+
             padding: 40px 50px;
         }
 
+
         .right-side h2 {
             color: #123b70;
+
             font-size: 28px;
+
             margin-bottom: 8px;
         }
 
+
         .subtitle {
             color: #777;
+
             font-size: 14px;
+
             margin-bottom: 25px;
         }
 
+
         /* FORM */
+
         .form-group {
             margin-bottom: 16px;
         }
 
+
         .form-group label {
             display: block;
+
             font-weight: bold;
+
             color: #333;
+
             font-size: 14px;
+
             margin-bottom: 7px;
         }
+
 
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group input[type="password"] {
+
             width: 100%;
+
             padding: 12px;
+
             border: 1px solid #ccc;
+
             border-radius: 7px;
+
             font-size: 14px;
+
             outline: none;
         }
 
+
         .form-group input:focus {
             border-color: #f58220;
-            box-shadow: 0 0 4px rgba(245, 130, 32, 0.3);
+
+            box-shadow:
+                0 0 4px
+                rgba(245, 130, 32, 0.3);
         }
 
+
+        /* PASSWORD RULES */
+
+        .password-rules {
+
+            background: #f8f9fa;
+
+            border: 1px solid #ddd;
+
+            border-radius: 7px;
+
+            padding: 10px 12px;
+
+            margin-top: 8px;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            color: #555;
+        }
+
+
+        .password-rules strong {
+            color: #123b70;
+        }
+
+
         /* BTECH YEAR */
+
         .year-options {
             display: flex;
+
             gap: 18px;
+
             flex-wrap: wrap;
+
             margin-top: 8px;
         }
+
 
         .year-option {
             display: flex;
+
             align-items: center;
+
             gap: 5px;
+
             font-size: 14px;
+
             color: #333;
+
             cursor: pointer;
         }
+
 
         .year-option input {
             accent-color: #f58220;
+
             cursor: pointer;
         }
 
+
         /* ERROR */
+
         .error-message {
             background: #ffe5e5;
+
             color: #c00000;
+
             border: 1px solid #ffb3b3;
+
             padding: 10px;
+
             border-radius: 6px;
+
             margin-bottom: 15px;
+
             font-size: 13px;
         }
 
+
         /* BUTTON */
+
         .register-btn {
             width: 100%;
+
             padding: 13px;
+
             border: none;
+
             border-radius: 7px;
+
             background: #f58220;
+
             color: white;
+
             font-size: 16px;
+
             font-weight: bold;
+
             cursor: pointer;
+
             margin-top: 8px;
         }
+
 
         .register-btn:hover {
             background: #d96d0d;
         }
 
+
         /* LOGIN LINK */
+
         .login-link {
             text-align: center;
+
             margin-top: 18px;
+
             font-size: 14px;
+
             color: #555;
         }
 
+
         .login-link a {
             color: #f58220;
+
             text-decoration: none;
+
             font-weight: bold;
         }
+
 
         .login-link a:hover {
             text-decoration: underline;
         }
 
+
         /* RESPONSIVE */
+
         @media (max-width: 800px) {
 
             .register-card {
@@ -250,6 +396,7 @@
                 padding: 30px;
             }
         }
+
 
         @media (max-width: 500px) {
 
@@ -281,38 +428,60 @@
                 gap: 12px;
             }
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <!-- HEADER -->
+
 <header class="top-header">
 
-    <!-- Change filename if your logo has a different name -->
-    <img src="{% static 'images/rgm_logo.jpg' %}"
-         alt="RGM College Logo"
-         class="logo">
+    <img
+        src="{% static 'images/rgm_logo.jpg' %}"
+        alt="RGM College Logo"
+        class="logo"
+    >
 
     <div class="college-name">
-        <h1>R.G.M. COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
-        <p>Autonomous | Affiliated to JNTUA | Nandyal</p>
+
+        <h1>
+            R.G.M. COLLEGE OF ENGINEERING & TECHNOLOGY
+        </h1>
+
+        <p>
+            Autonomous | Affiliated to JNTUA | Nandyal
+        </p>
+
     </div>
 
 </header>
 
 
+
 <!-- MAIN -->
+
 <section class="main-section">
+
 
     <div class="register-card">
 
+
         <!-- LEFT SIDE -->
+
         <div class="left-side">
 
-            <h2>IntelliGap</h2>
+            <h2>
+                IntelliGap
+            </h2>
 
-            <h3>Student Learning Assistant</h3>
+            <h3>
+                Student Learning Assistant
+            </h3>
 
             <p>
                 Analyze your learning performance,
@@ -323,31 +492,45 @@
         </div>
 
 
+
         <!-- RIGHT SIDE -->
+
         <div class="right-side">
 
-            <h2>Create Account</h2>
+
+            <h2>
+                Create Account
+            </h2>
 
             <p class="subtitle">
                 Register as a student to continue
             </p>
 
 
+
             <!-- ERROR FROM DJANGO -->
+
             {% if error %}
+
                 <div class="error-message">
+
                     {{ error }}
+
                 </div>
+
             {% endif %}
 
 
+
             <!-- REGISTRATION FORM -->
+
             <form method="POST" id="registerForm">
 
                 {% csrf_token %}
 
 
                 <!-- FULL NAME -->
+
                 <div class="form-group">
 
                     <label for="name">
@@ -365,7 +548,9 @@
                 </div>
 
 
+
                 <!-- EMAIL -->
+
                 <div class="form-group">
 
                     <label for="email">
@@ -383,7 +568,9 @@
                 </div>
 
 
+
                 <!-- PASSWORD -->
+
                 <div class="form-group">
 
                     <label for="password">
@@ -395,14 +582,39 @@
                         id="password"
                         name="password"
                         placeholder="Enter password"
-                        maxlength="7"
+                        minlength="6"
+                        maxlength="10"
                         required
                     >
+
+                    <div class="password-rules">
+
+                        <strong>Password must contain:</strong>
+
+                        <br>
+
+                        • 6 to 10 characters
+
+                        <br>
+
+                        • At least 1 uppercase letter
+
+                        <br>
+
+                        • At least 1 special symbol
+
+                        <br>
+
+                        • At least 3 numbers
+
+                    </div>
 
                 </div>
 
 
+
                 <!-- CONFIRM PASSWORD -->
+
                 <div class="form-group">
 
                     <label for="confirm_password">
@@ -414,14 +626,17 @@
                         id="confirm_password"
                         name="confirm_password"
                         placeholder="Re-enter password"
-                        maxlength="7"
+                        minlength="6"
+                        maxlength="10"
                         required
                     >
 
                 </div>
 
 
+
                 <!-- MOBILE -->
+
                 <div class="form-group">
 
                     <label for="phone">
@@ -441,7 +656,9 @@
                 </div>
 
 
+
                 <!-- BTECH YEAR -->
+
                 <div class="form-group">
 
                     <label>
@@ -450,60 +667,87 @@
 
                     <div class="year-options">
 
+
                         <label class="year-option">
+
                             <input
                                 type="radio"
                                 name="btech_year"
                                 value="1st Year"
                                 required
                             >
+
                             1st Year
+
                         </label>
 
+
+
                         <label class="year-option">
+
                             <input
                                 type="radio"
                                 name="btech_year"
                                 value="2nd Year"
                             >
+
                             2nd Year
+
                         </label>
 
+
+
                         <label class="year-option">
+
                             <input
                                 type="radio"
                                 name="btech_year"
                                 value="3rd Year"
                             >
+
                             3rd Year
+
                         </label>
 
+
+
                         <label class="year-option">
+
                             <input
                                 type="radio"
                                 name="btech_year"
                                 value="4th Year"
                             >
+
                             4th Year
+
                         </label>
+
 
                     </div>
 
                 </div>
 
 
+
                 <!-- REGISTER BUTTON -->
+
                 <button
                     type="submit"
                     class="register-btn"
                 >
+
                     Register
+
                 </button>
+
 
             </form>
 
 
+
             <!-- LOGIN -->
+
             <div class="login-link">
 
                 Already have an account?
@@ -514,6 +758,7 @@
 
             </div>
 
+
         </div>
 
     </div>
@@ -521,34 +766,49 @@
 </section>
 
 
+
 <!-- JAVASCRIPT VALIDATION -->
+
 <script>
 
-document.getElementById("registerForm").addEventListener("submit", function(event) {
+
+document
+    .getElementById("registerForm")
+    .addEventListener("submit", function(event) {
+
 
     const name =
         document.getElementById("name").value.trim();
 
+
     const email =
         document.getElementById("email").value.trim();
+
 
     const password =
         document.getElementById("password").value;
 
+
     const confirmPassword =
         document.getElementById("confirm_password").value;
+
 
     const phone =
         document.getElementById("phone").value.trim();
 
 
+
     /* FULL NAME */
 
-    const namePattern = /^[A-Za-z ]+$/;
+    const namePattern =
+        /^[A-Za-z ]+$/;
+
 
     if (!namePattern.test(name)) {
 
-        alert("Full name must contain only letters and spaces.");
+        alert(
+            "Full name must contain only letters and spaces."
+        );
 
         event.preventDefault();
 
@@ -556,10 +816,12 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     }
 
 
+
     /* EMAIL */
 
-   const emailPattern =
-    /^[a-z0-9]+(?:#[a-z0-9]+)?@intell\.com$/;
+    const emailPattern =
+        /^[a-z0-9]+(?:#[a-z0-9]+)?@intell\.com$/;
+
 
     if (!emailPattern.test(email)) {
 
@@ -576,18 +838,23 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     }
 
 
+
     /* PASSWORD LENGTH */
 
-    if (password.length !== 7) {
+    if (
+        password.length < 6 ||
+        password.length > 10
+    ) {
 
         alert(
-            "Password must contain exactly 7 characters."
+            "Password must be between 6 and 10 characters."
         );
 
         event.preventDefault();
 
         return;
     }
+
 
 
     /* UPPERCASE */
@@ -604,15 +871,17 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     }
 
 
+
     /* NUMBERS */
 
     const numbers =
         password.match(/[0-9]/g) || [];
 
-    if (numbers.length < 1) {
+
+    if (numbers.length < 3) {
 
         alert(
-            "Password must contain at least one number."
+            "Password must contain at least 3 numbers."
         );
 
         event.preventDefault();
@@ -620,17 +889,6 @@ document.getElementById("registerForm").addEventListener("submit", function(even
         return;
     }
 
-
-    if (numbers.length > 2) {
-
-        alert(
-            "Password can contain maximum two numbers."
-        );
-
-        event.preventDefault();
-
-        return;
-    }
 
 
     /* SPECIAL CHARACTER */
@@ -638,16 +896,18 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     const specialCharacters =
         password.match(/[^a-zA-Z0-9]/g) || [];
 
-    if (specialCharacters.length !== 1) {
+
+    if (specialCharacters.length < 1) {
 
         alert(
-            "Password must contain exactly one special character."
+            "Password must contain at least one special symbol."
         );
 
         event.preventDefault();
 
         return;
     }
+
 
 
     /* CONFIRM PASSWORD */
@@ -664,15 +924,17 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     }
 
 
+
     /* MOBILE */
 
     const phonePattern =
         /^[6-9][0-9]{9}$/;
 
+
     if (!phonePattern.test(phone)) {
 
         alert(
-            "Mobile number must contain exactly 10 digits.and start with 6,7,8,9 only"
+            "Mobile number must contain exactly 10 digits and start with 6, 7, 8, or 9 only."
         );
 
         event.preventDefault();
@@ -681,12 +943,14 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     }
 
 
+
     /* BTECH YEAR */
 
     const selectedYear =
         document.querySelector(
             'input[name="btech_year"]:checked'
         );
+
 
     if (!selectedYear) {
 
@@ -705,37 +969,44 @@ document.getElementById("registerForm").addEventListener("submit", function(even
 
 /* NAME - ALLOW ONLY LETTERS AND SPACE */
 
-document.getElementById("name").addEventListener(
-    "input",
-    function() {
+document
+    .getElementById("name")
+    .addEventListener(
+        "input",
+        function() {
 
-        this.value =
-            this.value.replace(
-                /[^A-Za-z ]/g,
-                ""
-            );
+            this.value =
+                this.value.replace(
+                    /[^A-Za-z ]/g,
+                    ""
+                );
 
-    }
-);
+        }
+    );
 
 
 
 /* PHONE - ALLOW ONLY NUMBERS */
 
-document.getElementById("phone").addEventListener(
-    "input",
-    function() {
+document
+    .getElementById("phone")
+    .addEventListener(
+        "input",
+        function() {
 
-        this.value =
-            this.value.replace(
-                /[^0-9]/g,
-                ""
-            );
+            this.value =
+                this.value.replace(
+                    /[^0-9]/g,
+                    ""
+                );
 
-    }
-);
+        }
+    );
+
 
 </script>
 
+
 </body>
+
 </html>

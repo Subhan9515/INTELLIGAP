@@ -8,32 +8,41 @@ from django.conf import settings
 from accounts.models import Student
 
 
+# =========================================================
+# PASSWORD VALIDATION
+# =========================================================
+
 def validate_password(password):
 
-    if len(password) != 7:
-        return "Password must contain exactly 7 characters."
+    # Minimum and maximum length
+    if len(password) < 6 or len(password) > 10:
+        return "Password must be between 6 and 10 characters."
 
+    # At least one uppercase letter
     if not re.search(r"[A-Z]", password):
         return "Password must contain at least one uppercase letter."
 
+    # At least three numbers
     numbers = re.findall(r"[0-9]", password)
 
-    if len(numbers) < 1:
-        return "Password must contain at least one number."
+    if len(numbers) < 3:
+        return "Password must contain at least three numbers."
 
-    if len(numbers) > 2:
-        return "Password can contain maximum two numbers."
-
+    # At least one special character
     special_characters = re.findall(
         r"[^a-zA-Z0-9]",
         password
     )
 
-    if len(special_characters) != 1:
-        return "Password must contain exactly one special character."
+    if len(special_characters) < 1:
+        return "Password must contain at least one special symbol."
 
     return None
 
+
+# =========================================================
+# STUDENT REGISTER
+# =========================================================
 
 def register(request):
 
@@ -69,15 +78,42 @@ def register(request):
             ""
         )
 
+
+        # -------------------------------------------------
+        # PASSWORD MATCH
+        # -------------------------------------------------
+
         if password != confirm_password:
 
             return render(
                 request,
                 "accounts/register.html",
                 {
-                    "error": "Passwords do not match"
+                    "error": "Passwords do not match."
                 }
             )
+
+
+        # -------------------------------------------------
+        # PASSWORD VALIDATION
+        # -------------------------------------------------
+
+        password_error = validate_password(password)
+
+        if password_error:
+
+            return render(
+                request,
+                "accounts/register.html",
+                {
+                    "error": password_error
+                }
+            )
+
+
+        # -------------------------------------------------
+        # EMAIL DUPLICATE CHECK
+        # -------------------------------------------------
 
         if Student.objects.filter(
             email=email
@@ -87,9 +123,15 @@ def register(request):
                 request,
                 "accounts/register.html",
                 {
-                    "error": "Email already exists"
+                    "error":
+                    "This email is already registered. Please use another email."
                 }
             )
+
+
+        # -------------------------------------------------
+        # PHONE FORMAT CHECK
+        # -------------------------------------------------
 
         if not re.fullmatch(
             r"[6-9][0-9]{9}",
@@ -105,25 +147,69 @@ def register(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # PHONE DUPLICATE CHECK
+        # -------------------------------------------------
+
+        if Student.objects.filter(
+            phone=phone
+        ).exists():
+
+            return render(
+                request,
+                "accounts/register.html",
+                {
+                    "error":
+                    "This mobile number is already registered. Please use another number."
+                }
+            )
+
+
+        # -------------------------------------------------
+        # CREATE STUDENT
+        # -------------------------------------------------
+
         student = Student.objects.create(
+
             name=name,
+
             email=email,
+
             phone=phone,
+
             password=password,
+
             year=year
+
         )
 
+
+        # -------------------------------------------------
+        # SESSION
+        # -------------------------------------------------
+
         request.session["student_id"] = student.id
+
         request.session["student_name"] = student.name
+
         request.session["student_email"] = student.email
 
-        return redirect("/dashboard/")
+
+        return redirect(
+            "/dashboard/"
+        )
+
 
     return render(
         request,
         "accounts/register.html"
     )
 
+
+# =========================================================
+# STUDENT LOGIN
+# =========================================================
 
 def login_view(request):
 
@@ -138,6 +224,11 @@ def login_view(request):
             "password",
             ""
         )
+
+
+        # -------------------------------------------------
+        # EMAIL FORMAT
+        # -------------------------------------------------
 
         email_pattern = r"^[a-z0-9#]+@intell\.com$"
 
@@ -155,20 +246,10 @@ def login_view(request):
                 }
             )
 
-        password_error = validate_password(
-            password
-        )
 
-        if password_error:
-
-            return render(
-                request,
-                "accounts/login.html",
-                {
-                    "error": password_error,
-                    "email": email
-                }
-            )
+        # -------------------------------------------------
+        # FIND STUDENT
+        # -------------------------------------------------
 
         try:
 
@@ -187,6 +268,11 @@ def login_view(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # CHECK PASSWORD
+        # -------------------------------------------------
+
         if password != student.password:
 
             return render(
@@ -198,17 +284,32 @@ def login_view(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # SESSION
+        # -------------------------------------------------
+
         request.session["student_id"] = student.id
+
         request.session["student_name"] = student.name
+
         request.session["student_email"] = student.email
 
-        return redirect("/dashboard/")
+
+        return redirect(
+            "/dashboard/"
+        )
+
 
     return render(
         request,
         "accounts/login.html"
     )
 
+
+# =========================================================
+# FORGOT PASSWORD
+# =========================================================
 
 def forgot_password(request):
 
@@ -218,6 +319,11 @@ def forgot_password(request):
             "phone",
             ""
         ).strip()
+
+
+        # -------------------------------------------------
+        # PHONE VALIDATION
+        # -------------------------------------------------
 
         if not phone.isdigit() or len(phone) != 10:
 
@@ -230,6 +336,7 @@ def forgot_password(request):
                 }
             )
 
+
         if phone[0] not in "6789":
 
             return render(
@@ -240,6 +347,11 @@ def forgot_password(request):
                     "Mobile number must start with 6, 7, 8 or 9."
                 }
             )
+
+
+        # -------------------------------------------------
+        # FIND STUDENT
+        # -------------------------------------------------
 
         try:
 
@@ -258,6 +370,11 @@ def forgot_password(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # GENERATE OTP
+        # -------------------------------------------------
+
         otp = str(
             random.randint(
                 100000,
@@ -265,15 +382,29 @@ def forgot_password(request):
             )
         )
 
+
+        # -------------------------------------------------
+        # SAVE RESET SESSION
+        # -------------------------------------------------
+
         request.session["reset_student_id"] = student.id
+
         request.session["reset_phone"] = phone
+
         request.session["reset_otp"] = otp
+
+
+        # -------------------------------------------------
+        # MSG91
+        # -------------------------------------------------
 
         mobile = "91" + phone
 
         url = "https://control.msg91.com/api/v5/otp"
 
+
         params = {
+
             "template_id":
             settings.MSG91_TEMPLATE_ID,
 
@@ -282,33 +413,50 @@ def forgot_password(request):
 
             "authkey":
             settings.MSG91_AUTHKEY
+
         }
+
 
         data = {
+
             "OTP": otp
+
         }
 
+
         headers = {
+
             "Content-Type":
             "application/json"
+
         }
+
 
         try:
 
             response = requests.post(
+
                 url,
+
                 params=params,
+
                 json=data,
+
                 headers=headers,
+
                 timeout=10
+
             )
 
+
             result = response.json()
+
 
             print(
                 "MSG91 RESPONSE:",
                 result
             )
+
 
             if result.get("type") != "success":
 
@@ -327,6 +475,7 @@ def forgot_password(request):
                     None
                 )
 
+
                 return render(
                     request,
                     "accounts/forgot_password.html",
@@ -336,12 +485,14 @@ def forgot_password(request):
                     }
                 )
 
+
         except requests.RequestException as e:
 
             print(
                 "SMS ERROR:",
                 e
             )
+
 
             request.session.pop(
                 "reset_otp",
@@ -358,6 +509,7 @@ def forgot_password(request):
                 None
             )
 
+
             return render(
                 request,
                 "accounts/forgot_password.html",
@@ -367,23 +519,40 @@ def forgot_password(request):
                 }
             )
 
-        print("-----------------------")
-        print("OTP:", otp)
+
+        print(
+            "-----------------------"
+        )
+
+        print(
+            "OTP:",
+            otp
+        )
+
         print(
             "OTP SMS sent to:",
             phone
         )
-        print("------------------------")
+
+        print(
+            "------------------------"
+        )
+
 
         return redirect(
             "/verify-otp/"
         )
+
 
     return render(
         request,
         "accounts/forgot_password.html"
     )
 
+
+# =========================================================
+# VERIFY OTP
+# =========================================================
 
 def verify_otp(request):
 
@@ -393,6 +562,11 @@ def verify_otp(request):
             "otp",
             ""
         ).strip()
+
+
+        # -------------------------------------------------
+        # OTP FORMAT
+        # -------------------------------------------------
 
         if (
             len(entered_otp) != 6
@@ -408,9 +582,15 @@ def verify_otp(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # GET SAVED OTP
+        # -------------------------------------------------
+
         saved_otp = request.session.get(
             "reset_otp"
         )
+
 
         if not saved_otp:
 
@@ -423,6 +603,11 @@ def verify_otp(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # COMPARE OTP
+        # -------------------------------------------------
+
         if entered_otp != saved_otp:
 
             return render(
@@ -434,9 +619,15 @@ def verify_otp(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # STUDENT ID
+        # -------------------------------------------------
+
         student_id = request.session.get(
             "reset_student_id"
         )
+
 
         if not student_id:
 
@@ -449,9 +640,19 @@ def verify_otp(request):
                 }
             )
 
+
+        # -------------------------------------------------
+        # MARK VERIFIED
+        # -------------------------------------------------
+
         request.session[
             "verified_student_id"
         ] = student_id
+
+
+        # -------------------------------------------------
+        # CLEAR OTP SESSION
+        # -------------------------------------------------
 
         request.session.pop(
             "reset_otp",
@@ -468,9 +669,11 @@ def verify_otp(request):
             None
         )
 
+
         return redirect(
             "/reset-password/"
         )
+
 
     return render(
         request,
@@ -478,14 +681,27 @@ def verify_otp(request):
     )
 
 
+# =========================================================
+# RESET PASSWORD
+# =========================================================
+
 def reset_password(request):
 
     student_id = request.session.get(
         "verified_student_id"
     )
 
+
     if not student_id:
-        return redirect("/login/")
+
+        return redirect(
+            "/login/"
+        )
+
+
+    # -----------------------------------------------------
+    # GET STUDENT
+    # -----------------------------------------------------
 
     try:
 
@@ -495,7 +711,14 @@ def reset_password(request):
 
     except Student.DoesNotExist:
 
-        return redirect("/login/")
+        return redirect(
+            "/login/"
+        )
+
+
+    # -----------------------------------------------------
+    # POST
+    # -----------------------------------------------------
 
     if request.method == "POST":
 
@@ -509,6 +732,11 @@ def reset_password(request):
             ""
         ).strip()
 
+
+        # -------------------------------------------------
+        # PASSWORD MATCH
+        # -------------------------------------------------
+
         if new_password != confirm_password:
 
             return render(
@@ -520,72 +748,51 @@ def reset_password(request):
                 }
             )
 
-        if len(new_password) != 7:
 
-            return render(
-                request,
-                "accounts/reset_password.html",
-                {
-                    "error":
-                    "Password must contain exactly 7 characters."
-                }
-            )
+        # -------------------------------------------------
+        # PASSWORD VALIDATION
+        # -------------------------------------------------
 
-        if not any(
-            c.isupper()
-            for c in new_password
-        ):
-
-            return render(
-                request,
-                "accounts/reset_password.html",
-                {
-                    "error":
-                    "Password must contain at least one uppercase letter."
-                }
-            )
-
-        numbers = sum(
-            c.isdigit()
-            for c in new_password
+        password_error = validate_password(
+            new_password
         )
 
-        if numbers < 1 or numbers > 2:
+
+        if password_error:
 
             return render(
                 request,
                 "accounts/reset_password.html",
                 {
                     "error":
-                    "Password must contain 1 or 2 numbers."
+                    password_error
                 }
             )
 
-        special = sum(
-            not c.isalnum()
-            for c in new_password
-        )
 
-        if special != 1:
-
-            return render(
-                request,
-                "accounts/reset_password.html",
-                {
-                    "error":
-                    "Password must contain exactly one special character."
-                }
-            )
+        # -------------------------------------------------
+        # SAVE PASSWORD
+        # -------------------------------------------------
 
         student.password = new_password
+
         student.save()
+
+
+        # -------------------------------------------------
+        # CLEAR SESSION
+        # -------------------------------------------------
 
         request.session.pop(
             "verified_student_id",
             None
         )
 
-        return redirect("/login/")
+
+        return redirect(
+            "/login/"
+        )
+
 
     return render(
         request,
@@ -593,14 +800,23 @@ def reset_password(request):
     )
 
 
+# =========================================================
+# OTP SUCCESS
+# =========================================================
+
 def otp_success(request):
 
     student_id = request.session.get(
         "verified_student_id"
     )
 
+
     if not student_id:
-        return redirect("/login/")
+
+        return redirect(
+            "/login/"
+        )
+
 
     try:
 
@@ -610,15 +826,24 @@ def otp_success(request):
 
     except Student.DoesNotExist:
 
-        return redirect("/login/")
+        return redirect(
+            "/login/"
+        )
+
 
     request.session["student_id"] = student.id
+
     request.session["student_name"] = student.name
+
     request.session["student_email"] = student.email
+
 
     request.session.pop(
         "verified_student_id",
         None
     )
 
-    return redirect("/dashboard/")
+
+    return redirect(
+        "/dashboard/"
+    )
