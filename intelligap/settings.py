@@ -28,7 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# --------------------------------------------------
 # Application definition
+# --------------------------------------------------
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -36,8 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles','accounts',
+    'django.contrib.staticfiles',
+
+    # Existing IntelliGap app
+    'accounts',
+
+    # New AI Chatbot app
+    'chatbot',
 ]
+
+
+# --------------------------------------------------
+# Middleware
+# --------------------------------------------------
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,7 +62,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# --------------------------------------------------
+# URLs
+# --------------------------------------------------
+
 ROOT_URLCONF = 'intelligap.urls'
+
+
+# --------------------------------------------------
+# Templates
+# --------------------------------------------------
 
 TEMPLATES = [
     {
@@ -66,11 +89,17 @@ TEMPLATES = [
     },
 ]
 
+
+# --------------------------------------------------
+# WSGI
+# --------------------------------------------------
+
 WSGI_APPLICATION = 'intelligap.wsgi.application'
 
 
+# --------------------------------------------------
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# --------------------------------------------------
 
 DATABASES = {
     'default': {
@@ -80,8 +109,9 @@ DATABASES = {
 }
 
 
+# --------------------------------------------------
 # Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+# --------------------------------------------------
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,29 +129,41 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# --------------------------------------------------
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
+# --------------------------------------------------
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = "Asia/Kolkata"
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# --------------------------------------------------
+# Static files
+# --------------------------------------------------
 
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+
+# --------------------------------------------------
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# --------------------------------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# --------------------------------------------------
+# MSG91 Configuration
+# --------------------------------------------------
+
 MSG91_AUTHKEY = "YOUR_MSG91_AUTHKEY"
+
 MSG91_TEMPLATE_ID = "YOUR_TEMPLATE_ID"

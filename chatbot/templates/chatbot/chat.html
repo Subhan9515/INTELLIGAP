@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IntelliGap AI Chat Assistant</title>
+
+
+    <!-- Markdown converter -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Security for rendered HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+
+        .chat-container {
+            width: 700px;
+            max-width: 95%;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .chat-header {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        .chat-header h2 {
+            margin: 0 0 8px;
+        }
+
+
+        .chat-header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           CHAT BOX
+        ========================= */
+
+        .chat-box {
+            height: 500px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            max-width: 85%;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+
+        /* USER MESSAGE */
+
+        .user {
+            margin-left: auto;
+            background: #e3f2fd;
+            text-align: right;
+        }
+
+
+        /* AI MESSAGE */
+
+        .ai {
+            margin-right: auto;
+            background: #f1f1f1;
+            text-align: left;
+        }
+
+
+        /* =========================
+           AI MARKDOWN FORMATTING
+        ========================= */
+
+        .ai h1,
+        .ai h2,
+        .ai h3,
+        .ai h4 {
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
+
+
+        .ai p {
+            margin: 8px 0;
+        }
+
+
+        .ai ul,
+        .ai ol {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            padding-left: 25px;
+        }
+
+
+        .ai li {
+            margin-bottom: 5px;
+        }
+
+
+        .ai strong {
+            font-weight: bold;
+        }
+
+
+        /* INLINE CODE */
+
+        .ai code {
+            background: #e2e2e2;
+            color: #222;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+        }
+
+
+        /* CODE BLOCK */
+
+        .ai pre {
+            background: #1e1e1e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
+
+        .ai pre code {
+            background: transparent;
+            color: white;
+            padding: 0;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+        }
+
+
+        /* BLOCKQUOTE */
+
+        .ai blockquote {
+            border-left: 4px solid #888;
+            margin: 10px 0;
+            padding-left: 12px;
+            color: #555;
+        }
+
+
+        /* =========================
+           INPUT AREA
+        ========================= */
+
+        .input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            gap: 10px;
+        }
+
+
+        .input-area input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+
+        .input-area input:focus {
+            border-color: #555;
+        }
+
+
+        .input-area button {
+            padding: 12px 20px;
+            border: none;
+            background: #333;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+
+        .input-area button:hover {
+            background: #555;
+        }
+
+
+        .input-area button:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="chat-container">
+
+
+        <!-- =========================
+             HEADER
+        ========================= -->
+
+        <div class="chat-header">
+
+            <h2>
+                🤖 IntelliGap AI Chat Assistant
+            </h2>
+
+            <p>
+                Ask questions and get help with your learning
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             CHAT BOX
+        ========================= -->
+
+        <div class="chat-box" id="chatBox">
+
+
+            <!-- Initial AI message -->
+
+            <div class="message ai">
+
+                <strong>AI:</strong>
+
+                Hello! How can I help you with your learning?
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             INPUT AREA
+        ========================= -->
+
+        <div class="input-area">
+
+
+            <input
+                type="text"
+                id="message"
+                placeholder="Ask your question..."
+                onkeydown="handleEnter(event)"
+            >
+
+
+            <button
+                id="sendButton"
+                onclick="sendMessage()"
+            >
+                Send
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* =========================================
+           GET CSRF TOKEN
+        ========================================= */
+
+        function getCookie(name) {
+
+            let cookieValue = null;
+
+
+            if (document.cookie && document.cookie !== "") {
+
+                const cookies = document.cookie.split(";");
+
+
+                for (let cookie of cookies) {
+
+                    cookie = cookie.trim();
+
+
+                    if (cookie.startsWith(name + "=")) {
+
+                        cookieValue = decodeURIComponent(
+                            cookie.substring(name.length + 1)
+                        );
+
+
+                        break;
+                    }
+
+                }
+
+            }
+
+
+            return cookieValue;
+        }
+
+
+
+        /* =========================================
+           SEND MESSAGE
+        ========================================= */
+
+        async function sendMessage() {
+
+
+            const messageInput =
+                document.getElementById("message");
+
+
+            const sendButton =
+                document.getElementById("sendButton");
+
+
+            const chatBox =
+                document.getElementById("chatBox");
+
+
+            const message =
+                messageInput.value.trim();
+
+
+
+            /* Don't send empty message */
+
+            if (message === "") {
+
+                return;
+
+            }
+
+
+
+            /* =========================================
+               DISPLAY USER MESSAGE
+            ========================================= */
+
+            const userMessage =
+                document.createElement("div");
+
+
+            userMessage.className =
+                "message user";
+
+
+            const userLabel =
+                document.createElement("strong");
+
+
+            userLabel.textContent =
+                "You: ";
+
+
+            userMessage.appendChild(userLabel);
+
+
+            const userText =
+                document.createTextNode(message);
+
+
+            userMessage.appendChild(userText);
+
+
+            chatBox.appendChild(userMessage);
+
+
+
+            /* Clear input */
+
+            messageInput.value = "";
+
+
+
+            /* =========================================
+               DISPLAY THINKING MESSAGE
+            ========================================= */
+
+            const aiMessage =
+                document.createElement("div");
+
+
+            aiMessage.className =
+                "message ai";
+
+
+            aiMessage.innerHTML =
+                "<strong>AI:</strong> Thinking...";
+
+
+            chatBox.appendChild(aiMessage);
+
+
+
+            /* Scroll to bottom */
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+
+
+
+            /* Disable button */
+
+            sendButton.disabled = true;
+
+
+
+            try {
+
+
+                /* =========================================
+                   SEND REQUEST TO DJANGO
+                ========================================= */
+
+                const response = await fetch(
+                    "{% url 'chat' %}",
+                    {
+
+                        method: "POST",
+
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "X-CSRFToken":
+                                getCookie("csrftoken")
+
+                        },
+
+
+                        body: JSON.stringify({
+
+                            message: message
+
+                        })
+
+                    }
+                );
+
+
+
+                /* Convert response to JSON */
+
+                const data =
+                    await response.json();
+
+
+
+                /* =========================================
+                   DISPLAY GEMINI RESPONSE
+                ========================================= */
+
+                if (data.reply) {
+
+
+                    /*
+                       Gemini returns Markdown.
+
+                       marked.parse()
+                       converts Markdown → HTML
+
+                       DOMPurify.sanitize()
+                       protects the page from unsafe HTML
+                    */
+
+                    const formattedReply =
+                        DOMPurify.sanitize(
+                            marked.parse(data.reply)
+                        );
+
+
+                    aiMessage.innerHTML =
+                        "<strong>AI:</strong>" +
+                        formattedReply;
+
+
+                }
+
+
+                /* =========================================
+                   DISPLAY ERROR
+                ========================================= */
+
+                else if (data.error) {
+
+
+                    aiMessage.innerHTML =
+                        "<strong>AI:</strong> " +
+                        data.error;
+
+
+                }
+
+
+                else {
+
+
+                    aiMessage.innerHTML =
+                        "<strong>AI:</strong> " +
+                        "No response received.";
+
+
+                }
+
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(error);
+
+
+                aiMessage.innerHTML =
+                    "<strong>AI:</strong> " +
+                    "Something went wrong. Please try again.";
+
+
+            }
+
+
+
+            /* Enable button */
+
+            sendButton.disabled = false;
+
+
+
+            /* Scroll to bottom */
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+
+        }
+
+
+
+        /* =========================================
+           ENTER KEY
+        ========================================= */
+
+        function handleEnter(event) {
+
+
+            if (event.key === "Enter") {
+
+                sendMessage();
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
