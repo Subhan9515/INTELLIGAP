@@ -2,16 +2,11 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntelliGap Dashboard</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -25,10 +20,7 @@
             padding-bottom: 90px;
         }
 
-
-        /* =========================
-           HEADER
-        ========================= */
+        /* HEADER */
 
         .header {
             background: #123b70;
@@ -48,19 +40,14 @@
         .profile-icon {
             width: 55px;
             height: 55px;
-
             border-radius: 50%;
-
             background: white;
             color: #123b70;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             font-size: 22px;
             font-weight: bold;
-
             border: 3px solid white;
         }
 
@@ -104,27 +91,24 @@
             font-size: 22px;
         }
 
+        /* MAIN */
 
-        /* =========================
-           MAIN
-        ========================= */
+        .container {
+            width: 90%;
+            max-width: 1250px;
+            margin: 30px auto;
+        }
 
         .welcome {
             background: white;
             border-radius: 22px;
-
             padding: 30px 40px;
-
             min-height: 230px;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-
             margin-bottom: 35px;
-
             overflow: hidden;
         }
 
@@ -150,19 +134,12 @@
             line-height: 1.6;
         }
 
-
-        /* RIGHT ILLUSTRATION */
-
         .welcome-illustration {
             width: 40%;
             height: 190px;
-
             background: #f5f8ff;
-
             border-radius: 20px;
-
             position: relative;
-
             display: flex;
             align-items: center;
             justify-content: center;
@@ -174,37 +151,7 @@
             object-fit: contain;
         }
 
-        .student-emoji {
-            font-size: 90px;
-
-            position: relative;
-            z-index: 2;
-        }
-
-        .book {
-            position: absolute;
-
-            right: 35px;
-            bottom: 20px;
-
-            font-size: 35px;
-        }
-
-        .chart {
-            position: absolute;
-
-            top: 25px;
-            left: 30px;
-
-            color: #5b8def;
-
-            font-size: 28px;
-        }
-
-
-        /* =========================
-           MODULE TITLE
-        ========================= */
+        /* MODULE TITLE */
 
         .title {
             display: flex;
@@ -223,10 +170,7 @@
             font-size: 14px;
         }
 
-
-        /* =========================
-           MODULE GRID
-        ========================= */
+        /* MODULE GRID */
 
         .modules {
             display: grid;
@@ -235,6 +179,7 @@
         }
 
         .module {
+            display: block;
             background: white;
             border-radius: 18px;
             padding: 25px;
@@ -298,10 +243,7 @@
             line-height: 1.5;
         }
 
-
-        /* =========================
-           QUIZ SUMMARY
-        ========================= */
+        /* QUIZ SUMMARY */
 
         .summary {
             background: white;
@@ -339,27 +281,19 @@
             font-size: 13px;
         }
 
-
-        /* =========================
-           BOTTOM NAVIGATION
-        ========================= */
+        /* BOTTOM NAVIGATION */
 
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-
             height: 75px;
-
             background: white;
-
             display: flex;
             justify-content: space-around;
             align-items: center;
-
             box-shadow: 0 -4px 18px rgba(0,0,0,0.12);
-
             z-index: 100;
         }
 
@@ -381,13 +315,9 @@
             font-weight: bold;
         }
 
-
-        /* =========================
-           MOBILE
-        ========================= */
+        /* MOBILE */
 
         @media (max-width: 850px) {
-
             .modules {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -395,18 +325,9 @@
             .summary-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            .welcome-icon {
-                width: 90px;
-                height: 90px;
-                font-size: 40px;
-            }
-
         }
 
-
         @media (max-width: 600px) {
-
             .header {
                 padding: 15px;
             }
@@ -441,7 +362,7 @@
                 font-size: 25px;
             }
 
-            .welcome-icon {
+            .welcome-illustration {
                 display: none;
             }
 
@@ -460,322 +381,192 @@
             .summary-grid {
                 grid-template-columns: 1fr;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+    <!-- HEADER -->
 
-<!-- =========================
-     HEADER
-========================= -->
+    <header class="header">
 
-<header class="header">
+        <div class="profile">
 
+            <div class="profile-icon">
+                {% if student.name %}
+                    {{ student.name|first|upper }}
+                {% else %}
+                    S
+                {% endif %}
+            </div>
 
-    <div class="profile">
+            <div class="student-details">
+                <h3>{{ student.name }}</h3>
+                <p>{{ student.email }}</p>
 
-        <div class="profile-icon">
-
-            {% if student.name %}
-                {{ student.name|first|upper }}
-            {% else %}
-                S
-            {% endif %}
+                {% if student.year %}
+                    <p>{{ student.year }}</p>
+                {% endif %}
+            </div>
 
         </div>
 
-        <div class="student-details">
+        <div class="logo">
+            <h1>INTELLI<span>GAP</span></h1>
+        </div>
 
-            <h3>
-                {{ student.name }}
-            </h3>
+        <div class="header-actions">
+            <a href="#" title="Notifications">🔔</a>
+            <a href="/login/" title="Logout">⇥</a>
+        </div>
 
-            <p>
-                {{ student.email }}
-            </p>
+    </header>
 
-            {% if student.year %}
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <div class="welcome-text">
+                <small>WELCOME BACK</small>
+
+                <h1>{{ student.name }} 👋</h1>
+
                 <p>
-                    {{ student.year }}
+                    Let's continue your learning journey
+                    and achieve your goals.
                 </p>
-            {% endif %}
+            </div>
+
+            <div class="welcome-illustration">
+                <img src="/static/images/ai-dashboard.jpeg"
+                     alt="AI Learning Assistant">
+            </div>
 
         </div>
 
-    </div>
+        <!-- MODULE TITLE -->
 
-
-    <div class="logo">
-
-        <h1>
-            INTELLI<span>GAP</span>
-        </h1>
-
-    </div>
-
-
-    <div class="header-actions">
-
-        <a href="#" title="Notifications">
-            🔔
-        </a>
-
-        <a href="/login/" title="Logout">
-            ⇥
-        </a>
-
-    </div>
-
-</header>
-
-
-
-<!-- =========================
-     MAIN CONTENT
-========================= -->
-
-<main class="container">
-
-
-    <!-- WELCOME -->
-
-    <div class="welcome">
-
-        <div class="welcome-text">
-
-            <small>
-                WELCOME BACK
-            </small>
-
-            <h1>
-                {{ student.name }} 👋
-            </h1>
-
-            <p>
-                Let's continue your learning journey
-                and achieve your goals.
-            </p>
-
+        <div class="title">
+            <h2>Features</h2>
+            <p>Explore &amp; Improve ✨</p>
         </div>
 
-        <div class="welcome-illustration">
+        <!-- MAIN MODULES -->
 
-            <img src="/static/images/ai-dashboard.jpeg"
-                 alt="AI Learning Assistant">
+        <section class="modules">
 
-        </div>
+            <!-- QUIZ -->
 
-    </div>
+            <a href="/subjects/" class="module">
+                <div class="module-icon orange">📝</div>
 
+                <h3>Quiz Management</h3>
 
+                <p>
+                    Select a subject, attempt quizzes
+                    and test your knowledge.
+                </p>
+            </a>
 
-    <!-- MODULE TITLE -->
+            <!-- KNOWLEDGE GAP: CORRECTED LINK -->
 
-    <div class="title">
+            <a href="{% url 'knowledge_gap' %}" class="module">
+                <div class="module-icon blue">🧠</div>
 
-        <h2>
-            Features
-        </h2>
+                <h3>AI Knowledge Gap Analysis</h3>
 
-        <p>
-            Explore & Improve ✨
-        </p>
+                <p>
+                    Identify weak topics and understand
+                    where you need improvement.
+                </p>
+            </a>
 
-    </div>
+            <!-- RECOMMENDATION -->
 
+            <a href="#" class="module">
+                <div class="module-icon green">📚</div>
 
+                <h3>AI Study Recommendation</h3>
 
-    <!-- =========================
-         MAIN MODULES
-    ========================= -->
+                <p>
+                    Get personalized study suggestions
+                    based on your performance.
+                </p>
+            </a>
 
-    <section class="modules">
+            <!-- HISTORY -->
 
+            <a href="{% url 'quiz_history' %}" class="module">
+                <div class="module-icon purple">🕒</div>
 
-        <!-- QUIZ -->
+                <h3>Quiz History</h3>
 
-        <a href="/subjects/" class="module">
+                <p>
+                    View your previous quizzes,
+                    scores and performance.
+                </p>
+            </a>
 
-            <div class="module-icon orange">
-                📝
-            </div>
+            <!-- AI ASSISTANT -->
 
-            <h3>
-                Quiz Management
-            </h3>
+            <a href="{% url 'chat' %}" class="module">
+                <div class="module-icon yellow">🤖</div>
 
-            <p>
-                Select a subject, attempt quizzes
-                and test your knowledge.
-            </p>
+                <h3>AI Chat Assistant</h3>
 
+                <p>
+                    Ask questions and get help with
+                    your learning.
+                </p>
+            </a>
+
+            <!-- PROGRESS -->
+
+            <a href="#" class="module">
+                <div class="module-icon red">📊</div>
+
+                <h3>My Progress</h3>
+
+                <p>
+                    Track your learning progress,
+                    scores and improvement.
+                </p>
+            </a>
+
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <nav class="bottom-nav">
+
+        <a href="{% url 'dashboard' %}" class="nav-item active">
+            <span>🏠</span>
+            Home
         </a>
 
-
-
-        <!-- KNOWLEDGE GAP -->
-
-        <a href="#" class="module">
-
-            <div class="module-icon blue">
-                🧠
-            </div>
-
-            <h3>
-                AI Knowledge Gap Analysis
-            </h3>
-
-            <p>
-                Identify weak topics and understand
-                where you need improvement.
-            </p>
-
+        <a href="/subjects/" class="nav-item">
+            <span>🔎</span>
+            Explore
         </a>
 
-
-
-        <!-- RECOMMENDATION -->
-
-        <a href="#" class="module">
-
-            <div class="module-icon green">
-                📚
-            </div>
-
-            <h3>
-                AI Study Recommendation
-            </h3>
-
-            <p>
-                Get personalized study suggestions
-                based on your performance.
-            </p>
-
+        <a href="#" class="nav-item">
+            <span>🏆</span>
+            Leaderboard
         </a>
 
-
-
-        <!-- HISTORY -->
-
-        <a href="{% url 'quiz_history' %}" class="module">
-
-            <div class="module-icon purple">
-                🕒
-            </div>
-
-            <h3>
-                Quiz History
-            </h3>
-
-            <p>
-                View your previous quizzes,
-                scores and performance.
-            </p>
-
+        <a href="#" class="nav-item">
+            <span>👤</span>
+            Profile
         </a>
 
-
-
-        <!-- AI ASSISTANT -->
-
-        <!-- CONNECTED TO CHATBOT -->
-
-        <a href="{% url 'chat' %}" class="module">
-
-            <div class="module-icon yellow">
-                🤖
-            </div>
-
-            <h3>
-                AI Chat Assistant
-            </h3>
-
-            <p>
-                Ask questions and get help with
-                your learning.
-            </p>
-
-        </a>
-
-
-
-        <!-- PROGRESS -->
-
-        <a href="#" class="module">
-
-            <div class="module-icon red">
-                📊
-            </div>
-
-            <h3>
-                My Progress
-            </h3>
-
-            <p>
-                Track your learning progress,
-                scores and improvement.
-            </p>
-
-        </a>
-
-
-    </section>
-
-</main>
-
-
-<!-- =========================
-     BOTTOM NAVIGATION
-========================= -->
-
-<nav class="bottom-nav">
-
-
-    <a href="#" class="nav-item active">
-
-        <span>🏠</span>
-
-        Home
-
-    </a>
-
-
-    <a href="/subjects/" class="nav-item">
-
-        <span>🔎</span>
-
-        Explore
-
-    </a>
-
-
-    <a href="#" class="nav-item">
-
-        <span>🏆</span>
-
-        Leaderboard
-
-    </a>
-
-
-    <a href="#" class="nav-item">
-
-        <span>👤</span>
-
-        Profile
-
-    </a>
-
-
-</nav>
-
+    </nav>
 
 </body>
-
 </html>

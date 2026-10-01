@@ -1,112 +1,312 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Machine Learning Quiz</title>
+    <title>Machine Learning Quiz - IntelliGap</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(120deg, #10172a, #172554, #312e81);
+            min-height: 100vh;
+            color: #f8fafc;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .quiz-icon {
+            display: inline-flex;
+            width: 75px;
+            height: 75px;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            border-radius: 22px;
+            font-size: 38px;
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.25);
+        }
+
+        h1 {
+            color: #67e8f9;
+            font-size: 30px;
+            margin: 16px 0 5px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .timer-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: fit-content;
+            margin: 0 auto 30px;
+            padding: 13px 25px;
+            background: #0f172a;
+            border: 1px solid #22d3ee;
+            border-radius: 50px;
+            color: #67e8f9;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 0 18px rgba(34, 211, 238, 0.12);
+        }
+
+        #timer {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 800;
+            min-width: 55px;
+        }
+
+        .question-card {
+            background: #f8fafc;
+            color: #172554;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            border-left: 5px solid #06b6d4;
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-card h3 {
+            color: #1e293b;
+            font-size: 17px;
+            line-height: 1.5;
+            margin: 0 0 17px;
+        }
+
+        .option-label {
+            display: block;
+            padding: 12px 14px;
+            margin: 9px 0;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            color: #334155;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .option-label:hover {
+            background: #ecfeff;
+            border-color: #06b6d4;
+            transform: translateX(4px);
+        }
+
+        input[type="radio"] {
+            accent-color: #0891b2;
+            margin-right: 10px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 13px 15px;
+            margin-top: 5px;
+            border: 1px solid #94a3b8;
+            border-radius: 9px;
+            background: #ffffff;
+            color: #1e293b;
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 15px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #0891b2;
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.15);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 42px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(100deg, #06b6d4, #7c3aed);
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.2);
+            transition: 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .quiz-container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .question-card {
+                padding: 16px;
+            }
+
+            .timer-box {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 
-<body style="font-family:Arial;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);">
+<body>
 
-<center>
+<div class="quiz-container">
 
-<div style="background:white;width:700px;padding:30px;margin-top:40px;border-radius:15px;">
+    <div class="header">
+        <div class="quiz-icon">🤖</div>
+        <h1>Machine Learning Quiz</h1>
+        <p class="subtitle">Test your knowledge and improve your skills</p>
+    </div>
 
-<h1 style="color:#2563eb;">Machine Learning Quiz</h1>
+    <div class="timer-box">
+        <span>⏱️ Time Remaining</span>
+        <span id="timer">5:00</span>
+    </div>
 
-<div style="background:#ffeb3b;
-padding:10px;
-font-size:22px;
-font-weight:bold;
-border-radius:8px;
-margin-bottom:20px;">
+    <form method="POST" id="quizForm">
 
-⏰ Time Left:
-<span id="timer">5:00</span>
+        {% csrf_token %}
+
+        {% for q in questions %}
+
+        <div class="question-card">
+
+            <h3>{{ forloop.counter }}. {{ q.question }}</h3>
+
+            {% if q.question_type == "MCQ" %}
+
+                <label class="option-label">
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option1 }}">
+                    {{ q.option1 }}
+                </label>
+
+                <label class="option-label">
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option2 }}">
+                    {{ q.option2 }}
+                </label>
+
+                <label class="option-label">
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option3 }}">
+                    {{ q.option3 }}
+                </label>
+
+                <label class="option-label">
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option4 }}">
+                    {{ q.option4 }}
+                </label>
+
+            {% elif q.question_type == "FILL" %}
+
+                <input type="text"
+                       name="{{ q.id }}"
+                       placeholder="Enter your answer here">
+
+            {% else %}
+
+                <textarea name="{{ q.id }}"
+                          placeholder="Write your answer here"></textarea>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+        <input type="submit"
+               value="Submit Quiz"
+               class="submit-btn"
+               id="submitBtn">
+
+    </form>
 
 </div>
-
-<form method="POST">
-
-{% csrf_token %}
-
-{% for q in questions %}
-
-<h3>{{ forloop.counter }}. {{ q.question }}</h3>
-
-{% if q.question_type == "MCQ" %}
-
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option1 }}">
-{{ q.option1 }}
-</label><br>
-
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option2 }}">
-{{ q.option2 }}
-</label><br>
-
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option3 }}">
-{{ q.option3 }}
-</label><br>
-
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option4 }}">
-{{ q.option4 }}
-</label><br><br>
-
-{% elif q.question_type == "FILL" %}
-
-<input type="text" name="{{ q.id }}" placeholder="Fill in the blank"><br><br>
-
-{% else %}
-
-<textarea name="{{ q.id }}" placeholder="Write your answer"></textarea><br><br>
-
-{% endif %}
-
-{% endfor %}
-
-<input type="submit"
-value="Submit Quiz"
-style="background:#2196F3;color:white;padding:12px 30px;border:none;border-radius:8px;font-size:18px;cursor:pointer;">
-
-</form>
-
-</div>
-
-</center>
 
 <script>
+    let time = 5 * 60;
+    let timer = document.getElementById("timer");
+    let quizForm = document.getElementById("quizForm");
+    let submitBtn = document.getElementById("submitBtn");
+    let submitted = false;
 
-let time = 5 * 60;
+    let countdown = setInterval(function() {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
 
-let timer = document.getElementById("timer");
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
 
-let countdown = setInterval(function(){
+        timer.innerHTML = minutes + ":" + seconds;
+        time--;
 
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
+        if (time < 0) {
+            clearInterval(countdown);
 
-    if(seconds < 10){
-        seconds = "0" + seconds;
-    }
+            if (!submitted) {
+                submitted = true;
+                alert("Time is over!");
+                quizForm.submit();
+            }
+        }
+    }, 1000);
 
-    timer.innerHTML = minutes + ":" + seconds;
-
-    time--;
-
-    if(time < 0){
-
+    quizForm.addEventListener("submit", function() {
+        submitted = true;
         clearInterval(countdown);
-
-        alert("Time is over!");
-
-        document.forms[0].submit();
-
-    }
-
-},1000);
-
+        submitBtn.disabled = true;
+        submitBtn.value = "Submitting...";
+    });
 </script>
 
 </body>

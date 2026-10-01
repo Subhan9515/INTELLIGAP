@@ -11,33 +11,26 @@ def chat(request):
     if request.method == "GET":
         return render(request, "chatbot/chat.html")
 
-
     # Receive message from user
     if request.method == "POST":
 
         try:
-
             data = json.loads(request.body)
 
             message = data.get("message", "").strip()
 
-
             # Check empty message
             if not message:
-
                 return JsonResponse(
                     {"error": "Please enter a message."},
                     status=400
                 )
 
-
             # Connect to Gemini
             client = genai.Client()
 
-
-            # Generate short AI response
+            # Generate AI response
             interaction = client.interactions.create(
-
                 model="gemini-3.8-flash",
 
                 system_instruction=(
@@ -54,27 +47,27 @@ def chat(request):
                 input=message,
             )
 
-
             # Get Gemini answer
             reply = interaction.output_text
-
 
             # Send answer to chatbot
             return JsonResponse({
                 "reply": reply
             })
 
-
         except Exception as e:
-
             return JsonResponse(
                 {"error": str(e)},
                 status=500
             )
-
 
     # Invalid request
     return JsonResponse(
         {"error": "Invalid request method."},
         status=405
     )
+
+
+# AI KNOWLEDGE GAP ANALYSIS PAGE
+def knowledge_gap(request):
+    return render(request, "knowledge_gap.html")

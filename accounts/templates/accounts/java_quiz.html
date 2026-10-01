@@ -1,123 +1,392 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DBMS Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Quiz - IntelliGap</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 35px 15px;
+            background:
+                radial-gradient(circle at 12% 15%, rgba(0, 238, 255, .25), transparent 28%),
+                radial-gradient(circle at 88% 85%, rgba(255, 80, 210, .22), transparent 30%),
+                linear-gradient(135deg, #159bea, #7185f7, #c36be9, #f17acb);
+            color: #263453;
+        }
+
+        .decoration {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            color: rgba(255, 255, 255, .35);
+            font-size: 75px;
+        }
+
+        .decoration.one {
+            top: 5%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+
+        .decoration.two {
+            right: 6%;
+            top: 12%;
+            transform: rotate(12deg);
+        }
+
+        .decoration.three {
+            bottom: 5%;
+            left: 7%;
+            transform: rotate(-10deg);
+        }
+
+        .quiz-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 35px 45px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, .96);
+            box-shadow: 0 22px 55px rgba(35, 40, 100, .23);
+        }
+
+        .quiz-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e1f1ff, #f0e7ff);
+            font-size: 35px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #159bea, #7048ed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .title-line {
+            width: 75px;
+            height: 4px;
+            margin: 0 auto 22px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #21c4ef, #d84de8);
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            margin-bottom: 25px;
+            border-radius: 13px;
+            background: linear-gradient(90deg, #fff0b8, #ffe16b);
+            color: #684800;
+            font-size: 21px;
+            font-weight: bold;
+            box-shadow: 0 5px 14px rgba(180, 140, 20, .12);
+        }
+
+        #timer {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .question {
+            padding: 20px;
+            margin-bottom: 18px;
+            border: 1px solid #e4e9fa;
+            border-radius: 16px;
+            background: linear-gradient(120deg, #f5f9ff, #faf7ff);
+            transition: .2s ease;
+        }
+
+        .question:hover {
+            border-color: #a9b9fa;
+            box-shadow: 0 6px 18px rgba(90, 100, 180, .10);
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: #17264b;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .question-number {
+            color: #6951df;
+            font-weight: 800;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #e6eafa;
+            color: #35415f;
+            cursor: pointer;
+            line-height: 1.4;
+            transition: .2s ease;
+        }
+
+        .option:hover {
+            background: #edf5ff;
+            border-color: #8abcf5;
+        }
+
+        .option input {
+            margin-top: 3px;
+            accent-color: #5369e8;
+            cursor: pointer;
+        }
+
+        .answer-input,
+        .answer-textarea {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #cbd5ee;
+            border-radius: 10px;
+            outline: none;
+            background: white;
+            color: #263453;
+            font-size: 15px;
+            transition: .2s ease;
+        }
+
+        .answer-input:focus,
+        .answer-textarea:focus {
+            border-color: #6b65e8;
+            box-shadow: 0 0 0 3px rgba(107, 101, 232, .12);
+        }
+
+        .answer-textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .submit-area {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .submit-button {
+            min-width: 220px;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(100deg, #159bea, #087ff0, #8045f5);
+            color: white;
+            font-size: 19px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 23px rgba(75, 100, 230, .25);
+            transition: .25s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 28px rgba(75, 100, 230, .35);
+        }
+
+        .submit-button:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #7883a2;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .quiz-card {
+                padding: 25px 16px;
+                border-radius: 19px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            .timer {
+                font-size: 18px;
+            }
+
+            .question {
+                padding: 15px 12px;
+            }
+
+            .question h3 {
+                font-size: 16px;
+            }
+
+            .submit-button {
+                width: 100%;
+            }
+
+            .decoration {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
-<body style="font-family:Arial;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);">
+<body>
 
-<center>
+    <div class="decoration one">🎓</div>
+    <div class="decoration two">💡</div>
+    <div class="decoration three">📚</div>
 
-<div style="background:white;width:700px;padding:30px;margin-top:40px;border-radius:15px;">
+    <main class="quiz-card">
 
-<h1 style="color:#2563eb;">DBMS Quiz</h1>
+        <div class="quiz-icon">☕</div>
 
-<div style="background:#ffeb3b;
-padding:10px;
-font-size:22px;
-font-weight:bold;
-border-radius:8px;
-margin-bottom:20px;">
+        <h1>Java Quiz</h1>
+        <div class="title-line"></div>
 
-⏰ Time Left:
-<span id="timer">5:00</span>
+        <div class="timer">
+            ⏰ Time Left:
+            <span id="timer">5:00</span>
+        </div>
 
-</div>
+        <form method="POST" id="quizForm">
+            {% csrf_token %}
 
-<form method="POST">
+            {% for q in questions %}
 
-{% csrf_token %}
+            <section class="question">
 
-{% for q in questions %}
+                <h3>
+                    <span class="question-number">{{ forloop.counter }}.</span>
+                    {{ q.question }}
+                </h3>
 
-<h3>{{ forloop.counter }}. {{ q.question }}</h3>
+                {% if q.question_type == "MCQ" %}
 
-{% if q.question_type == "MCQ" %}
+                    <label class="option">
+                        <input type="radio" name="{{ q.id }}" value="{{ q.option1 }}">
+                        <span>{{ q.option1 }}</span>
+                    </label>
 
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option1 }}">
-{{ q.option1 }}
-</label><br>
+                    <label class="option">
+                        <input type="radio" name="{{ q.id }}" value="{{ q.option2 }}">
+                        <span>{{ q.option2 }}</span>
+                    </label>
 
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option2 }}">
-{{ q.option2 }}
-</label><br>
+                    <label class="option">
+                        <input type="radio" name="{{ q.id }}" value="{{ q.option3 }}">
+                        <span>{{ q.option3 }}</span>
+                    </label>
 
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option3 }}">
-{{ q.option3 }}
-</label><br>
+                    <label class="option">
+                        <input type="radio" name="{{ q.id }}" value="{{ q.option4 }}">
+                        <span>{{ q.option4 }}</span>
+                    </label>
 
-<label>
-<input type="radio" name="{{ q.id }}" value="{{ q.option4 }}">
-{{ q.option4 }}
-</label><br><br>
+                {% elif q.question_type == "FILL" %}
 
-{% elif q.question_type == "FILL" %}
+                    <input
+                        class="answer-input"
+                        type="text"
+                        name="{{ q.id }}"
+                        placeholder="Type your answer"
+                    >
 
-<input type="text"
-       name="{{ q.id }}"
-       placeholder="Fill in the blank"><br><br>
+                {% else %}
 
-{% else %}
+                    <textarea
+                        class="answer-textarea"
+                        name="{{ q.id }}"
+                        placeholder="Write your answer"
+                    ></textarea>
 
-<textarea
-    name="{{ q.id }}"
-    placeholder="Write your answer"></textarea><br><br>
+                {% endif %}
 
-{% endif %}
+            </section>
 
-{% endfor %}
+            {% endfor %}
 
-<input type="submit"
-value="Submit Quiz"
-style="background:#2196F3;
-color:white;
-padding:12px 30px;
-border:none;
-border-radius:8px;
-font-size:18px;
-cursor:pointer;">
+            <div class="submit-area">
+                <button type="submit" class="submit-button" id="submitButton">
+                    Submit Quiz →
+                </button>
+            </div>
 
-</form>
+        </form>
 
-</div>
+        <div class="footer-text">
+            THINK • ANSWER • SUCCEED
+        </div>
 
-</center>
+    </main>
 
-<script>
+    <script>
+        let time = 5 * 60;
+        const timer = document.getElementById("timer");
+        const quizForm = document.getElementById("quizForm");
+        const submitButton = document.getElementById("submitButton");
 
-let time = 5* 60;
+        let submitted = false;
 
-let timer = document.getElementById("timer");
+        const countdown = setInterval(function () {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
 
-let countdown = setInterval(function(){
+            timer.textContent =
+                minutes + ":" + String(seconds).padStart(2, "0");
 
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
+            if (time <= 0) {
+                clearInterval(countdown);
 
-    if(seconds < 10){
-        seconds = "0" + seconds;
-    }
+                if (!submitted) {
+                    submitted = true;
+                    alert("Time is over! Your quiz will be submitted.");
+                    quizForm.submit();
+                }
 
-    timer.innerHTML = minutes + ":" + seconds;
+                return;
+            }
 
-    time--;
+            time--;
+        }, 1000);
 
-    if(time < 0){
-
-        clearInterval(countdown);
-
-        alert("Time is over!");
-
-        document.forms[0].submit();
-
-    }
-
-},1000);
-
-</script>
+        quizForm.addEventListener("submit", function () {
+            submitted = true;
+            clearInterval(countdown);
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitting...";
+        });
+    </script>
 
 </body>
 </html>
