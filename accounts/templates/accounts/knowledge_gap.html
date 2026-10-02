@@ -1,80 +1,1377 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Knowledge Gap Analysis | IntelliGap</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        AI Knowledge Gap Analysis | IntelliGap
+    </title>
+
 
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b1220;
-            color: white;
+
+        * {
+            box-sizing: border-box;
         }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7fb;
+
+            color: #1e293b;
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        .top-header {
+
+            width: 100%;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 17px 38px;
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================
+           MAIN CONTAINER
+        ===================================== */
 
         .container {
-            max-width: 900px;
-            margin: 60px auto;
-            padding: 30px;
-            text-align: center;
+
+            max-width: 1050px;
+
+            margin: 0 auto;
+
+            padding: 30px 25px 60px;
         }
 
-        .card {
-            background: #172238;
-            padding: 35px;
-            border-radius: 15px;
-            border: 1px solid #334155;
-        }
 
-        h1 {
-            color: #ff9f43;
-        }
+        /* =====================================
+           BACK
+        ===================================== */
 
-        p {
-            color: #cbd5e1;
-            line-height: 1.7;
-        }
+        .back-link {
 
-        .message {
-            margin-top: 25px;
-            padding: 20px;
-            background: #24334d;
-            border-radius: 10px;
-        }
-
-        a {
             display: inline-block;
-            margin-top: 25px;
-            padding: 12px 25px;
-            background: #ff9f43;
-            color: #111827;
+
+            margin-bottom: 20px;
+
+            color: #2563eb;
+
             text-decoration: none;
-            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================
+           PAGE HEADER
+        ===================================== */
+
+        .page-header {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 28px 30px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(15, 23, 42, 0.06);
+        }
+
+
+        .page-header h1 {
+
+            margin: 0 0 9px;
+
+            color: #1e3a8a;
+
+            font-size: 29px;
+        }
+
+
+        .page-header p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================
+           SECTION TITLE
+        ===================================== */
+
+        .section-title {
+
+            margin: 0 0 18px;
+
+            color: #1e3a8a;
+
+            font-size: 21px;
+        }
+
+
+        /* =====================================
+           SUBJECT GRID
+        ===================================== */
+
+        .subject-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .subject-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            min-height: 130px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            text-decoration: none;
+
+            color: #1e293b;
+
+            border: 1px solid #edf0f5;
+
+            box-shadow:
+                0 3px 12px
+                rgba(15, 23, 42, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .subject-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 7px 18px
+                rgba(15, 23, 42, 0.10);
+        }
+
+
+        .subject-icon {
+
+            width: 62px;
+
+            height: 62px;
+
+            border-radius: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 32px;
+
+            background: #eff6ff;
+        }
+
+
+        .subject-info {
+
+            flex: 1;
+        }
+
+
+        .subject-info h3 {
+
+            margin: 0 0 6px;
+
+            color: #1e3a8a;
+
+            font-size: 19px;
+        }
+
+
+        .subject-info p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .arrow {
+
+            color: #2563eb;
+
+            font-size: 27px;
+
             font-weight: bold;
         }
+
+
+        /* =====================================
+           LEVEL SECTION
+        ===================================== */
+
+        .level-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .level-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border: 1px solid #edf0f5;
+
+            box-shadow:
+                0 3px 12px
+                rgba(15, 23, 42, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .level-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 7px 18px
+                rgba(15, 23, 42, 0.10);
+        }
+
+
+        .level-icon {
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .level-card h3 {
+
+            margin: 0 0 7px;
+
+            font-size: 19px;
+        }
+
+
+        .level-card p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .level-card.weak {
+
+            border-top: 4px solid #f87171;
+        }
+
+
+        .level-card.moderate {
+
+            border-top: 4px solid #fbbf24;
+        }
+
+
+        .level-card.strong {
+
+            border-top: 4px solid #4ade80;
+        }
+
+
+        .level-card.weak h3 {
+
+            color: #dc2626;
+        }
+
+
+        .level-card.moderate h3 {
+
+            color: #d97706;
+        }
+
+
+        .level-card.strong h3 {
+
+            color: #16a34a;
+        }
+
+
+        .level-number {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+
+        .level-card.weak .level-number {
+
+            color: #dc2626;
+        }
+
+
+        .level-card.moderate .level-number {
+
+            color: #d97706;
+        }
+
+
+        .level-card.strong .level-number {
+
+            color: #16a34a;
+        }
+
+
+        /* =====================================
+           SELECTED SUBJECT
+        ===================================== */
+
+        .selected-subject {
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 12px;
+
+            padding: 15px 18px;
+
+            margin-bottom: 22px;
+
+            color: #1e40af;
+
+            font-size: 14px;
+        }
+
+
+        .selected-subject strong {
+
+            color: #1e3a8a;
+        }
+
+
+        /* =====================================
+           TOPIC CARD
+        ===================================== */
+
+        .topic-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 22px 24px;
+
+            margin-bottom: 16px;
+
+            border: 1px solid #edf0f5;
+
+            box-shadow:
+                0 3px 12px
+                rgba(15, 23, 42, 0.06);
+        }
+
+
+        .topic-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .topic-name {
+
+            margin: 0 0 5px;
+
+            color: #1e3a8a;
+
+            font-size: 18px;
+        }
+
+
+        .topic-subject {
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .accuracy {
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .accuracy.weak {
+
+            color: #dc2626;
+        }
+
+
+        .accuracy.moderate {
+
+            color: #d97706;
+        }
+
+
+        .accuracy.strong {
+
+            color: #16a34a;
+        }
+
+
+        /* =====================================
+           PROGRESS
+        ===================================== */
+
+        .progress-container {
+
+            width: 100%;
+
+            height: 8px;
+
+            background: #e9eef5;
+
+            border-radius: 20px;
+
+            margin-top: 16px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+
+            border-radius: 20px;
+
+            width: 0;
+        }
+
+
+        .progress-bar.weak {
+
+            background: #f87171;
+        }
+
+
+        .progress-bar.moderate {
+
+            background: #fbbf24;
+        }
+
+
+        .progress-bar.strong {
+
+            background: #4ade80;
+        }
+
+
+        /* =====================================
+           DETAILS
+        ===================================== */
+
+        .details {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 18px;
+
+            margin-top: 14px;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .details strong {
+
+            color: #334155;
+        }
+
+
+        /* =====================================
+           STATUS
+        ===================================== */
+
+        .status {
+
+            display: inline-block;
+
+            margin-top: 13px;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .status.weak {
+
+            background: #fff1f2;
+
+            color: #be123c;
+        }
+
+
+        .status.moderate {
+
+            background: #fffbeb;
+
+            color: #b45309;
+        }
+
+
+        .status.strong {
+
+            background: #f0fdf4;
+
+            color: #15803d;
+        }
+
+
+        /* =====================================
+           NO DATA
+        ===================================== */
+
+        .empty-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 45px 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 3px 12px
+                rgba(15, 23, 42, 0.06);
+        }
+
+
+        .empty-card h2 {
+
+            margin: 0 0 10px;
+
+            color: #1e3a8a;
+        }
+
+
+        .empty-card p {
+
+            max-width: 600px;
+
+            margin: 0 auto;
+
+            color: #64748b;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           BUTTON
+        ===================================== */
+
+        .button {
+
+            display: inline-block;
+
+            margin-top: 22px;
+
+            padding: 10px 20px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .button:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        /* =====================================
+           NO TOPICS
+        ===================================== */
+
+        .no-topics {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 3px 12px
+                rgba(15, 23, 42, 0.06);
+        }
+
+
+        .no-topics h3 {
+
+            color: #1e3a8a;
+
+            margin: 0 0 8px;
+        }
+
+
+        .no-topics p {
+
+            color: #64748b;
+
+            margin: 0;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 750px) {
+
+            .subject-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .level-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .topic-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .top-header {
+
+                padding: 16px 20px;
+            }
+
+
+            .container {
+
+                padding:
+                    22px
+                    15px
+                    45px;
+            }
+
+        }
+
     </style>
+
 </head>
 
+
 <body>
+
+
+    <!-- =====================================
+         HEADER
+    ===================================== -->
+
+    <div class="top-header">
+
+        IntelliGap
+
+    </div>
+
+
     <div class="container">
-        <div class="card">
-            <h1>AI Knowledge Gap Analysis</h1>
+
+
+        <!-- =====================================
+             BACK TO DASHBOARD
+        ===================================== -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="back-link"
+        >
+
+            ← Back to Dashboard
+
+        </a>
+
+
+        <!-- =====================================
+             PAGE HEADER
+        ===================================== -->
+
+        <div class="page-header">
+
+            <h1>
+
+                🧠 AI Knowledge Gap Analysis
+
+            </h1>
+
 
             <p>
-                Identify your weak topics and understand where you need improvement.
+
+                Identify your weak, moderate and strong topics
+                based on your quiz performance.
+
             </p>
 
-            <div class="message">
-                <h3>Analysis Not Available Yet</h3>
+        </div>
+
+
+        <!-- =====================================
+             NO QUIZ DATA
+        ===================================== -->
+
+        {% if not has_data %}
+
+
+            <div class="empty-card">
+
+                <h2>
+
+                    📊 Analysis Not Available Yet
+
+                </h2>
+
+
                 <p>
-                    Complete a quiz first. Your topic-wise performance and
-                    knowledge gap analysis will appear here.
+
+                    Complete a quiz first.
+
+                    After completing a quiz,
+                    IntelliGap will analyze your
+                    topic-wise performance.
+
                 </p>
+
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="button"
+                >
+
+                    Back to Dashboard
+
+                </a>
+
             </div>
 
-            <a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
-        </div>
+
+        {% else %}
+
+
+            <!-- =====================================
+                 STEP 1 — SELECT SUBJECT
+            ===================================== -->
+
+            {% if not selected_subject %}
+
+
+                <h2 class="section-title">
+
+                    Select a Subject
+
+                </h2>
+
+
+                <div class="subject-grid">
+
+
+                    {% for subject in subjects %}
+
+
+                        <a
+                            href="?subject={{ subject.name|urlencode }}"
+                            class="subject-card"
+                        >
+
+
+                            <div class="subject-icon">
+
+                                {{ subject.icon }}
+
+                            </div>
+
+
+                            <div class="subject-info">
+
+                                <h3>
+
+                                    {{ subject.name }}
+
+                                </h3>
+
+
+                                <p>
+
+                                    View knowledge gap analysis
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="arrow">
+
+                                →
+
+                            </div>
+
+
+                        </a>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- =====================================
+                     SELECTED SUBJECT
+                ===================================== -->
+
+
+                <div class="selected-subject">
+
+                    Selected Subject:
+
+                    <strong>
+                        {{ selected_subject }}
+                    </strong>
+
+                </div>
+
+
+                <!-- =====================================
+                     STEP 2 — SELECT LEVEL
+                ===================================== -->
+
+                {% if not selected_level %}
+
+
+                    <h2 class="section-title">
+
+                        Select Performance Level
+
+                    </h2>
+
+
+                    <div class="level-grid">
+
+
+                        <!-- WEAK -->
+
+                        <a
+                            href="?subject={{ selected_subject|urlencode }}&level=weak"
+                            class="level-card weak"
+                        >
+
+                            <div class="level-icon">
+
+                                🔴
+
+                            </div>
+
+
+                            <div class="level-number">
+
+                                {{ weak_count }}
+
+                            </div>
+
+
+                            <h3>
+
+                                Weak
+
+                            </h3>
+
+
+                            <p>
+
+                                Topics that need more practice
+
+                            </p>
+
+                        </a>
+
+
+                        <!-- MODERATE -->
+
+                        <a
+                            href="?subject={{ selected_subject|urlencode }}&level=moderate"
+                            class="level-card moderate"
+                        >
+
+                            <div class="level-icon">
+
+                                🟡
+
+                            </div>
+
+
+                            <div class="level-number">
+
+                                {{ moderate_count }}
+
+                            </div>
+
+
+                            <h3>
+
+                                Moderate
+
+                            </h3>
+
+
+                            <p>
+
+                                Topics that need improvement
+
+                            </p>
+
+                        </a>
+
+
+                        <!-- STRONG -->
+
+                        <a
+                            href="?subject={{ selected_subject|urlencode }}&level=strong"
+                            class="level-card strong"
+                        >
+
+                            <div class="level-icon">
+
+                                🟢
+
+                            </div>
+
+
+                            <div class="level-number">
+
+                                {{ strong_count }}
+
+                            </div>
+
+
+                            <h3>
+
+                                Strong
+
+                            </h3>
+
+
+                            <p>
+
+                                Topics you are performing well in
+
+                            </p>
+
+                        </a>
+
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'knowledge_gap' %}"
+                        class="back-link"
+                    >
+
+                        ← Choose Another Subject
+
+                    </a>
+
+
+                {% else %}
+
+
+                    <!-- =====================================
+                         STEP 3 — TOPICS
+                    ===================================== -->
+
+
+                    <div class="selected-subject">
+
+                        <strong>
+                            {{ selected_subject }}
+                        </strong>
+
+                        &nbsp; →
+
+                        {% if selected_level == "weak" %}
+
+                            🔴 Weak Topics
+
+                        {% elif selected_level == "moderate" %}
+
+                            🟡 Moderate Topics
+
+                        {% else %}
+
+                            🟢 Strong Topics
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <h2 class="section-title">
+
+                        Topic-wise Performance
+
+                    </h2>
+
+
+                    {% if filtered_topics %}
+
+
+                        {% for item in filtered_topics %}
+
+
+                            <div class="topic-card">
+
+
+                                <!-- TOPIC HEADER -->
+
+                                <div class="topic-header">
+
+
+                                    <div>
+
+                                        <h3 class="topic-name">
+
+                                            {{ item.topic }}
+
+                                        </h3>
+
+
+                                        <div class="topic-subject">
+
+                                            {{ item.subject }}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div
+                                        class="accuracy {{ item.level }}"
+                                    >
+
+                                        {{ item.accuracy }}%
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- PROGRESS -->
+
+                                <div class="progress-container">
+
+                                    <div
+                                        class="progress-bar {{ item.level }}"
+                                        data-width="{{ item.accuracy }}"
+                                    ></div>
+
+                                </div>
+
+
+                                <!-- DETAILS -->
+
+                                <div class="details">
+
+                                    <span>
+
+                                        Correct:
+
+                                        <strong>
+                                            {{ item.correct }}
+                                        </strong>
+
+                                    </span>
+
+
+                                    <span>
+
+                                        Wrong:
+
+                                        <strong>
+                                            {{ item.wrong }}
+                                        </strong>
+
+                                    </span>
+
+
+                                    <span>
+
+                                        Total:
+
+                                        <strong>
+                                            {{ item.total }}
+                                        </strong>
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- STATUS -->
+
+                                <div
+                                    class="status {{ item.level }}"
+                                >
+
+                                    {% if item.level == "weak" %}
+
+                                        🔴 Weak — Needs More Practice
+
+                                    {% elif item.level == "moderate" %}
+
+                                        🟡 Moderate — Needs Improvement
+
+                                    {% else %}
+
+                                        🟢 Strong Topic
+
+                                    {% endif %}
+
+                                </div>
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <!-- NO TOPICS IN THIS LEVEL -->
+
+                        <div class="no-topics">
+
+                            <h3>
+
+                                No Topics Found
+
+                            </h3>
+
+
+                            <p>
+
+                                There are currently no
+                                {{ selected_level }}
+                                topics for
+                                {{ selected_subject }}.
+
+                            </p>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                    <!-- BACK TO LEVEL -->
+
+                    <a
+                        href="?subject={{ selected_subject|urlencode }}"
+                        class="back-link"
+                    >
+
+                        ← Back to Performance Levels
+
+                    </a>
+
+
+                {% endif %}
+
+
+            {% endif %}
+
+
+        {% endif %}
+
+
     </div>
+
+
+    <!-- =====================================
+         PROGRESS BAR SCRIPT
+    ===================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const bars =
+                    document.querySelectorAll(
+                        ".progress-bar"
+                    );
+
+
+                bars.forEach(
+                    function (bar) {
+
+                        const width =
+                            bar.getAttribute(
+                                "data-width"
+                            );
+
+
+                        bar.style.width =
+                            width + "%";
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+
 </body>
+
 </html>

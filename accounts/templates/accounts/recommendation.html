@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Recommendation | IntelliGap</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-title {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        /* SUBJECT SECTION */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .subjects {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .subject-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 22px;
+            text-decoration: none;
+            color: #1f2937;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .subject-card:hover {
+            border-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.10);
+        }
+
+        .subject-card.active {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .subject-icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .subject-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* NO DATA */
+        .empty-box {
+            background: white;
+            border-radius: 14px;
+            padding: 45px 25px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .empty-box h2 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .empty-box p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* RECOMMENDATION HEADER */
+        .recommendation-header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .recommendation-header h2 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* STUDY ORDER */
+        .study-order {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .study-order h3 {
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        .study-order p {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* TOPIC CARD */
+        .topic-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 24px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .topic-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .topic-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .priority {
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .priority-high {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 13px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* RECOMMENDATION TEXT */
+        .recommendation-content {
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .recommendation-content h4 {
+            font-size: 14px;
+            margin-bottom: 7px;
+            color: #1e3a8a;
+        }
+
+        .recommendation-content p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* STUDY TIME */
+        .study-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* LEVEL HEADINGS */
+        .level-section {
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .level-title {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .level-description {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .weak-title {
+            color: #b91c1c;
+        }
+
+        .moderate-title {
+            color: #92400e;
+        }
+
+        .strong-title {
+            color: #166534;
+        }
+
+        /* BACK BUTTON */
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 11px 18px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* MOBILE */
+        @media (max-width: 850px) {
+
+            .subjects {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .header {
+                padding: 16px 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+
+            .subjects {
+                grid-template-columns: 1fr;
+            }
+
+            .topic-top {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">IntelliGap</div>
+        <div class="header-title">AI Study Recommendation</div>
+    </header>
+
+
+    <main class="container">
+
+        <h1 class="page-title">Study Recommendation</h1>
+
+        <p class="page-description">
+            Select a subject to receive personalized study recommendations
+            based on your quiz performance.
+        </p>
+
+
+        <!-- SUBJECT SELECTION -->
+        <h2 class="section-title">1. Select Subject</h2>
+
+        <div class="subjects">
+
+            {% for subject in subjects %}
+
+            <a
+                href="?subject={{ subject.name|urlencode }}"
+                class="subject-card {% if selected_subject == subject.name %}active{% endif %}"
+            >
+
+                <div class="subject-icon">
+                    {{ subject.icon }}
+                </div>
+
+                <div class="subject-name">
+                    {{ subject.name }}
+                </div>
+
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% if not selected_subject %}
+
+            <div class="empty-box">
+
+                <div class="empty-icon">📚</div>
+
+                <h2>Select a Subject</h2>
+
+                <p>
+                    Choose Python, Machine Learning, DBMS, or Java
+                    to view your personalized study recommendations.
+                </p>
+
+            </div>
+
+        {% elif not has_data %}
+
+            <div class="empty-box">
+
+                <div class="empty-icon">📝</div>
+
+                <h2>No Quiz Data Available</h2>
+
+                <p>
+                    Complete at least one quiz to generate personalized
+                    study recommendations.
+                </p>
+
+            </div>
+
+        {% elif not subject_topics %}
+
+            <div class="empty-box">
+
+                <div class="empty-icon">📊</div>
+
+                <h2>No Data for {{ selected_subject }}</h2>
+
+                <p>
+                    Complete the {{ selected_subject }} quiz first.
+                    Your recommendations will appear here after your performance is recorded.
+                </p>
+
+            </div>
+
+        {% else %}
+
+
+            <!-- RECOMMENDATION HEADER -->
+
+            <div class="recommendation-header">
+
+                <h2>
+                    Personalized Recommendations for {{ selected_subject }}
+                </h2>
+
+                <p>
+                    These recommendations are generated from your
+                    quiz performance for each topic.
+                </p>
+
+            </div>
+
+
+            <!-- STUDY ORDER -->
+
+            <div class="study-order">
+
+                <h3>📌 Suggested Study Order</h3>
+
+                <p>
+                    Start with <strong>High Priority</strong> topics,
+                    then work on <strong>Medium Priority</strong> topics.
+                    Strong topics should be reviewed regularly to maintain
+                    your performance.
+                </p>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- WEAK TOPICS -->
+            <!-- ========================= -->
+
+            {% if weak_topics %}
+
+                <div class="level-section">
+
+                    <div class="level-title weak-title">
+                        🔴 High Priority Topics
+                    </div>
+
+                    <div class="level-description">
+                        These topics need more attention and practice.
+                    </div>
+
+                </div>
+
+
+                {% for topic in weak_topics %}
+
+                    <div class="topic-card">
+
+                        <div class="topic-top">
+
+                            <div class="topic-name">
+                                {{ topic.topic }}
+                            </div>
+
+                            <span class="priority priority-high">
+                                High Priority
+                            </span>
+
+                        </div>
+
+
+                        <div class="stats">
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.accuracy }}%
+                                </div>
+
+                                <div class="stat-label">
+                                    Accuracy
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.total }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Total Questions
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.correct }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Correct
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.wrong }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Wrong
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="recommendation-content">
+
+                            <h4>💡 What You Should Do</h4>
+
+                            <p>
+                                {{ topic.recommendation }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="study-time">
+                            ⏱ Recommended Study Time:
+                            {{ topic.study_time }}
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+
+            <!-- ========================= -->
+            <!-- MODERATE TOPICS -->
+            <!-- ========================= -->
+
+            {% if moderate_topics %}
+
+                <div class="level-section">
+
+                    <div class="level-title moderate-title">
+                        🟡 Medium Priority Topics
+                    </div>
+
+                    <div class="level-description">
+                        These topics need revision and additional practice.
+                    </div>
+
+                </div>
+
+
+                {% for topic in moderate_topics %}
+
+                    <div class="topic-card">
+
+                        <div class="topic-top">
+
+                            <div class="topic-name">
+                                {{ topic.topic }}
+                            </div>
+
+                            <span class="priority priority-medium">
+                                Medium Priority
+                            </span>
+
+                        </div>
+
+
+                        <div class="stats">
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.accuracy }}%
+                                </div>
+
+                                <div class="stat-label">
+                                    Accuracy
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.total }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Total Questions
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.correct }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Correct
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.wrong }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Wrong
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="recommendation-content">
+
+                            <h4>💡 What You Should Do</h4>
+
+                            <p>
+                                {{ topic.recommendation }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="study-time">
+                            ⏱ Recommended Study Time:
+                            {{ topic.study_time }}
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+
+            <!-- ========================= -->
+            <!-- STRONG TOPICS -->
+            <!-- ========================= -->
+
+            {% if strong_topics %}
+
+                <div class="level-section">
+
+                    <div class="level-title strong-title">
+                        🟢 Low Priority Topics
+                    </div>
+
+                    <div class="level-description">
+                        You are performing well in these topics.
+                        Continue regular revision.
+                    </div>
+
+                </div>
+
+
+                {% for topic in strong_topics %}
+
+                    <div class="topic-card">
+
+                        <div class="topic-top">
+
+                            <div class="topic-name">
+                                {{ topic.topic }}
+                            </div>
+
+                            <span class="priority priority-low">
+                                Low Priority
+                            </span>
+
+                        </div>
+
+
+                        <div class="stats">
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.accuracy }}%
+                                </div>
+
+                                <div class="stat-label">
+                                    Accuracy
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.total }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Total Questions
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.correct }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Correct
+                                </div>
+                            </div>
+
+
+                            <div class="stat">
+                                <div class="stat-value">
+                                    {{ topic.wrong }}
+                                </div>
+
+                                <div class="stat-label">
+                                    Wrong
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="recommendation-content">
+
+                            <h4>💡 What You Should Do</h4>
+
+                            <p>
+                                {{ topic.recommendation }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="study-time">
+                            ⏱ Recommended Study Time:
+                            {{ topic.study_time }}
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+        {% endif %}
+
+
+        <a href="{% url 'dashboard' %}" class="back-button">
+            ← Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+</html>

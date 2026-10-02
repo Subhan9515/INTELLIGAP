@@ -2,11 +2,14 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>IntelliGap Dashboard</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -318,6 +321,7 @@
         /* MOBILE */
 
         @media (max-width: 850px) {
+
             .modules {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -325,9 +329,11 @@
             .summary-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
         @media (max-width: 600px) {
+
             .header {
                 padding: 15px;
             }
@@ -381,11 +387,16 @@
             .summary-grid {
                 grid-template-columns: 1fr;
             }
+
         }
+
     </style>
+
 </head>
 
+
 <body>
+
 
     <!-- HEADER -->
 
@@ -394,44 +405,67 @@
         <div class="profile">
 
             <div class="profile-icon">
+
                 {% if student.name %}
+
                     {{ student.name|first|upper }}
+
                 {% else %}
+
                     S
+
                 {% endif %}
+
             </div>
 
+
             <div class="student-details">
+
                 <h3>{{ student.name }}</h3>
+
                 <p>{{ student.email }}</p>
 
                 {% if student.year %}
+
                     <p>{{ student.year }}</p>
+
                 {% endif %}
+
             </div>
 
         </div>
 
+
         <div class="logo">
+
             <h1>INTELLI<span>GAP</span></h1>
+
         </div>
 
+
         <div class="header-actions">
+
             <a href="#" title="Notifications">🔔</a>
+
             <a href="/login/" title="Logout">⇥</a>
+
         </div>
 
     </header>
 
+
+
     <!-- MAIN CONTENT -->
 
     <main class="container">
+
 
         <!-- WELCOME -->
 
         <div class="welcome">
 
             <div class="welcome-text">
+
                 <small>WELCOME BACK</small>
 
                 <h1>{{ student.name }} 👋</h1>
@@ -440,30 +474,47 @@
                     Let's continue your learning journey
                     and achieve your goals.
                 </p>
+
             </div>
 
+
             <div class="welcome-illustration">
-                <img src="/static/images/ai-dashboard.jpeg"
-                     alt="AI Learning Assistant">
+
+                <img
+                    src="/static/images/ai-dashboard.jpeg"
+                    alt="AI Learning Assistant"
+                >
+
             </div>
 
         </div>
+
+
 
         <!-- MODULE TITLE -->
 
         <div class="title">
+
             <h2>Features</h2>
+
             <p>Explore &amp; Improve ✨</p>
+
         </div>
+
+
 
         <!-- MAIN MODULES -->
 
         <section class="modules">
 
+
             <!-- QUIZ -->
 
             <a href="/subjects/" class="module">
-                <div class="module-icon orange">📝</div>
+
+                <div class="module-icon orange">
+                    📝
+                </div>
 
                 <h3>Quiz Management</h3>
 
@@ -471,38 +522,56 @@
                     Select a subject, attempt quizzes
                     and test your knowledge.
                 </p>
+
             </a>
 
-            <!-- KNOWLEDGE GAP: CORRECTED LINK -->
+
+
+            <!-- KNOWLEDGE GAP -->
 
             <a href="{% url 'knowledge_gap' %}" class="module">
-                <div class="module-icon blue">🧠</div>
 
-                <h3>AI Knowledge Gap Analysis</h3>
+                <div class="module-icon blue">
+                    🧠
+                </div>
+
+                <h3>Knowledge Gap Analysis</h3>
 
                 <p>
                     Identify weak topics and understand
                     where you need improvement.
                 </p>
+
             </a>
 
-            <!-- RECOMMENDATION -->
 
-            <a href="#" class="module">
-                <div class="module-icon green">📚</div>
 
-                <h3>AI Study Recommendation</h3>
+            <!-- STUDY RECOMMENDATION -->
+
+            <a href="{% url 'recommendation' %}" class="module">
+
+                <div class="module-icon green">
+                    📚
+                </div>
+
+                <h3>Study Recommendation</h3>
 
                 <p>
                     Get personalized study suggestions
                     based on your performance.
                 </p>
+
             </a>
+
+
 
             <!-- HISTORY -->
 
             <a href="{% url 'quiz_history' %}" class="module">
-                <div class="module-icon purple">🕒</div>
+
+                <div class="module-icon purple">
+                    🕒
+                </div>
 
                 <h3>Quiz History</h3>
 
@@ -510,12 +579,18 @@
                     View your previous quizzes,
                     scores and performance.
                 </p>
+
             </a>
+
+
 
             <!-- AI ASSISTANT -->
 
             <a href="{% url 'chat' %}" class="module">
-                <div class="module-icon yellow">🤖</div>
+
+                <div class="module-icon yellow">
+                    🤖
+                </div>
 
                 <h3>AI Chat Assistant</h3>
 
@@ -523,12 +598,18 @@
                     Ask questions and get help with
                     your learning.
                 </p>
+
             </a>
+
+
 
             <!-- PROGRESS -->
 
-            <a href="#" class="module">
-                <div class="module-icon red">📊</div>
+            <a href="{% url 'progress_analysis' %}" class="module">
+
+                <div class="module-icon red">
+                    📊
+                </div>
 
                 <h3>My Progress</h3>
 
@@ -536,37 +617,60 @@
                     Track your learning progress,
                     scores and improvement.
                 </p>
+
             </a>
+
 
         </section>
 
     </main>
 
+
+
     <!-- BOTTOM NAVIGATION -->
 
     <nav class="bottom-nav">
 
+
         <a href="{% url 'dashboard' %}" class="nav-item active">
+
             <span>🏠</span>
+
             Home
+
         </a>
+
 
         <a href="/subjects/" class="nav-item">
+
             <span>🔎</span>
+
             Explore
+
         </a>
 
+
         <a href="#" class="nav-item">
+
             <span>🏆</span>
+
             Leaderboard
+
         </a>
 
+
         <a href="#" class="nav-item">
+
             <span>👤</span>
+
             Profile
+
         </a>
+
 
     </nav>
 
+
 </body>
+
 </html>

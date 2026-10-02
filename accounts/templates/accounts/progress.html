@@ -1,560 +1,1397 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Progress Analysis - IntelliGap</title>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Progress - IntelliGap</title>
+
 
     <style>
-        body {
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #e8f4ff, #f8e8ff);
-            min-height: 100vh;
         }
 
+
+        body {
+            background: #f5f7fb;
+            color: #123b70;
+            padding-bottom: 90px;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
         .header {
-            background: #1769aa;
+            background: #123b70;
             color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 28px;
+
+            padding: 18px 5%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-width: 200px;
+        }
+
+
+        .profile-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 50%;
+
+            background: white;
+            color: #123b70;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
             font-weight: bold;
         }
 
+
+        .student-details h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+
+        .student-details p {
+            font-size: 13px;
+            margin: 3px 0;
+            opacity: 0.9;
+        }
+
+
+        .logo {
+            text-align: center;
+        }
+
+
+        .logo h1 {
+            font-size: 25px;
+            letter-spacing: 1px;
+        }
+
+
+        .logo span {
+            color: #f58220;
+        }
+
+
+        .header-icon {
+            min-width: 200px;
+
+            display: flex;
+            justify-content: flex-end;
+
+            font-size: 24px;
+        }
+
+
+        /* =========================================================
+           MAIN CONTAINER
+        ========================================================= */
+
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 35px auto;
         }
 
-        .title {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
 
-        .subtitle {
-            text-align: center;
-            color: #666;
+        /* =========================================================
+           PAGE TITLE
+        ========================================================= */
+
+        .page-title {
             margin-bottom: 30px;
         }
 
-        .wave-card {
+
+        .page-title h1 {
+            font-size: 32px;
+
+            color: #123b70;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-title p {
+            color: #777;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================================
+           SUBJECT SECTION
+        ========================================================= */
+
+        .subject-title {
+            font-size: 22px;
+
+            color: #123b70;
+
+            margin-bottom: 18px;
+        }
+
+
+        .subjects {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .subject-card {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-        }
 
-        .wave-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-        }
+            border: 2px solid #edf0f5;
 
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+            border-radius: 18px;
 
-        .wave {
-            fill: none;
-            stroke: #1769aa;
-            stroke-width: 4;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
+            padding: 22px;
 
-        .animated-wave {
-            fill: none;
-            stroke: #55a6e8;
-            stroke-width: 3;
-            stroke-linecap: round;
-            stroke-dasharray: 10 10;
-            animation: moveWave 1.5s linear infinite;
-        }
-
-        @keyframes moveWave {
-            from {
-                stroke-dashoffset: 0;
-            }
-
-            to {
-                stroke-dashoffset: -40;
-            }
-        }
-
-        .point {
-            fill: white;
-            stroke: #1769aa;
-            stroke-width: 3;
-        }
-
-        .score-label {
-            font-size: 14px;
-            font-weight: bold;
-            fill: #222;
-        }
-
-        .quiz-label {
-            font-size: 13px;
-            fill: #555;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            flex: 1;
-            min-width: 180px;
-            padding: 20px;
-            background: #f5f9ff;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1769aa;
-        }
-
-        .stat-name {
-            margin-top: 8px;
-            color: #555;
-        }
-
-        .message {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-            font-size: 18px;
-        }
-
-        .back {
-            display: block;
-            width: fit-content;
-            margin: 25px auto;
-            padding: 12px 25px;
-            background: #1769aa;
-            color: white;
             text-decoration: none;
-            border-radius: 10px;
+
+            color: #123b70;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.06);
+
+            transition: 0.2s;
         }
+
+
+        .subject-card:hover {
+            transform: translateY(-3px);
+
+            border-color: #123b70;
+        }
+
+
+        .subject-card.selected {
+            border-color: #123b70;
+
+            background: #eef4ff;
+        }
+
+
+        .subject-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 14px;
+
+            background: #e8f0ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .subject-card h3 {
+            font-size: 17px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .subject-card p {
+            font-size: 13px;
+
+            color: #777;
+        }
+
+
+        /* =========================================================
+           MESSAGE CARD
+        ========================================================= */
+
+        .message-card {
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 60px 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.07);
+        }
+
+
+        .message-icon {
+            font-size: 50px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .message-card h2 {
+            color: #123b70;
+
+            margin-bottom: 10px;
+        }
+
+
+        .message-card p {
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           GRAPH CARD
+        ========================================================= */
+
+        .graph-card {
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.07);
+        }
+
+
+        .graph-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .graph-header h2 {
+            color: #123b70;
+
+            font-size: 22px;
+        }
+
+
+        .graph-label {
+            background: #eef4ff;
+
+            color: #123b70;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================================
+           CHART WRAPPER
+           
+           Horizontal scrolling is intentional.
+           When more exams are added, the graph becomes wider.
+        ========================================================= */
+
+        .chart-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+
+            overflow-y: hidden;
+
+            padding-bottom: 10px;
+        }
+
+
+        /* =========================================================
+           CHART
+        ========================================================= */
+
+        .chart {
+            position: relative;
+
+            width: 700px;
+
+            min-width: 700px;
+
+            height: 500px;
+
+            margin-top: 10px;
+        }
+
+
+        /* =========================================================
+           Y AXIS
+        ========================================================= */
+
+        .y-axis {
+            position: absolute;
+
+            left: 0;
+
+            top: 10px;
+
+            bottom: 100px;
+
+            width: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            padding-right: 10px;
+
+            color: #777;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           GRID LINES
+        ========================================================= */
+
+        .grid {
+            position: absolute;
+
+            left: 55px;
+
+            right: 0;
+
+            top: 10px;
+
+            bottom: 100px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+        }
+
+
+        .grid-line {
+            width: 100%;
+
+            border-top:
+                1px dashed #dfe5ed;
+        }
+
+
+        /* =========================================================
+           BARS AREA
+           
+           IMPORTANT:
+           flex-start means bars start from LEFT.
+           They do not stay in the middle.
+        ========================================================= */
+
+        .bars-area {
+            position: absolute;
+
+            left: 55px;
+
+            top: 10px;
+
+            bottom: 100px;
+
+            width: max-content;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: flex-start;
+
+            gap: 30px;
+
+            padding-left: 20px;
+
+            padding-right: 20px;
+        }
+
+
+        /* =========================================================
+           EACH EXAM
+           
+           Fixed width means:
+           Exam 1 = fixed position
+           Exam 2 = next position
+           Exam 3 = next position
+           
+           Existing exams don't jump around.
+        ========================================================= */
+
+        .bar-container {
+            position: relative;
+
+            width: 80px;
+
+            min-width: 80px;
+
+            flex: 0 0 80px;
+
+            height: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: flex-end;
+
+            align-items: center;
+        }
+
+
+        /* =========================================================
+           BAR
+        ========================================================= */
+
+        .bar {
+            width: 50px;
+
+            height: 0;
+
+            background: #4f86d9;
+
+            border-radius:
+                8px 8px 0 0;
+
+            position: relative;
+
+            transition:
+                background 0.2s;
+        }
+
+
+        .bar:hover {
+            background: #123b70;
+        }
+
+
+        /* =========================================================
+           BAR VALUE
+        ========================================================= */
+
+        .bar-value {
+            position: absolute;
+
+            top: -27px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            color: #123b70;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================================================
+           X AXIS LABEL
+        ========================================================= */
+
+        .x-label {
+            position: absolute;
+
+            bottom: -90px;
+
+            width: 120px;
+
+            text-align: center;
+        }
+
+
+        .exam-number {
+            color: #123b70;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+
+        .exam-date {
+            color: #555;
+
+            font-size: 11px;
+
+            white-space: nowrap;
+        }
+
+
+        .exam-time {
+            color: #999;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================================================
+           BACK BUTTON
+        ========================================================= */
+
+        .back-button {
+            display: inline-block;
+
+            margin-top: 35px;
+
+            padding: 12px 20px;
+
+            background: #123b70;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+        }
+
+
+        .back-button:hover {
+            background: #0d2d57;
+        }
+
+
+        /* =========================================================
+           BOTTOM NAVIGATION
+        ========================================================= */
+
+        .bottom-nav {
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            right: 0;
+
+            height: 75px;
+
+            background: white;
+
+            display: flex;
+
+            justify-content: space-around;
+
+            align-items: center;
+
+            box-shadow:
+                0 -4px 18px
+                rgba(0, 0, 0, 0.12);
+
+            z-index: 100;
+        }
+
+
+        .nav-item {
+            text-decoration: none;
+
+            color: #777;
+
+            text-align: center;
+
+            font-size: 12px;
+        }
+
+
+        .nav-item span {
+            display: block;
+
+            font-size: 23px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .nav-item.active {
+            color: #f58220;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 850px) {
+
+            .subjects {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+
+            .logo h1 {
+                font-size: 20px;
+            }
+
+
+            .profile-icon {
+                width: 42px;
+
+                height: 42px;
+
+                font-size: 18px;
+            }
+
+
+            .student-details h3 {
+                font-size: 14px;
+            }
+
+
+            .student-details p {
+                font-size: 10px;
+            }
+
+
+            .header-icon {
+                min-width: auto;
+            }
+
+
+            .container {
+                width: 94%;
+            }
+
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+
+
+            .subjects {
+                grid-template-columns: 1fr;
+            }
+
+
+            .graph-card {
+                padding: 20px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="header">
-    IntelliGap
-</div>
 
-<div class="container">
+    <!-- =========================================================
+         HEADER
+    ========================================================= -->
 
-    <h1 class="title">Learning Progress Analysis</h1>
+    <header class="header">
 
-    <p class="subtitle">
-        Your quiz performance over time
-    </p>
 
-    {% if progress_data %}
+        <div class="profile">
 
-    <div class="wave-card">
 
-        <div class="wave-container">
+            <div class="profile-icon">
 
-            <svg
-                viewBox="0 0 1000 400"
-                preserveAspectRatio="none"
-            >
+                {% if student.name %}
 
-                <!-- Horizontal reference lines -->
+                    {{ student.name|first|upper }}
 
-                <line
-                    x1="60"
-                    y1="50"
-                    x2="950"
-                    y2="50"
-                    stroke="#ddd"
-                />
+                {% else %}
 
-                <line
-                    x1="60"
-                    y1="125"
-                    x2="950"
-                    y2="125"
-                    stroke="#ddd"
-                />
+                    S
 
-                <line
-                    x1="60"
-                    y1="200"
-                    x2="950"
-                    y2="200"
-                    stroke="#ddd"
-                />
+                {% endif %}
 
-                <line
-                    x1="60"
-                    y1="275"
-                    x2="950"
-                    y2="275"
-                    stroke="#ddd"
-                />
+            </div>
 
-                <line
-                    x1="60"
-                    y1="350"
-                    x2="950"
-                    y2="350"
-                    stroke="#ddd"
-                />
 
-                <!-- Percentage labels -->
+            <div class="student-details">
 
-                <text x="10" y="55">100%</text>
-                <text x="20" y="130">75%</text>
-                <text x="20" y="205">50%</text>
-                <text x="20" y="280">25%</text>
-                <text x="30" y="355">0%</text>
+                <h3>
+                    {{ student.name }}
+                </h3>
 
-                <!-- Waveform -->
 
-                <polyline
-                    id="waveLine"
-                    class="wave"
-                    points=""
-                />
+                <p>
+                    {{ student.email }}
+                </p>
 
-                <!-- Animated overlay -->
 
-                <polyline
-                    id="animatedWave"
-                    class="animated-wave"
-                    points=""
-                />
+                {% if student.year %}
 
-                <!-- Points -->
+                    <p>
+                        {{ student.year }}
+                    </p>
 
-                <g id="points"></g>
+                {% endif %}
 
-            </svg>
+            </div>
+
 
         </div>
 
-        <div class="stats">
 
-            <div class="stat">
 
-                <div
-                    class="stat-number"
-                    id="quizCount"
-                >
-                    0
-                </div>
+        <div class="logo">
 
-                <div class="stat-name">
-                    Total Quizzes
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div
-                    class="stat-number"
-                    id="averageScore"
-                >
-                    0%
-                </div>
-
-                <div class="stat-name">
-                    Average Score
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div
-                    class="stat-number"
-                    id="latestScore"
-                >
-                    0%
-                </div>
-
-                <div class="stat-name">
-                    Latest Score
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div
-                    class="stat-number"
-                    id="trend"
-                >
-                    —
-                </div>
-
-                <div class="stat-name">
-                    Performance Trend
-                </div>
-
-            </div>
+            <h1>
+                INTELLI<span>GAP</span>
+            </h1>
 
         </div>
 
-    </div>
 
-    {% else %}
 
-    <div class="wave-card">
-
-        <div class="message">
-            No quiz results available yet.<br>
-            Complete your first quiz to see your progress.
+        <div class="header-icon">
+            📊
         </div>
 
-    </div>
 
-    {% endif %}
+    </header>
 
-    <a
-        href="/dashboard/"
-        class="back"
-    >
-        Back to Dashboard
-    </a>
 
-</div>
 
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
 
-{% if progress_data %}
+    <main class="container">
 
-<script>
 
-const progressData = [
-    {% for item in progress_data %}
-    {
-        quiz: {{ item.quiz }},
-        score: {{ item.score }}
-    },
-    {% endfor %}
-];
+        <!-- PAGE TITLE -->
 
-const waveLine = document.getElementById("waveLine");
-const animatedWave = document.getElementById("animatedWave");
-const pointsGroup = document.getElementById("points");
+        <div class="page-title">
 
-const width = 1000;
-const height = 400;
 
-const left = 60;
-const right = 950;
+            <h1>
+                My Progress
+            </h1>
 
-const top = 50;
-const bottom = 350;
 
-let points = [];
+            <p>
+                Track your exam performance over time.
+            </p>
 
-if (progressData.length === 1) {
 
-    const x = (left + right) / 2;
+        </div>
 
-    const y =
-        bottom -
-        (progressData[0].score / 100) *
-        (bottom - top);
 
-    points.push(`${x},${y}`);
 
-} else {
+        <!-- =====================================================
+             SUBJECT SELECTION
+        ====================================================== -->
 
-    progressData.forEach((item, index) => {
+        <h2 class="subject-title">
+            Select a Subject
+        </h2>
 
-        const x =
-            left +
-            index *
-            ((right - left) /
-            (progressData.length - 1));
 
-        const y =
-            bottom -
-            (item.score / 100) *
-            (bottom - top);
 
-        points.push(`${x},${y}`);
+        <div class="subjects">
 
-    });
 
-}
+            {% for subject in subjects %}
 
-const pointString = points.join(" ");
 
-waveLine.setAttribute(
-    "points",
-    pointString
-);
+                <a
+                    href="?subject={{ subject.name|urlencode }}"
+                    class="subject-card {% if selected_subject == subject.name %}selected{% endif %}"
+                >
 
-animatedWave.setAttribute(
-    "points",
-    pointString
-);
 
+                    <div class="subject-icon">
 
-// Create points and labels
+                        {{ subject.icon }}
 
-progressData.forEach((item, index) => {
+                    </div>
 
-    const x =
-        progressData.length === 1
-        ? (left + right) / 2
-        : left +
-          index *
-          ((right - left) /
-          (progressData.length - 1));
 
-    const y =
-        bottom -
-        (item.score / 100) *
-        (bottom - top);
+                    <h3>
 
-    const circle =
-        document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "circle"
-        );
+                        {{ subject.name }}
 
-    circle.setAttribute("cx", x);
-    circle.setAttribute("cy", y);
-    circle.setAttribute("r", 7);
-    circle.setAttribute("class", "point");
+                    </h3>
 
-    pointsGroup.appendChild(circle);
 
+                    <p>
 
-    const scoreText =
-        document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
+                        View exam progress
 
-    scoreText.setAttribute("x", x);
-    scoreText.setAttribute("y", y - 15);
-    scoreText.setAttribute("text-anchor", "middle");
-    scoreText.setAttribute("class", "score-label");
+                    </p>
 
-    scoreText.textContent =
-        item.score + "%";
 
-    pointsGroup.appendChild(scoreText);
+                </a>
 
 
-    const quizText =
-        document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
+            {% endfor %}
 
-    quizText.setAttribute("x", x);
-    quizText.setAttribute("y", 380);
-    quizText.setAttribute("text-anchor", "middle");
-    quizText.setAttribute("class", "quiz-label");
 
-    quizText.textContent =
-        "Quiz " + item.quiz;
+        </div>
 
-    pointsGroup.appendChild(quizText);
 
-});
 
+        <!-- =====================================================
+             NO SUBJECT SELECTED
+        ====================================================== -->
 
-// Statistics
+        {% if not selected_subject %}
 
-const total =
-    progressData.length;
 
-const totalScore =
-    progressData.reduce(
-        (sum, item) =>
-        sum + item.score,
-        0
-    );
+            <div class="message-card">
 
-const average =
-    Math.round(
-        totalScore / total
-    );
 
-const latest =
-    progressData[
-        progressData.length - 1
-    ].score;
+                <div class="message-icon">
+                    📊
+                </div>
 
 
-document.getElementById(
-    "quizCount"
-).textContent = total;
+                <h2>
+                    Select a Subject
+                </h2>
 
 
-document.getElementById(
-    "averageScore"
-).textContent =
-    average + "%";
+                <p>
+                    Choose a subject above to view your exam progress.
+                </p>
 
 
-document.getElementById(
-    "latestScore"
-).textContent =
-    latest + "%";
+            </div>
 
 
-// Performance trend
 
-if (progressData.length >= 2) {
+        <!-- =====================================================
+             SUBJECT SELECTED BUT NO EXAMS
+        ====================================================== -->
 
-    const first =
-        progressData[0].score;
+        {% elif not has_progress %}
 
-    if (latest > first) {
 
-        document.getElementById(
-            "trend"
-        ).textContent = "↑ Improving";
+            <div class="message-card">
 
-    } else if (latest < first) {
 
-        document.getElementById(
-            "trend"
-        ).textContent = "↓ Decreasing";
+                <div class="message-icon">
+                    📚
+                </div>
 
-    } else {
 
-        document.getElementById(
-            "trend"
-        ).textContent = "→ Stable";
+                <h2>
+                    No Exam Data Available
+                </h2>
 
-    }
 
-} else {
+                <p>
 
-    document.getElementById(
-        "trend"
-    ).textContent = "—";
+                    You have not attempted any
+                    {{ selected_subject }}
+                    exams yet.
 
-}
+                </p>
 
-</script>
 
-{% endif %}
+            </div>
+
+
+
+        <!-- =====================================================
+             SHOW PROGRESS GRAPH
+        ====================================================== -->
+
+        {% else %}
+
+
+            <div class="graph-card">
+
+
+                <!-- GRAPH HEADER -->
+
+                <div class="graph-header">
+
+
+                    <h2>
+
+                        {{ selected_subject }} Progress
+
+                    </h2>
+
+
+                    <div class="graph-label">
+
+                        Score Percentage
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- CHART SCROLL AREA -->
+
+                <div class="chart-wrapper">
+
+
+                    <div class="chart">
+
+
+                        <!-- =================================================
+                             Y AXIS
+                        ================================================== -->
+
+                        <div class="y-axis">
+
+
+                            <span>
+                                100%
+                            </span>
+
+
+                            <span>
+                                80%
+                            </span>
+
+
+                            <span>
+                                60%
+                            </span>
+
+
+                            <span>
+                                40%
+                            </span>
+
+
+                            <span>
+                                20%
+                            </span>
+
+
+                            <span>
+                                0%
+                            </span>
+
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             GRID
+                        ================================================== -->
+
+                        <div class="grid">
+
+
+                            <div class="grid-line"></div>
+
+
+                            <div class="grid-line"></div>
+
+
+                            <div class="grid-line"></div>
+
+
+                            <div class="grid-line"></div>
+
+
+                            <div class="grid-line"></div>
+
+
+                            <div class="grid-line"></div>
+
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             EXAM BARS
+                        ================================================== -->
+
+                        <div class="bars-area">
+
+
+                            {% for item in progress_data %}
+
+
+                                <div class="bar-container">
+
+
+                                    <div
+                                        class="bar progress-bar"
+                                        data-percentage="{{ item.percentage }}"
+                                    >
+
+
+                                        <div class="bar-value">
+
+                                            {{ item.percentage }}%
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <!-- X AXIS INFORMATION -->
+
+                                    <div class="x-label">
+
+
+                                        <div class="exam-number">
+
+                                            Exam {{ forloop.counter }}
+
+                                        </div>
+
+
+                                        <div class="exam-date">
+
+                                            {{ item.date }}
+
+                                        </div>
+
+
+                                        <div class="exam-time">
+
+                                            {{ item.time }}
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+
+        <!-- =====================================================
+             BACK TO DASHBOARD
+        ====================================================== -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="back-button"
+        >
+
+            ← Back to Dashboard
+
+        </a>
+
+
+    </main>
+
+
+
+    <!-- =========================================================
+         BOTTOM NAVIGATION
+    ========================================================= -->
+
+    <nav class="bottom-nav">
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="nav-item active"
+        >
+
+            <span>
+                🏠
+            </span>
+
+            Home
+
+        </a>
+
+
+
+        <a
+            href="/subjects/"
+            class="nav-item"
+        >
+
+            <span>
+                🔎
+            </span>
+
+            Explore
+
+        </a>
+
+
+
+        <a
+            href="#"
+            class="nav-item"
+        >
+
+            <span>
+                🏆
+            </span>
+
+            Leaderboard
+
+        </a>
+
+
+
+        <a
+            href="#"
+            class="nav-item"
+        >
+
+            <span>
+                👤
+            </span>
+
+            Profile
+
+        </a>
+
+
+    </nav>
+
+
+
+    <!-- =========================================================
+         PROGRESS BAR JAVASCRIPT
+    ========================================================= -->
+
+    <script>
+
+
+        /*
+         * Find all exam bars.
+         */
+
+        const bars =
+            document.querySelectorAll(
+                ".progress-bar"
+            );
+
+
+        /*
+         * Find the chart.
+         */
+
+        const chart =
+            document.querySelector(
+                ".chart"
+            );
+
+
+        /*
+         * If there are exams,
+         * prepare the graph.
+         */
+
+        if (
+            bars.length > 0 &&
+            chart
+        ) {
+
+
+            /*
+             * Width allocated to each exam.
+             *
+             * This keeps each exam in a
+             * fixed horizontal position.
+             */
+
+            const examWidth = 110;
+
+
+            /*
+             * Minimum graph width.
+             */
+
+            const minimumWidth = 700;
+
+
+            /*
+             * Calculate required width.
+             *
+             * More exams = wider graph.
+             */
+
+            const requiredWidth =
+                (
+                    bars.length *
+                    examWidth
+                ) + 80;
+
+
+            /*
+             * Set chart width.
+             */
+
+            chart.style.width =
+                Math.max(
+                    minimumWidth,
+                    requiredWidth
+                ) + "px";
+
+
+            /*
+             * Set every bar height.
+             */
+
+            bars.forEach(
+                function(bar) {
+
+
+                    let percentage =
+                        Number(
+                            bar.dataset.percentage
+                        );
+
+
+                    /*
+                     * Protect against
+                     * invalid values.
+                     */
+
+                    if (
+                        isNaN(
+                            percentage
+                        )
+                    ) {
+
+                        percentage = 0;
+
+                    }
+
+
+                    /*
+                     * Keep percentage
+                     * between 0 and 100.
+                     */
+
+                    percentage =
+                        Math.max(
+                            0,
+                            Math.min(
+                                100,
+                                percentage
+                            )
+                        );
+
+
+                    /*
+                     * Apply bar height.
+                     */
+
+                    bar.style.height =
+                        percentage + "%";
+
+
+                }
+            );
+
+
+        }
+
+
+    </script>
+
 
 </body>
+
 </html>

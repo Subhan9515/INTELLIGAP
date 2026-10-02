@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from accounts.models import Student, QuizAnswer
 
 
-def knowledge_gap(request):
+def recommendation(request):
 
     # ==========================================
     # CHECK STUDENT LOGIN
@@ -47,7 +47,7 @@ def knowledge_gap(request):
 
 
     # ==========================================
-    # GET SELECTED SUBJECT AND LEVEL
+    # SELECTED SUBJECT
     # ==========================================
 
     selected_subject = request.GET.get(
@@ -55,14 +55,9 @@ def knowledge_gap(request):
         ""
     )
 
-    selected_level = request.GET.get(
-        "level",
-        ""
-    )
-
 
     # ==========================================
-    # GET STUDENT QUIZ ANSWERS
+    # GET STUDENT ANSWERS
     # ==========================================
 
     answers = QuizAnswer.objects.filter(
@@ -110,7 +105,7 @@ def knowledge_gap(request):
 
 
     # ==========================================
-    # CREATE TOPIC ANALYSIS
+    # CREATE TOPIC PERFORMANCE
     # ==========================================
 
     topic_data = []
@@ -119,9 +114,7 @@ def knowledge_gap(request):
     for data in grouped_topics.values():
 
         total = data["total"]
-
         correct = data["correct"]
-
 
         if total == 0:
 
@@ -138,38 +131,107 @@ def knowledge_gap(request):
         wrong = total - correct
 
 
-        # --------------------------------------
-        # CLASSIFICATION
-        # --------------------------------------
+        # ======================================
+        # CLASSIFY PERFORMANCE
+        # ======================================
 
         if accuracy < 50:
 
             level = "weak"
 
+            priority = "High"
+
         elif accuracy < 75:
 
             level = "moderate"
+
+            priority = "Medium"
 
         else:
 
             level = "strong"
 
+            priority = "Low"
+
+
+        # ======================================
+        # CREATE STUDY RECOMMENDATION
+        # ======================================
+
+        recommendation_text = ""
+
+
+        if level == "weak":
+
+            recommendation_text = (
+                f"Focus strongly on {data['topic']}. "
+                f"Review the basic concepts first, "
+                f"then practice questions related to "
+                f"{data['topic']}."
+            )
+
+        elif level == "moderate":
+
+            recommendation_text = (
+                f"Revise the important concepts of "
+                f"{data['topic']} and solve additional "
+                f"practice questions to improve accuracy."
+            )
+
+        else:
+
+            recommendation_text = (
+                f"You are performing well in "
+                f"{data['topic']}. "
+                f"Continue practicing to maintain "
+                f"your understanding."
+            )
+
+
+        # ======================================
+        # STUDY TIME
+        # ======================================
+
+        if level == "weak":
+
+            study_time = "30 minutes"
+
+        elif level == "moderate":
+
+            study_time = "20 minutes"
+
+        else:
+
+            study_time = "10 minutes"
+
 
         topic_data.append(
             {
                 "subject": data["subject"],
+
                 "topic": data["topic"],
+
                 "total": total,
+
                 "correct": correct,
+
                 "wrong": wrong,
+
                 "accuracy": accuracy,
-                "level": level
+
+                "level": level,
+
+                "priority": priority,
+
+                "recommendation": recommendation_text,
+
+                "study_time": study_time,
             }
         )
 
 
     # ==========================================
-    # SELECTED SUBJECT DATA
+    # FILTER SELECTED SUBJECT
     # ==========================================
 
     subject_topics = []
@@ -178,68 +240,85 @@ def knowledge_gap(request):
     if selected_subject:
 
         subject_topics = [
+
             item
+
             for item in topic_data
+
             if item["subject"] == selected_subject
+
         ]
 
 
     # ==========================================
-    # COUNT WEAK / MODERATE / STRONG
-    # FOR SELECTED SUBJECT
+    # SORT BY PRIORITY
     # ==========================================
 
-    weak_count = 0
-    moderate_count = 0
-    strong_count = 0
+    priority_order = {
+
+        "High": 1,
+
+        "Medium": 2,
+
+        "Low": 3
+
+    }
 
 
-    for item in subject_topics:
+    subject_topics.sort(
 
-        if item["level"] == "weak":
+        key=lambda item:
+        priority_order[item["priority"]]
 
-            weak_count += 1
-
-        elif item["level"] == "moderate":
-
-            moderate_count += 1
-
-        elif item["level"] == "strong":
-
-            strong_count += 1
+    )
 
 
     # ==========================================
-    # FILTER BY SELECTED LEVEL
+    # SEPARATE TOPICS
     # ==========================================
 
-    filtered_topics = []
+    weak_topics = [
+
+        item
+
+        for item in subject_topics
+
+        if item["level"] == "weak"
+
+    ]
 
 
-    if selected_subject and selected_level:
+    moderate_topics = [
 
-        filtered_topics = [
-            item
-            for item in subject_topics
-            if item["level"] == selected_level
-        ]
+        item
+
+        for item in subject_topics
+
+        if item["level"] == "moderate"
+
+    ]
 
 
-        # Lowest accuracy first
-        filtered_topics.sort(
-            key=lambda item: item["accuracy"]
-        )
+    strong_topics = [
+
+        item
+
+        for item in subject_topics
+
+        if item["level"] == "strong"
+
+    ]
 
 
     # ==========================================
-    # CHECK WHETHER QUIZ DATA EXISTS
+    # CHECK DATA
     # ==========================================
 
     has_data = answers.exists()
 
 
     # ==========================================
-    # SEND DATA TO TEMPLATE
+    # CONTEXT
     # ==========================================
 
     context = {
@@ -252,21 +331,23 @@ def knowledge_gap(request):
 
         "selected_subject": selected_subject,
 
-        "selected_level": selected_level,
+        "subject_topics": subject_topics,
 
-        "weak_count": weak_count,
+        "weak_topics": weak_topics,
 
-        "moderate_count": moderate_count,
+        "moderate_topics": moderate_topics,
 
-        "strong_count": strong_count,
-
-        "filtered_topics": filtered_topics,
+        "strong_topics": strong_topics,
 
     }
 
 
     return render(
+
         request,
-        "accounts/knowledge_gap.html",
+
+        "accounts/recommendation.html",
+
         context
+
     )
