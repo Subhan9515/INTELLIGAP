@@ -1,192 +1,357 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Quiz History - IntelliGap</title>
 
-    <style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #eaf4ff, #f5f3ff);
-            color: #1e293b;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #f8fafc;
+            min-height: 100vh;
+            animation: pageFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        @keyframes pageFade {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* NAVBAR */
+
         .navbar {
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            color: white;
-            padding: 20px 35px;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.15);
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
 
         .navbar h2 {
             margin: 0;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
         }
+
+        /* CONTAINER */
 
         .container {
             width: 90%;
-            max-width: 1000px;
-            margin: 35px auto;
+            max-width: 900px;
+            margin: 40px auto;
+            padding-bottom: 40px;
         }
 
-        .title {
-            text-align: center;
-            margin-bottom: 35px;
-            background: rgba(255, 255, 255, 0.75);
-            padding: 25px;
-            border-radius: 20px;
-        }
-
-        .title h1 {
-            color: #1e293b;
-            margin-bottom: 10px;
-            font-size: 30px;
-        }
-
-        .title p {
-            color: #64748b;
-            font-size: 16px;
-            margin: 0;
-        }
-
-        .history-card {
-            background: #fffef7;
-            padding: 28px;
-            margin-bottom: 22px;
-            border-radius: 22px;
-            border: 1px solid #f1eddf;
-            box-shadow: 0 8px 25px rgba(30, 41, 59, 0.07);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .history-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(30, 41, 59, 0.12);
-        }
-
-        .history-card h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #2563eb;
-            font-size: 22px;
-        }
-
-        .date {
-            color: #64748b;
-            margin-bottom: 22px;
-            font-size: 14px;
-        }
-
-        .stats {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 22px;
-        }
-
-        .stat {
-            padding: 13px 18px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .score {
-            background: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .correct {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .wrong {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .details-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            color: white;
-            text-decoration: none;
-            padding: 12px 22px;
-            border-radius: 10px;
-            font-weight: bold;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .details-btn:hover {
-            background: linear-gradient(135deg, #1d4ed8, #4338ca);
-            transform: translateY(-2px);
-        }
+        /* BACK BUTTON */
 
         .back-btn {
-            display: inline-block;
-            margin-bottom: 25px;
-            color: #2563eb;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 28px;
+            padding: 10px 18px;
+            background: rgba(30, 41, 59, 0.7);
+            color: #a5b4fc;
             text-decoration: none;
-            font-weight: bold;
-            padding: 10px 16px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(30, 41, 59, 0.06);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideDown 0.5s ease both;
         }
 
         .back-btn:hover {
-            background: #eff6ff;
+            background: #6366f1;
+            color: #ffffff;
+            border-color: #6366f1;
+            transform: translateX(-4px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
         }
 
+        /* TITLE CARD */
+
+        .title {
+            text-align: left;
+            margin-bottom: 32px;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 32px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            animation: slideDown 0.6s ease both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title::before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+            top: -60px;
+            right: -40px;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        .title h1 {
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .title p {
+            color: #94a3b8;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* HISTORY CARD */
+
+        .history-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 28px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideUp 0.6s ease both;
+            position: relative;
+        }
+
+        .history-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .history-card h2 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .date {
+            color: #94a3b8;
+            margin-bottom: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* STATS BADGES */
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .stat {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .score {
+            background: rgba(99, 102, 241, 0.12);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .correct {
+            background: rgba(34, 197, 94, 0.12);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .wrong {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* DETAILS BUTTON */
+
+        .details-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .details-btn:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        /* EMPTY STATE */
+
         .empty {
-            background: #fffef7;
-            padding: 45px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 50px 25px;
             text-align: center;
-            border-radius: 22px;
-            border: 1px solid #f1eddf;
-            box-shadow: 0 8px 25px rgba(30, 41, 59, 0.07);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
         .empty h2 {
-            color: #2563eb;
-            margin-bottom: 10px;
+            color: #818cf8;
+            margin-bottom: 8px;
+            font-size: 22px;
         }
 
         .empty p {
-            color: #64748b;
+            color: #94a3b8;
+            font-size: 15px;
         }
 
+        /* RESPONSIVE DESIGN */
+
         @media (max-width: 600px) {
+            .navbar {
+                padding: 16px 20px;
+            }
 
             .container {
                 width: 92%;
                 margin: 20px auto;
             }
 
+            .title {
+                padding: 24px;
+                border-radius: 18px;
+            }
+
             .title h1 {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             .history-card {
                 padding: 20px;
+                border-radius: 16px;
             }
 
             .stats {
-                flex-direction: column;
+                gap: 8px;
             }
 
             .stat {
                 width: 100%;
+                justify-content: space-between;
+            }
+
+            .details-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
+        /* REDUCE MOTION FOR ACCESSIBILITY */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 
 </head>
@@ -221,16 +386,18 @@
 
                 <div class="history-card">
 
-                    <h2>
-                        {{ result.subject }} Quiz
-                    </h2>
+                    <div class="card-header">
+                        <h2>
+                            {{ result.subject }} Quiz
+                        </h2>
+                    </div>
 
                     <div class="date">
 
                         📅
                         {{ result.created_at|date:"d-m-Y" }}
 
-                        &nbsp;&nbsp;
+                        &nbsp;&bull;&nbsp;
 
                         🕐
                         {{ result.created_at|date:"h:i A" }}
