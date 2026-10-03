@@ -6,20 +6,28 @@
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f7fc;
+            background: linear-gradient(135deg, #eaf4ff, #f5f3ff);
+            color: #1e293b;
         }
 
         .navbar {
-            background: #2563eb;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
             color: white;
-            padding: 18px 30px;
+            padding: 20px 35px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.15);
         }
 
         .navbar h2 {
             margin: 0;
+            font-size: 24px;
+            font-weight: 700;
         }
 
         .container {
@@ -30,47 +38,64 @@
 
         .title {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            background: rgba(255, 255, 255, 0.75);
+            padding: 25px;
+            border-radius: 20px;
         }
 
         .title h1 {
             color: #1e293b;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 30px;
         }
 
         .title p {
             color: #64748b;
+            font-size: 16px;
+            margin: 0;
         }
 
         .history-card {
-            background: white;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+            background: #fffef7;
+            padding: 28px;
+            margin-bottom: 22px;
+            border-radius: 22px;
+            border: 1px solid #f1eddf;
+            box-shadow: 0 8px 25px rgba(30, 41, 59, 0.07);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .history-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(30, 41, 59, 0.12);
         }
 
         .history-card h2 {
             margin-top: 0;
+            margin-bottom: 15px;
             color: #2563eb;
+            font-size: 22px;
         }
 
         .date {
             color: #64748b;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            font-size: 14px;
         }
 
         .stats {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .stat {
-            padding: 12px 18px;
-            border-radius: 8px;
+            padding: 13px 18px;
+            border-radius: 12px;
             font-weight: bold;
+            font-size: 14px;
         }
 
         .score {
@@ -90,15 +115,18 @@
 
         .details-btn {
             display: inline-block;
-            background: #2563eb;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
             color: white;
             text-decoration: none;
             padding: 12px 22px;
-            border-radius: 7px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .details-btn:hover {
-            background: #1d4ed8;
+            background: linear-gradient(135deg, #1d4ed8, #4338ca);
+            transform: translateY(-2px);
         }
 
         .back-btn {
@@ -107,13 +135,56 @@
             color: #2563eb;
             text-decoration: none;
             font-weight: bold;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(30, 41, 59, 0.06);
+        }
+
+        .back-btn:hover {
+            background: #eff6ff;
         }
 
         .empty {
-            background: white;
-            padding: 40px;
+            background: #fffef7;
+            padding: 45px 25px;
             text-align: center;
-            border-radius: 12px;
+            border-radius: 22px;
+            border: 1px solid #f1eddf;
+            box-shadow: 0 8px 25px rgba(30, 41, 59, 0.07);
+        }
+
+        .empty h2 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 92%;
+                margin: 20px auto;
+            }
+
+            .title h1 {
+                font-size: 24px;
+            }
+
+            .history-card {
+                padding: 20px;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .stat {
+                width: 100%;
+            }
         }
 
     </style>
@@ -122,117 +193,101 @@
 
 <body>
 
+    <div class="navbar">
 
-<div class="navbar">
-
-    <h2>IntelliGap Dashboard</h2>
-
-</div>
-
-
-<div class="container">
-
-
-    <a href="{% url 'dashboard' %}" class="back-btn">
-        ← Back to Dashboard
-    </a>
-
-
-    <div class="title">
-
-        <h1>📚 Quiz History</h1>
-
-        <p>
-            View your previous quiz attempts and detailed answers.
-        </p>
+        <h2>IntelliGap Dashboard</h2>
 
     </div>
 
+    <div class="container">
 
-    {% if history %}
+        <a href="{% url 'dashboard' %}" class="back-btn">
+            ← Back to Dashboard
+        </a>
 
+        <div class="title">
 
-        {% for result in history %}
-
-            <div class="history-card">
-
-                <h2>
-                    {{ result.subject }} Quiz
-                </h2>
-
-
-                <div class="date">
-
-                    📅
-                    {{ result.created_at|date:"d-m-Y" }}
-
-                    &nbsp;&nbsp;
-
-                    🕐
-                    {{ result.created_at|date:"h:i A" }}
-
-                </div>
-
-
-                <div class="stats">
-
-                    <div class="stat score">
-
-                        Score:
-                        {{ result.score }}/{{ result.total_questions }}
-
-                    </div>
-
-
-                    <div class="stat correct">
-
-                        ✓ Correct:
-                        {{ result.correct_answers }}
-
-                    </div>
-
-
-                    <div class="stat wrong">
-
-                        ✕ Wrong:
-                        {{ result.wrong_answers }}
-
-                    </div>
-
-                </div>
-
-
-                <a
-                    href="{% url 'quiz_history_detail' result.id %}"
-                    class="details-btn"
-                >
-                    View Details →
-                </a>
-
-            </div>
-
-        {% endfor %}
-
-
-    {% else %}
-
-
-        <div class="empty">
-
-            <h2>No Quiz History</h2>
+            <h1>📚 Quiz History</h1>
 
             <p>
-                You have not attempted any quizzes yet.
+                View your previous quiz attempts and detailed answers.
             </p>
 
         </div>
 
+        {% if history %}
 
-    {% endif %}
+            {% for result in history %}
 
+                <div class="history-card">
 
-</div>
+                    <h2>
+                        {{ result.subject }} Quiz
+                    </h2>
 
+                    <div class="date">
+
+                        📅
+                        {{ result.created_at|date:"d-m-Y" }}
+
+                        &nbsp;&nbsp;
+
+                        🕐
+                        {{ result.created_at|date:"h:i A" }}
+
+                    </div>
+
+                    <div class="stats">
+
+                        <div class="stat score">
+
+                            Score:
+                            {{ result.score }}/{{ result.total_questions }}
+
+                        </div>
+
+                        <div class="stat correct">
+
+                            ✓ Correct:
+                            {{ result.correct_answers }}
+
+                        </div>
+
+                        <div class="stat wrong">
+
+                            ✕ Wrong:
+                            {{ result.wrong_answers }}
+
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="{% url 'quiz_history_detail' result.id %}"
+                        class="details-btn"
+                    >
+                        View Details →
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+
+                <h2>No Quiz History</h2>
+
+                <p>
+                    You have not attempted any quizzes yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
 
 </body>
 </html>
