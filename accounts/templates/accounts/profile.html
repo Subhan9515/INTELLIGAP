@@ -1,0 +1,697 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - IntelliGap</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: white;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #f58220;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: #17365d;
+        }
+
+        .student-header {
+            text-align: right;
+        }
+
+        .student-header h4 {
+            color: #17365d;
+            margin-bottom: 4px;
+        }
+
+        .student-header p {
+            font-size: 12px;
+            color: #777;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            max-width: 1000px;
+            margin: 35px auto 100px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            color: #17365d;
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* PROFILE CARD */
+
+        .profile-card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+
+        /* PROFILE PHOTO */
+
+        .photo-section {
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #17365d;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 45px;
+            font-weight: bold;
+
+            overflow: hidden;
+            margin: auto;
+
+            border: 4px solid #f58220;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+        /* UPLOAD BUTTON */
+
+        .photo-upload {
+            margin-top: 15px;
+        }
+
+        .photo-upload input {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #f58220;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .upload-button:hover {
+            background: #d96d12;
+            transform: translateY(-2px);
+        }
+
+
+        /* PROFILE BASIC INFO */
+
+        .basic-info {
+            flex: 1;
+        }
+
+        .basic-info h2 {
+            color: #17365d;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .basic-info .email {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .student-badge {
+            display: inline-block;
+            background: #fff2e8;
+            color: #f58220;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        /* DETAILS */
+
+        .details-title {
+            margin-top: 28px;
+            margin-bottom: 18px;
+            color: #17365d;
+            font-size: 20px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .detail-box {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 18px;
+            border-left: 4px solid #f58220;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 7px;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            font-weight: bold;
+            color: #17365d;
+            word-break: break-word;
+        }
+
+
+        /* INFORMATION BOX */
+
+        .info-box {
+            margin-top: 25px;
+            padding: 18px;
+            background: #eef5ff;
+            border-radius: 12px;
+            border-left: 4px solid #17365d;
+        }
+
+        .info-box h3 {
+            color: #17365d;
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+
+        /* BOTTOM NAVIGATION */
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            background: white;
+
+            display: flex;
+            justify-content: center;
+            gap: 55px;
+
+            padding: 12px 10px;
+
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.10);
+
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #777;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: 4px;
+
+            font-size: 12px;
+
+            min-width: 60px;
+
+            transition: 0.2s;
+        }
+
+        .nav-item span {
+            font-size: 21px;
+        }
+
+        .nav-item:hover {
+            color: #f58220;
+        }
+
+        .nav-item.active {
+            color: #f58220;
+            font-weight: bold;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px 18px;
+            }
+
+            .logo-text {
+                font-size: 18px;
+            }
+
+            .logo {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+
+            .student-header {
+                display: none;
+            }
+
+            .container {
+                margin-top: 25px;
+                padding: 0 15px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .profile-card {
+                padding: 20px;
+            }
+
+            .profile-top {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .basic-info h2 {
+                font-size: 22px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-nav {
+                gap: 10px;
+                justify-content: space-around;
+            }
+
+            .nav-item {
+                min-width: 55px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="logo-section">
+
+        <div class="logo">
+            IG
+        </div>
+
+        <div class="logo-text">
+            IntelliGap
+        </div>
+
+    </div>
+
+
+    <div class="student-header">
+
+        <h4>
+            {{ student.name }}
+        </h4>
+
+        <p>
+            {{ student.email }}
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<!-- MAIN CONTENT -->
+
+<main class="container">
+
+
+    <div class="page-title">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            View and manage your IntelliGap student profile.
+        </p>
+
+    </div>
+
+
+
+    <!-- PROFILE CARD -->
+
+    <div class="profile-card">
+
+
+        <!-- PROFILE TOP -->
+
+        <div class="profile-top">
+
+
+            <!-- PHOTO -->
+
+            <div class="photo-section">
+
+                <div class="profile-photo">
+
+                    {% if student.profile_photo %}
+
+                        <img
+                            src="{{ student.profile_photo.url }}"
+                            alt="Profile Photo"
+                        >
+
+                    {% elif student.name %}
+
+                        {{ student.name|first|upper }}
+
+                    {% else %}
+
+                        S
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CHANGE PHOTO -->
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="photo-upload"
+                >
+
+                    {% csrf_token %}
+
+                    <label
+                        for="profile_photo"
+                        class="upload-button"
+                    >
+                        📷 Change Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="profile_photo"
+                        name="profile_photo"
+                        accept="image/*"
+                        onchange="this.form.submit()"
+                    >
+
+                </form>
+
+            </div>
+
+
+
+            <!-- BASIC INFORMATION -->
+
+            <div class="basic-info">
+
+                <h2>
+                    {{ student.name }}
+                </h2>
+
+                <p class="email">
+                    {{ student.email }}
+                </p>
+
+                <span class="student-badge">
+                    🎓 Student
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DETAILS -->
+
+        <h3 class="details-title">
+            Personal Information
+        </h3>
+
+
+        <div class="details-grid">
+
+
+            <!-- NAME -->
+
+            <div class="detail-box">
+
+                <div class="detail-label">
+                    Full Name
+                </div>
+
+                <div class="detail-value">
+
+                    {% if student.name %}
+                        {{ student.name }}
+                    {% else %}
+                        Not Available
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="detail-box">
+
+                <div class="detail-label">
+                    Email Address
+                </div>
+
+                <div class="detail-value">
+
+                    {% if student.email %}
+                        {{ student.email }}
+                    {% else %}
+                        Not Available
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PHONE -->
+
+            <div class="detail-box">
+
+                <div class="detail-label">
+                    Phone Number
+                </div>
+
+                <div class="detail-value">
+
+                    {% if student.phone %}
+                        {{ student.phone }}
+                    {% else %}
+                        Not Available
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- YEAR -->
+
+            <div class="detail-box">
+
+                <div class="detail-label">
+                    Academic Year
+                </div>
+
+                <div class="detail-value">
+
+                    {% if student.year %}
+                        {{ student.year }}
+                    {% else %}
+                        Not Available
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- INFORMATION -->
+
+        <div class="info-box">
+
+            <h3>
+                💡 Profile Information
+            </h3>
+
+            <p>
+                Your profile information is connected to your
+                IntelliGap student account. You can update your
+                profile photo using the button above.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="nav-item"
+    >
+        <span>🏠</span>
+        Home
+    </a>
+
+
+    <a
+        href="{% url 'explore' %}"
+        class="nav-item"
+    >
+        <span>🔎</span>
+        Explore
+    </a>
+
+
+    <a
+        href="{% url 'leaderboard' %}"
+        class="nav-item"
+    >
+        <span>🏆</span>
+        Leaderboard
+    </a>
+
+
+    <a
+        href="{% url 'profile' %}"
+        class="nav-item active"
+    >
+        <span>👤</span>
+        Profile
+    </a>
+
+
+</nav>
+
+
+</body>
+</html>

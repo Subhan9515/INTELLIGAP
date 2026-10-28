@@ -1,5 +1,9 @@
 from django.urls import path
-
+from .views.explore_views import explore
+from .views.knowledge_gap_views import knowledge_gap
+from .views.recommendation_views import recommendation
+from .views.leaderboard_views import leaderboard
+from .views.profile_views import profile
 from .views.student_views import (
     dashboard,
     subjects,
@@ -251,5 +255,16 @@ urlpatterns = [
         recommendation,
         name="recommendation"
     ),
+    path(
+    "explore/",
+    explore,
+    name="explore"
+    ),
+    path(
+    "leaderboard/",
+    leaderboard,
+    name="leaderboard"
+    ),
+    path("profile/", profile, name="profile"),
 
 ]

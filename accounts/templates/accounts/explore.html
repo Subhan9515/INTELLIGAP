@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Explore | IntelliGap</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4f8ff,
+                    #fff8f0
+                );
+
+            min-height: 100vh;
+            color: #222;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7a18,
+                    #ff9f43
+                );
+
+            color: white;
+
+            padding: 20px 30px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.12);
+        }
+
+
+        .header-content {
+
+            max-width: 1150px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+        }
+
+
+        .back-button {
+
+            text-decoration: none;
+
+            color: white;
+
+            padding:
+                9px 16px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.5);
+
+            border-radius: 10px;
+
+            transition: 0.3s;
+        }
+
+
+        .back-button:hover {
+
+            background:
+                rgba(255,255,255,0.2);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+
+            width: 92%;
+
+            max-width: 1150px;
+
+            margin: auto;
+
+            padding:
+                40px 0 70px;
+        }
+
+
+        .title {
+
+            text-align: center;
+
+            font-size: 36px;
+
+            margin:
+                0 0 10px;
+
+            color: #222;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            max-width: 650px;
+
+            margin:
+                0 auto 35px;
+
+            color: #777;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+
+            max-width: 650px;
+
+            margin:
+                0 auto 40px;
+
+            position: relative;
+        }
+
+
+        .search-box input {
+
+            width: 100%;
+
+            padding:
+                15px 20px 15px 48px;
+
+            border:
+                1px solid #ddd;
+
+            border-radius: 14px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            background: white;
+
+            box-shadow:
+                0 7px 20px
+                rgba(0,0,0,0.06);
+
+            transition: 0.3s;
+        }
+
+
+        .search-box input:focus {
+
+            border-color: #ff8a35;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(255,138,53,0.12);
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 17px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            font-size: 19px;
+
+            color: #777;
+        }
+
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+
+            margin:
+                0 0 20px;
+
+            font-size: 21px;
+
+            color: #333;
+        }
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .explore-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 22px;
+        }
+
+
+        .explore-card {
+
+            background:
+                rgba(255,255,255,0.95);
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            border:
+                1px solid #edf0f5;
+
+            box-shadow:
+                0 8px 25px
+                rgba(30,50,80,0.07);
+
+            transition:
+                transform 0.3s,
+                box-shadow 0.3s;
+
+            animation:
+                cardAppear 0.55s ease;
+        }
+
+
+        .explore-card:hover {
+
+            transform:
+                translateY(-7px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(30,50,80,0.13);
+        }
+
+
+        @keyframes cardAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(18px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================
+           ICON
+        ========================= */
+
+        .card-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            font-size: 29px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0e3,
+                    #ffe2ca
+                );
+
+            margin-bottom: 18px;
+        }
+
+
+        .explore-card h2 {
+
+            margin:
+                0 0 9px;
+
+            font-size: 20px;
+
+            color: #222;
+        }
+
+
+        .explore-card p {
+
+            margin:
+                0 0 20px;
+
+            color: #777;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            min-height: 45px;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .card-button {
+
+            display: block;
+
+            width: 100%;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7a18,
+                    #ff9f43
+                );
+
+            padding:
+                12px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+
+        .card-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 7px 17px
+                rgba(255,122,24,0.25);
+        }
+
+
+        /* =========================
+           AI CARD
+        ========================= */
+
+        .ai-card {
+
+            margin-top: 35px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff,
+                    #f5f1ff
+                );
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(50,40,100,0.08);
+        }
+
+
+        .ai-content {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .ai-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #eee8ff;
+
+            border-radius: 18px;
+
+            font-size: 32px;
+        }
+
+
+        .ai-content h2 {
+
+            margin:
+                0 0 6px;
+
+            font-size: 20px;
+        }
+
+
+        .ai-content p {
+
+            margin: 0;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+
+        .ai-button {
+
+            text-decoration: none;
+
+            background:
+                #5b4bb7;
+
+            color: white;
+
+            padding:
+                12px 20px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+            transition: 0.3s;
+        }
+
+
+        .ai-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 7px 16px
+                rgba(91,75,183,0.25);
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                padding:
+                    16px 18px;
+            }
+
+
+            .logo {
+
+                font-size: 20px;
+            }
+
+
+            .container {
+
+                width: 94%;
+
+                padding-top: 30px;
+            }
+
+
+            .title {
+
+                font-size: 29px;
+            }
+
+
+            .explore-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .ai-card {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .ai-button {
+
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+    <div class="header-content">
+
+        <div class="logo">
+            INTELLIGAP
+        </div>
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="back-button"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="container">
+
+
+    <h1 class="title">
+        🔎 Explore
+    </h1>
+
+
+    <p class="subtitle">
+
+        Discover learning resources, practice quizzes,
+        analyze your performance and improve your
+        knowledge with IntelliGap.
+
+    </p>
+
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <span class="search-icon">
+            🔍
+        </span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search learning features..."
+            autocomplete="off"
+        >
+
+    </div>
+
+
+
+    <h2 class="section-title">
+        Explore & Improve
+    </h2>
+
+
+
+    <!-- FEATURE CARDS -->
+
+    <div
+        class="explore-grid"
+        id="exploreGrid"
+    >
+
+
+        {% for item in explore_items %}
+
+            <div
+                class="explore-card"
+                data-search="
+                    {{ item.title }}
+                    {{ item.description }}
+                "
+            >
+
+
+                <div class="card-icon">
+                    {{ item.icon }}
+                </div>
+
+
+                <h2>
+                    {{ item.title }}
+                </h2>
+
+
+                <p>
+                    {{ item.description }}
+                </p>
+
+
+                <a
+                    href="{% url item.url %}"
+                    class="card-button"
+                >
+
+                    {{ item.button }}
+
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <!-- AI ASSISTANT -->
+
+    <div class="ai-card">
+
+        <div class="ai-content">
+
+            <div class="ai-icon">
+                🤖
+            </div>
+
+
+            <div>
+
+                <h2>
+                    Need Help With Your Learning?
+                </h2>
+
+                <p>
+                    Ask the IntelliGap AI Assistant
+                    about any subject or concept.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'chat' %}"
+            class="ai-button"
+        >
+            Ask AI →
+        </a>
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================================
+     SEARCH SCRIPT
+========================================= -->
+
+<script>
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    const cards =
+        document.querySelectorAll(".explore-card");
+
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            const searchText =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            cards.forEach(
+                function(card) {
+
+                    const text =
+                        card
+                            .getAttribute("data-search")
+                            .toLowerCase();
+
+
+                    if (
+                        text.includes(searchText)
+                    ) {
+
+                        card.style.display = "";
+
+                    } else {
+
+                        card.style.display = "none";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

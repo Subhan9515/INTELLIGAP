@@ -3,3 +3,20 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+# Environment variables and API keys
+.env
+.env.*
+!.env.example
+intelligap/.env
+
+# Local database
+db.sqlite3
+
+# Uploaded profile photos
+media/
+
+# Python virtual environments
+.venv/
+
+# Python cache
+*.py[cod]

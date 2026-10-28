@@ -337,9 +337,6 @@
 
         /* =========================================================
            CHART WRAPPER
-           
-           Horizontal scrolling is intentional.
-           When more exams are added, the graph becomes wider.
         ========================================================= */
 
         .chart-wrapper {
@@ -434,10 +431,6 @@
 
         /* =========================================================
            BARS AREA
-           
-           IMPORTANT:
-           flex-start means bars start from LEFT.
-           They do not stay in the middle.
         ========================================================= */
 
         .bars-area {
@@ -467,13 +460,6 @@
 
         /* =========================================================
            EACH EXAM
-           
-           Fixed width means:
-           Exam 1 = fixed position
-           Exam 2 = next position
-           Exam 3 = next position
-           
-           Existing exams don't jump around.
         ========================================================= */
 
         .bar-container {
@@ -660,6 +646,8 @@
             text-align: center;
 
             font-size: 12px;
+
+            transition: 0.2s;
         }
 
 
@@ -669,6 +657,13 @@
             font-size: 23px;
 
             margin-bottom: 3px;
+        }
+
+
+        .nav-item:hover {
+            color: #123b70;
+
+            transform: translateY(-2px);
         }
 
 
@@ -746,6 +741,15 @@
 
             .graph-card {
                 padding: 20px;
+            }
+
+
+            .graph-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 10px;
             }
 
         }
@@ -1011,9 +1015,7 @@
                     <div class="chart">
 
 
-                        <!-- =================================================
-                             Y AXIS
-                        ================================================== -->
+                        <!-- Y AXIS -->
 
                         <div class="y-axis">
 
@@ -1052,9 +1054,7 @@
 
 
 
-                        <!-- =================================================
-                             GRID
-                        ================================================== -->
+                        <!-- GRID -->
 
                         <div class="grid">
 
@@ -1081,9 +1081,7 @@
 
 
 
-                        <!-- =================================================
-                             EXAM BARS
-                        ================================================== -->
+                        <!-- EXAM BARS -->
 
                         <div class="bars-area">
 
@@ -1187,6 +1185,8 @@
     <nav class="bottom-nav">
 
 
+        <!-- HOME -->
+
         <a
             href="{% url 'dashboard' %}"
             class="nav-item active"
@@ -1202,8 +1202,10 @@
 
 
 
+        <!-- EXPLORE -->
+
         <a
-            href="/subjects/"
+            href="{% url 'explore' %}"
             class="nav-item"
         >
 
@@ -1216,6 +1218,8 @@
         </a>
 
 
+
+        <!-- LEADERBOARD -->
 
         <a
             href="#"
@@ -1231,6 +1235,8 @@
         </a>
 
 
+
+        <!-- PROFILE -->
 
         <a
             href="#"
@@ -1290,9 +1296,6 @@
 
             /*
              * Width allocated to each exam.
-             *
-             * This keeps each exam in a
-             * fixed horizontal position.
              */
 
             const examWidth = 110;
@@ -1307,8 +1310,6 @@
 
             /*
              * Calculate required width.
-             *
-             * More exams = wider graph.
              */
 
             const requiredWidth =

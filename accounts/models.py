@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Teacher(models.Model):
     name = models.CharField(max_length=100)
 
@@ -13,16 +14,27 @@ class Teacher(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
+
     email = models.EmailField(unique=True)
+
     phone = models.CharField(
         max_length=15,
         unique=True,
         null=True,
         blank=True
     )
+
     password = models.CharField(max_length=128)
+
     year = models.CharField(
         max_length=20,
+        null=True,
+        blank=True
+    )
+
+    # Student profile photo
+    profile_photo = models.ImageField(
+        upload_to="profile_photos/",
         null=True,
         blank=True
     )

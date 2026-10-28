@@ -23,7 +23,9 @@
             padding-bottom: 90px;
         }
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
 
         .header {
             background: #123b70;
@@ -94,7 +96,9 @@
             font-size: 22px;
         }
 
-        /* MAIN */
+        /* =========================
+           MAIN
+        ========================= */
 
         .container {
             width: 90%;
@@ -154,7 +158,9 @@
             object-fit: contain;
         }
 
-        /* MODULE TITLE */
+        /* =========================
+           MODULE TITLE
+        ========================= */
 
         .title {
             display: flex;
@@ -173,7 +179,9 @@
             font-size: 14px;
         }
 
-        /* MODULE GRID */
+        /* =========================
+           MODULE GRID
+        ========================= */
 
         .modules {
             display: grid;
@@ -246,7 +254,9 @@
             line-height: 1.5;
         }
 
-        /* QUIZ SUMMARY */
+        /* =========================
+           QUIZ SUMMARY
+        ========================= */
 
         .summary {
             background: white;
@@ -284,7 +294,9 @@
             font-size: 13px;
         }
 
-        /* BOTTOM NAVIGATION */
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
 
         .bottom-nav {
             position: fixed;
@@ -318,7 +330,13 @@
             font-weight: bold;
         }
 
-        /* MOBILE */
+        .nav-item:hover {
+            color: #123b70;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 850px) {
 
@@ -398,7 +416,9 @@
 <body>
 
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+    ========================= -->
 
     <header class="header">
 
@@ -455,7 +475,9 @@
 
 
 
-    <!-- MAIN CONTENT -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
 
     <main class="container">
 
@@ -503,12 +525,14 @@
 
 
 
-        <!-- MAIN MODULES -->
+        <!-- =========================
+             MAIN MODULES
+        ========================= -->
 
         <section class="modules">
 
 
-            <!-- QUIZ -->
+            <!-- QUIZ MANAGEMENT -->
 
             <a href="/subjects/" class="module">
 
@@ -565,7 +589,7 @@
 
 
 
-            <!-- HISTORY -->
+            <!-- QUIZ HISTORY -->
 
             <a href="{% url 'quiz_history' %}" class="module">
 
@@ -584,7 +608,7 @@
 
 
 
-            <!-- AI ASSISTANT -->
+            <!-- AI CHAT ASSISTANT -->
 
             <a href="{% url 'chat' %}" class="module">
 
@@ -603,7 +627,7 @@
 
 
 
-            <!-- PROGRESS -->
+            <!-- MY PROGRESS -->
 
             <a href="{% url 'progress_analysis' %}" class="module">
 
@@ -627,10 +651,14 @@
 
 
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- =========================
+         BOTTOM NAVIGATION
+    ========================= -->
 
     <nav class="bottom-nav">
 
+
+        <!-- HOME -->
 
         <a href="{% url 'dashboard' %}" class="nav-item active">
 
@@ -641,7 +669,10 @@
         </a>
 
 
-        <a href="/subjects/" class="nav-item">
+
+        <!-- EXPLORE -->
+
+        <a href="{% url 'explore' %}" class="nav-item">
 
             <span>🔎</span>
 
@@ -650,7 +681,10 @@
         </a>
 
 
-        <a href="#" class="nav-item">
+
+        <!-- LEADERBOARD -->
+
+        <a href="{% url 'leaderboard' %}" class="nav-item">
 
             <span>🏆</span>
 
@@ -659,7 +693,10 @@
         </a>
 
 
-        <a href="#" class="nav-item">
+
+        <!-- PROFILE -->
+
+        <a href="{% url 'profile' %}" class="nav-item">
 
             <span>👤</span>
 
