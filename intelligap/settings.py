@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # --------------------------------------------------
-# Security settings
+# Security settings — Vercel
 # --------------------------------------------------
 
 SECRET_KEY = os.environ.get(
@@ -18,15 +18,24 @@ SECRET_KEY = os.environ.get(
     'django-insecure-local-development-key-only'
 )
 
-DEBUG = os.environ.get('RENDER') is None
+# DEBUG is enabled locally and disabled on Vercel.
+if os.environ.get('DEBUG') is not None:
+    DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+else:
+    DEBUG = not (
+        os.environ.get('VERCEL')
+        or os.environ.get('VERCEL_ENV')
+    )
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '.vercel.app',
 ]
 
-if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
-    ALLOWED_HOSTS.append(os.environ['RENDER_EXTERNAL_HOSTNAME'])
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+]
 
 
 # --------------------------------------------------
@@ -41,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Existing IntelliGap apps
     'accounts',
     'chatbot',
 ]
@@ -98,7 +106,7 @@ WSGI_APPLICATION = 'intelligap.wsgi.application'
 
 
 # --------------------------------------------------
-# Database
+# Database — existing SQLite configuration preserved
 # --------------------------------------------------
 
 DATABASES = {
@@ -172,7 +180,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # --------------------------------------------------
-# MSG91 Configuration
+# MSG91 configuration
 # --------------------------------------------------
 
 MSG91_AUTHKEY = os.environ.get(
